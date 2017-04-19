@@ -1,0 +1,4 @@
+bin/Debug/Grafos.exe
+*.o
+Grafos.layout
+*.depend
