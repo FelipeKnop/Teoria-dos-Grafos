@@ -10,13 +10,19 @@ class Grafo
         Grafo();
         ~Grafo();
         void criarNo(int id, int dado);
-        void criarAdj(int idNo1, int idNo2);
+        void criarAdj(int idNo1, int idNo2, int peso);
         bool buscaProfundidade(int dado);
         void imprimeNos();
+
+        No* getNo(int id);
+        int getOrdem();
 
     private:
         No* noRaiz;
         No* ultimo;
+        //descritores
+        int grau;
+        int ordem;
 };
 
 #endif // GRAFO_H

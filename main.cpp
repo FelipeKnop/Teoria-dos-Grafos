@@ -10,7 +10,8 @@ int main()
     Grafo* grafo = new Grafo;
     grafo->criarNo(1,5);
     grafo->criarNo(2,3);
+    grafo->criarAdj(1,2,5);
     grafo->imprimeNos();
-    cout << "Hello world!" << endl;
+    cout << "Hello world!" << grafo->getOrdem()<<"  "<< grafo->getNo(2)->getGrau() << endl;
     return 0;
 }

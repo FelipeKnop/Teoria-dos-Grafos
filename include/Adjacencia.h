@@ -9,8 +9,10 @@ class No;
 class Adjacencia
 {
     public:
-        Adjacencia();
+        Adjacencia(No* inicio, No* fim, int peso);
         ~Adjacencia();
+        void setProx(Adjacencia* adj);
+        Adjacencia* getProx();
 
     protected:
 
