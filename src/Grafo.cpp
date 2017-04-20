@@ -1,11 +1,12 @@
 #include "Grafo.h"
 
 
-Grafo::Grafo()
+Grafo::Grafo(bool direcionado)
 {
     //ctor
     noRaiz = NULL;
     ordem = 0;
+    this->direcionado = direcionado;
 }
 
 Grafo::~Grafo()
@@ -13,6 +14,8 @@ Grafo::~Grafo()
     //dtor
 }
 
+//! Criação de nós
+//! Funçao recebe um id e um dado e adiciona o nó na lista encadeada
 void Grafo::criarNo(int id, int dado){
     No* no = new No(id,dado);
     if(noRaiz == NULL){
@@ -25,14 +28,57 @@ void Grafo::criarNo(int id, int dado){
     ordem++;
 }
 
-//Função auxiliar para imprimir No
+//! Remoção de nó
+//! Funcao que recebe um id e remove o nó correpondente
+void Grafo::removerNo(int id){
+    No* aux = noRaiz;
+    while(noRaiz->getProx()!= NULL && noRaiz->getProx()->getId()!=id)
+        aux = aux->getProx();
+    if(aux->getProx() != NULL){
+        No* lixo= aux->getProx();
+        aux->setProx(lixo->getProx());
+        delete lixo;
+        ordem--;
+    }
+}
+
+
+//! Criação de adjacência
+//! A função recebe dois ids e um peso para a aresta, e adiciona a adjacência em ambos os nós para o grafo não direcionado, ou apenas no primeiro para o direcionado
+void Grafo::criarAdj(int idNo1, int idNo2,int peso){
+    No *no1 = getNo(idNo1),*no2 = getNo(idNo2);
+    if(no1!=NULL && no2!=NULL){
+        no1->adicionarAdj(no2,peso);
+        if(!direcionado)
+            no2->adicionarAdj(no1,peso);
+        else
+            no2->addGrauEntrada(1);
+    }else{
+        std::cout<<"Adjacencia "<<idNo1<<","<<idNo2<<" nao pode ser criada!"<<std::endl;
+    }
+}
+
+//! Remoçao de adjacencia
+//! A função recebe dois nós e o peso da aresta, e a remove devidamente do grafo, seja direcionado ou não
+void Grafo::removerAdj(int idNo1,int idNo2,int peso){
+    No *no1 = getNo(idNo1),*no2 = getNo(idNo2);
+    if(no1!=NULL && no2!=NULL){
+        no1->removerAdj(no2,peso);
+        if(!direcionado)
+            no2->removerAdj(no1,peso);
+        else
+            no2->addGrauEntrada(-1);
+    }
+}
+
+//! Impressão de nós
+//! Com a ajuda de uma função auxiliar, imprimeNos imprime os ids e os dados de cada nó
 void imprimeNo(No* no){
     std::cout<<no->getId()<<" "<<no->getDado()<<std::endl;
     if(no->getProx()!=NULL){
         imprimeNo(no->getProx());
     }
 }
-//
 
 void Grafo::imprimeNos(){
     imprimeNo(noRaiz);
@@ -40,20 +86,8 @@ void Grafo::imprimeNos(){
 
 
 
-
-void Grafo::criarAdj(int idNo1, int idNo2,int peso){
-    No *no1 = getNo(idNo1),*no2 = getNo(idNo2);
-    if(no1!=NULL && no2!=NULL){
-        no1->adicionarAdj(no2,peso);
-        //Se o grafo não for direcionado:
-        no2->adicionarAdj(no1,peso);
-    }else{
-        std::cout<<"Adjacencia "<<idNo1<<","<<idNo2<<" nao pode ser criada!"<<std::endl;
-    }
-}
-
-
-//auxiliar para buscar No
+//! Obter Nó
+//! A funçao recebe um id e retorna um ponteiro para o nó correspondente.
 No* auxGetNo(No* no, int id){
     if(no == NULL) return NULL;
 
@@ -61,10 +95,12 @@ No* auxGetNo(No* no, int id){
     else return auxGetNo(no->getProx(),id);
 }
 
-//
 No* Grafo::getNo(int id){
     return auxGetNo(noRaiz,id);
 }
+
+
+//! Gets e seters
 
 int Grafo::getOrdem(){
     return ordem;

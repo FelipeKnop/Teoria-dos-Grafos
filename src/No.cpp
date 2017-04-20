@@ -8,15 +8,16 @@ No::No(int id, int dado)
     adjRaiz = NULL;
     ultimaAdj = NULL;
     grau = 0;
-
+    grauEntrada = 0;
     //ctor
 }
 
 No::~No()
 {
-    //dtor
+    //!implementar esse destrutor para apagar toda a lista de adjacencias
 }
-
+//! Adicionar adjacencia
+//! A função recebe um nó de destino e um peso e adiciona a adjacencia na lista do nó que a chamou
 void No::adicionarAdj(No* destino, int peso){
     Adjacencia* adj = new Adjacencia(this,destino,peso);
     if(adjRaiz == NULL){
@@ -28,6 +29,31 @@ void No::adicionarAdj(No* destino, int peso){
     }
     grau++;
 }
+
+//! Remover adjacencia
+//! A função recebe um nó de destino e um peso e remove a aresta correspondente
+void No::removerAdj(No* destino, int peso){
+    Adjacencia* aux = adjRaiz;
+    if(aux!=NULL){
+        while(aux->getProx()!=NULL && aux->getProx()->getNoFim() != destino && aux->getProx()->getPeso() != peso)
+            aux = aux->getProx();
+        if(aux->getProx()!=NULL){
+            Adjacencia* lixo = aux->getProx();
+            aux->setProx(lixo->getProx());
+            delete lixo;
+            grau--;
+        }
+    }
+
+}
+
+
+//! Função para incrementar o grau de entrada do grafo (grafos direcionados) em i
+void No::addGrauEntrada(int i){
+    grauEntrada+=i;
+}
+
+//!Gets e seters
 
 
 int No::getDado(){
@@ -47,4 +73,8 @@ void No::setProx(No* no){
 
 int No::getGrau(){
     return grau;
+}
+
+int No::getGrauEntrada(){
+    return grauEntrada;
 }

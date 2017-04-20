@@ -7,17 +7,24 @@
 class Grafo
 {
     public:
-        Grafo();
+        Grafo(bool direcionado);
         ~Grafo();
+        //b
         void criarNo(int id, int dado);
         void criarAdj(int idNo1, int idNo2, int peso);
-        bool buscaProfundidade(int dado);
-        void imprimeNos();
+        void removerNo(int id);
+        void removerAdj(int idNo1,int idNo2,int peso);
+        //c
 
+        //d
+
+        //Auxiliares
+        void imprimeNos();
         No* getNo(int id);
         int getOrdem();
 
     private:
+        bool direcionado;
         No* noRaiz;
         No* ultimo;
         //descritores

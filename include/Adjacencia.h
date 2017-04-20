@@ -13,6 +13,8 @@ class Adjacencia
         ~Adjacencia();
         void setProx(Adjacencia* adj);
         Adjacencia* getProx();
+        int getPeso();
+        No* getNoFim();
 
     protected:
 
