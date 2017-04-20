@@ -4,8 +4,8 @@
 
 - [x] A - Leitura e escrita do arquivo
 - [x] B - Inclusão e exclusão de nó e de aresta
-- [ ] C - Retornar o grau de entrada e sáida de um nó
-- [ ] D - Verificar a k-regularidade do grafo
+- [x] C - Retornar o grau de entrada e sáida de um nó
+- [x] D - Verificar a k-regularidade do grafo
 - [x] E - Informar a ordem do grafo
 - [x] F - Informar se o grafo é trivial
 - [x] G - Informar se o grafo é nulo
