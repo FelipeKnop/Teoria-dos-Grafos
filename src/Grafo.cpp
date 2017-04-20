@@ -199,6 +199,18 @@ void Grafo::apresentaSequenciaGraus() {
         std::cout << sequencia[i] << " ";
     std::cout << std::endl;
 }
+//!Verifica se o grafo é k-regular
+//!Percorre a lista encadeada buscando nós com grau diferente de k
+void Grafo::verificaRegularidade(int k) {
+    No* aux = noRaiz;
+    while (aux != NULL) {
+        if (aux->getGrau()!=k){
+            std::cout <<"Esse grafo n"<<char(198) <<"o "<<char(130) <<" "<< k << "-regular" << std::endl;
+            return;
+        }
+    }
+    std::cout <<"Esse grafo "<<char(130) <<" "<< k << "-regular" << std::endl;
+}
 
 //! Calcula o grau do grafo
 //! Percorre todos os nós obtendo o grau de cada um e mantendo registro do maior
