@@ -138,6 +138,37 @@ No* Grafo::getNo(int id){
 }
 
 
+//! Informa a ordem do grafo
+//! Chama a própria função getOrdem para obter essa informação e a imprime na tela
+void Grafo::informaOrdem() {
+    int ordemGrafo = getOrdem();
+    std::cout << "Ordem do grafo: " << ordemGrafo << std::endl;
+}
+
+//! Informa se o grafo é trivial
+//! Chama a própria função getOrdem para obter a ordem do grafo e, se ela for igual a 1,
+//! imprime na tela que é um grafo trivial
+void Grafo::informaTrivial() {
+    int ordemGrafo = getOrdem();
+    if (ordemGrafo <= 1) {
+        std::cout << "O grafo " << char(130) << " trivial" << std::endl;
+    } else {
+        std::cout << "O grafo n" << char(198) << "o " << char(130) << " trivial" << std::endl;
+    }
+}
+
+//! Informa se o grafo é nulo
+//! Chama a própria função getOrdem para obter a ordem do grafo e, se ela for igual a 0,
+//! imprime na tela que é um grafo nulo
+void Grafo::informaNulo() {
+    int ordemGrafo = getOrdem();
+    if (ordemGrafo == 0) {
+        std::cout << "O grafo " << char(130) << " nulo" << std::endl;
+    } else {
+        std::cout << "O grafo n" << char(198) << "o " << char(130) << " nulo" << std::endl;
+    }
+}
+
 //! Gets e seters
 
 int Grafo::getOrdem(){

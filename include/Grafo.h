@@ -21,6 +21,13 @@ class Grafo
 
         //d
 
+        //e
+        void informaOrdem();
+        //f
+        void informaTrivial();
+        //g
+        void informaNulo();
+
         //Auxiliares
         void removerTodasAdj(int id);
         void imprimeNos();
