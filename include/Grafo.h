@@ -11,7 +11,8 @@ class Grafo
         Grafo(bool direcionado);
         ~Grafo();
         //a
-        void imprimir(char* caminho);
+        bool lerArquivo(const char* caminho);
+        void imprimir(const char* caminho);
         //b
         void criarNo(int id, int dado);
         void criarAdj(int idNo1, int idNo2, int peso);
