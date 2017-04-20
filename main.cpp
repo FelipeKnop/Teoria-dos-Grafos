@@ -1,5 +1,6 @@
 #include <iostream>
 #include<fstream>
+#include<vector>
 #include "Grafo.h"
 #include "No.h"
 #include "Adjacencia.h"
@@ -28,9 +29,8 @@ int main(int argc, const char* argv[])
     while(file>>i>>d>>p)
         grafo->criarAdj(i,d,p);
 
-
     //!Manipulações no grafo
-    grafo->removerNo(1);
+    //grafo->removerNo(1);
 
     //!Escrita
     //grafo->imprimir(argv[2]);
@@ -42,6 +42,15 @@ int main(int argc, const char* argv[])
     grafo->informaTrivial();
     grafo->informaNulo();
     grafo->apresentaSequenciaGraus();
+    std::vector<int> nos;
+    nos.reserve(3);
+    nos.push_back(3);
+    nos.push_back(2);
+    nos.push_back(1);
+
+    grafo->imprimeSubInduzido(3, nos);
+    grafo->vizinhancaAberta(1);
+    grafo->vizinhancaFechada(1);
 
     return 0;
 }

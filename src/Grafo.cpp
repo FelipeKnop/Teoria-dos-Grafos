@@ -228,6 +228,61 @@ void Grafo::ordenaSequencia(int* sequencia, int n) {
     }
 }
 
+//!Imprime o subgrafo induzido por um conjunto de nós informados pelos seus ids
+void Grafo::imprimeSubInduzido(int total, std::vector<int> &n){
+    No* aux;
+    Adjacencia *adj;
+    int noId;
+    for(int i=0;i<total;i++){
+        aux = getNo(n.at(i));
+        if(aux!=NULL)
+        {
+            std::cout<< "No " << n.at(i) << ":" << std::endl;
+            adj = aux->getAdjRaiz();
+            while(adj!=NULL){
+                noId = adj->getNoFim()->getId();
+                for(int k=0;k<total;k++){
+                    if (noId == n.at(k)){
+                        std::cout << "\t" << n.at(i) <<"\t" << n.at(k) <<"\t" << adj->getPeso() << std::endl;
+                        break;
+                    }
+                }
+                adj = adj->getProx();
+            }
+        }
+
+    }
+}
+
+//!imprime a vizinhanca aberta de um no
+void Grafo::vizinhancaAberta(int id){
+    No* aux = getNo(id);
+    Adjacencia* adj = aux->getAdjRaiz();
+    std::vector<int> nos;
+    int i=0;
+    while(adj!=NULL){
+        i++;
+        nos.resize(i);
+        nos.push_back(adj->getNoFim()->getId());
+        adj = adj->getProx();
+    }
+    imprimeSubInduzido(nos.size(), nos);
+}
+//!imprime a vizinhanca fechada de um no
+void Grafo::vizinhancaFechada(int id){
+    No* aux = getNo(id);
+    Adjacencia* adj = aux->getAdjRaiz();
+    std::vector<int> nos;
+    int i=1;
+    nos.reserve(i);
+    nos.push_back(id);
+    while(adj!=NULL){
+        i++;
+        nos.resize(i);
+        nos.push_back(adj->getNoFim()->getId());
+        adj = adj->getProx();
+    }imprimeSubInduzido(nos.size(), nos);
+}
 //! Gets e seters
 
 int Grafo::getOrdem(){

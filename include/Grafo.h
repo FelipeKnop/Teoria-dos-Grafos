@@ -4,7 +4,7 @@
 #include<stdlib.h>
 #include<fstream>
 #include<iostream>
-
+#include<vector>
 class Grafo
 {
     public:
@@ -27,14 +27,18 @@ class Grafo
         void informaTrivial();
         //g
         void informaNulo();
-
+        //h
+        void vizinhancaAberta(int id);
+        //i
+        void vizinhancaFechada(int id);
         //n
         int calculaGrau();
 
         //q
         void apresentaSequenciaGraus();
         void ordenaSequencia(int* sequencia, int n);
-
+        //r
+        void imprimeSubInduzido(int total, std::vector<int> &n);
         //Auxiliares
         void removerTodasAdj(int id);
         void imprimeNos();
