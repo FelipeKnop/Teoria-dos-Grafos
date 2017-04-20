@@ -146,7 +146,7 @@ void Grafo::informaOrdem() {
 }
 
 //! Informa se o grafo é trivial
-//! Chama a própria função getOrdem para obter a ordem do grafo e, se ela for igual a 1,
+//! Chama a própria função getOrdem para obter a ordem do grafo e, se ela for menor ou igual a 1,
 //! imprime na tela que é um grafo trivial
 void Grafo::informaTrivial() {
     int ordemGrafo = getOrdem();
@@ -169,7 +169,23 @@ void Grafo::informaNulo() {
     }
 }
 
+//! Imprime na tela a sequência de graus do grafo
+//! Percorre a lista encadeada de nós obtendo esses graus e imprimindo
+void Grafo::apresentaSequenciaGraus() {
+    No* aux = noRaiz;
+    std::cout << "Sequ" << char(136) << "ncia de graus: ";
+    while (aux != NULL) {
+        std::cout << aux->getGrau() << " ";
+        aux = aux->getProx();
+    }
+    std::cout << std::endl;
+}
+
 //! Gets e seters
+
+int Grafo::getGrau() {
+    return grau;
+}
 
 int Grafo::getOrdem(){
     return ordem;

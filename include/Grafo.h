@@ -28,6 +28,12 @@ class Grafo
         //g
         void informaNulo();
 
+        //n
+        int getGrau();
+
+        //q
+        void apresentaSequenciaGraus();
+
         //Auxiliares
         void removerTodasAdj(int id);
         void imprimeNos();

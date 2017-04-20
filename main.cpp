@@ -36,9 +36,11 @@ int main(int argc, const char* argv[])
     //grafo->imprimir(argv[2]);
     grafo->imprimir("saida.txt");
 
+    //!Informações
     grafo->informaOrdem();
     grafo->informaTrivial();
     grafo->informaNulo();
+    grafo->apresentaSequenciaGraus();
 
     return 0;
 }
