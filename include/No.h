@@ -11,6 +11,9 @@ class No
         void adicionarAdj(No* destino, int peso);
         void removerAdj(No* destino, int peso);
         void removerAdjs(No* destino);
+        bool verificarMultiaresta(int ordem);
+
+
         int getId();
         int getDado();
         No* getProx();

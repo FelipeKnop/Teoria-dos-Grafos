@@ -3,7 +3,6 @@
 
 Grafo::Grafo(bool direcionado)
 {
-    //ctor
     noRaiz = NULL;
     ordem = 0;
     this->direcionado = direcionado;
@@ -11,12 +10,35 @@ Grafo::Grafo(bool direcionado)
 
 Grafo::~Grafo()
 {
-    //dtor
 }
 
+//! Ler um arquivo com o grafo
+//! FunÃ§Ã£o que lÃª o grafo de um arquivo
+bool Grafo::lerArquivo(const char* caminho){
+    std::ifstream file;
+
+    file.open(caminho);
+
+    if (!file) {
+        return false;
+    }
+
+    int numeroVertices, no1, no2, peso;
+    file >> numeroVertices;
+
+    for (int i = 1; i <= numeroVertices; i++)
+        this->criarNo(i, i*100);
+
+    while (file >> no1 >> no2 >> peso)
+        this->criarAdj(no1, no2, peso);
+
+    return true;
+}
+
+
 //! Imprimir grafo
-//! Função que imprime o grafo em um arquivo
-void Grafo::imprimir(char* caminho){
+//! FunÃ§Ã£o que imprime o grafo em um arquivo
+void Grafo::imprimir(const char* caminho){
     std::ofstream saida(caminho);
     saida<<ordem<<std::endl;
     No* aux = noRaiz;
@@ -31,8 +53,8 @@ void Grafo::imprimir(char* caminho){
 }
 
 
-//! Criação de nós
-//! Funçao recebe um id e um dado e adiciona o nó na lista encadeada
+//! CriaÃ§Ã£o de nÃ³s
+//! FunÃ§Ã£o recebe um id e um dado e adiciona o nÃ³ na lista encadeada
 void Grafo::criarNo(int id, int dado){
     No* no = new No(id,dado);
     if(noRaiz == NULL){
@@ -45,8 +67,8 @@ void Grafo::criarNo(int id, int dado){
     ordem++;
 }
 
-//! Remoção de nó
-//! Funcao que recebe um id e remove o nó correpondente
+//! RemoÃ§Ã£o de nÃ³
+//! Funcao que recebe um id e remove o nÃ³ correpondente
 void Grafo::removerNo(int id){
     No* aux = noRaiz;
     if(aux == NULL) return;
@@ -68,7 +90,7 @@ void Grafo::removerNo(int id){
 }
 
 
-//! Função que remove todas as adjacências com um determinado id. Complementa a remoção do nó.
+//! FunÃ§Ã£o que remove todas as adjacÃªncias com um determinado id. Complementa a remoÃ§Ã£o do nÃ³.
 void Grafo::removerTodasAdj(int id){
     No* remover = getNo(id);
     if(remover==NULL) return;
@@ -81,8 +103,8 @@ void Grafo::removerTodasAdj(int id){
 }
 
 
-//! Criação de adjacência
-//! A função recebe dois ids e um peso para a aresta, e adiciona a adjacência em ambos os nós para o grafo não direcionado, ou apenas no primeiro para o direcionado
+//! CriaÃ§Ã£o de adjacÃªncia
+//! A funÃ§Ã£o recebe dois ids e um peso para a aresta, e adiciona a adjacÃªncia em ambos os nÃ³s para o grafo nÃ£o direcionado, ou apenas no primeiro para o direcionado
 void Grafo::criarAdj(int idNo1, int idNo2,int peso){
     No *no1 = getNo(idNo1),*no2 = getNo(idNo2);
     if(no1!=NULL && no2!=NULL){
@@ -96,8 +118,8 @@ void Grafo::criarAdj(int idNo1, int idNo2,int peso){
     }
 }
 
-//! Remoçao de adjacencia
-//! A função recebe dois nós e o peso da aresta, e a remove devidamente do grafo, seja direcionado ou não
+//! RemoÃ§Ã£o de adjacencia
+//! A funÃ§Ã£o recebe dois nÃ³s e o peso da aresta, e a remove devidamente do grafo, seja direcionado ou nÃ£o
 void Grafo::removerAdj(int idNo1,int idNo2,int peso){
     No *no1 = getNo(idNo1),*no2 = getNo(idNo2);
     if(no1!=NULL && no2!=NULL){
@@ -109,8 +131,23 @@ void Grafo::removerAdj(int idNo1,int idNo2,int peso){
     }
 }
 
-//! Impressão de nós
-//! Com a ajuda de uma função auxiliar, imprimeNos imprime os ids e os dados de cada nó
+
+//! Informar grau de nÃ³
+//! FunÃ§Ã£o informa o grau de um nÃ³ em um grafo nÃ£o direcionado, ou o grau de saÃ­da e entrada de um nÃ³ em um digrafo
+void Grafo::informaGrauNo(int idNo){
+    No* no = getNo(idNo);
+    if(no!=NULL){
+        if(!direcionado)
+            std::cout<<"Grau do n" << char(162) << " "<<idNo<<": "<<no->getGrau()<<std::endl;
+        else
+            std::cout<<"Grau de entrada do n" << char(162) << " "<<idNo<<": "<<no->getGrauEntrada()<<", grau de saida: "<<no->getGrau()<<std::endl;
+    }else{
+        std::cout<<"N" << char(162) << " n" << char(198) << "o encontrado!"<<std::endl;
+    }
+}
+
+//! ImpressÃ£o de nÃ³s
+//! Com a ajuda de uma funÃ§Ã£o auxiliar, imprimeNos imprime os ids e os dados de cada nÃ³
 void imprimeNo(No* no){
     std::cout<<no->getId()<<" "<<no->getDado()<<std::endl;
     if(no->getProx()!=NULL){
@@ -124,8 +161,8 @@ void Grafo::imprimeNos(){
 
 
 
-//! Obter Nó
-//! A funçao recebe um id e retorna um ponteiro para o nó correspondente.
+//! Obter NÃ³
+//! A funÃ§Ã£o recebe um id e retorna um ponteiro para o nÃ³ correspondente.
 No* auxGetNo(No* no, int id){
     if(no == NULL) return NULL;
 
@@ -139,16 +176,16 @@ No* Grafo::getNo(int id){
 
 
 //! Informa a ordem do grafo
-//! Chama a própria função getOrdem para obter essa informação e a imprime na tela
+//! Chama a prÃ³pria funÃ§Ã£o getOrdem para obter essa informaÃ§Ã£o e a imprime na tela
 void Grafo::informaOrdem() {
     int ordemGrafo = getOrdem();
     std::cout << "Ordem do grafo: " << ordemGrafo << std::endl;
 }
 
-//! Informa se o grafo é trivial
-//! Chama as funções do grafo para obter a ordem e o grau,
-//! se o grau for igual a 0 e a ordem igual a 1, imprime na tela que é um grafo trivial,
-//! imprime que não é caso contrário
+//! Informa se o grafo Ã© trivial
+//! Chama as funÃ§Ãµes do grafo para obter a ordem e o grau,
+//! se o grau for igual a 0 e a ordem igual a 1, imprime na tela que Ã© um grafo trivial,
+//! imprime que nÃ£o Ã© caso contrÃ¡rio
 void Grafo::informaTrivial() {
     if (getOrdem() == 1 && calculaGrau() == 0) {
         std::cout << "O grafo " << char(130) << " trivial" << std::endl;
@@ -157,10 +194,10 @@ void Grafo::informaTrivial() {
     }
 }
 
-//! Informa se o grafo é nulo
-//! Chama as funções do grafo para obter a ordem e o grau,
-//! se o grau e a ordem forem iguais a 0, imprime na tela que é um grafo nulo,
-//! imprime que não é caso contrário
+//! Informa se o grafo Ã© nulo
+//! Chama as funÃ§Ãµes do grafo para obter a ordem e o grau,
+//! se o grau e a ordem forem iguais a 0, imprime na tela que Ã© um grafo nulo,
+//! imprime que nÃ£o Ã© caso contrÃ¡rio
 void Grafo::informaNulo() {
     if (getOrdem() == 0 && calculaGrau() == 0) {
         std::cout << "O grafo " << char(130) << " nulo" << std::endl;
@@ -169,8 +206,8 @@ void Grafo::informaNulo() {
     }
 }
 
-//! Imprime na tela a sequência de graus do grafo
-//! Percorre a lista encadeada de nós obtendo esses graus e imprimindo
+//! Imprime na tela a sequÃªncia de graus do grafo
+//! Percorre a lista encadeada de nÃ³s obtendo esses graus e imprimindo
 void Grafo::apresentaSequenciaGraus() {
     int n = getOrdem();
     int i = 0;
@@ -187,8 +224,8 @@ void Grafo::apresentaSequenciaGraus() {
         std::cout << sequencia[i] << " ";
     std::cout << std::endl;
 }
-//!Verifica se o grafo é k-regular
-//!Percorre a lista encadeada buscando nós com grau diferente de k
+//!Verifica se o grafo Ã© k-regular
+//!Percorre a lista encadeada buscando nÃ³s com grau diferente de k
 void Grafo::verificaRegularidade(int k) {
     No* aux = noRaiz;
     while (aux != NULL) {
@@ -200,8 +237,24 @@ void Grafo::verificaRegularidade(int k) {
     std::cout <<"Esse grafo "<<char(130) <<" "<< k << "-regular" << std::endl;
 }
 
+
+
+//! Verificar se Ã© multigrafo
+//! A funÃ§Ã£o verifica se um grafo Ã© ou nÃ£o multigrafo.
+//! Para fazer isso, passa por todas as arestas de cada nÃ³ e confere se elas tÃªm adjacÃªncias com o mesmo destino
+bool Grafo::verificarMultigrafo(){
+    No* aux = noRaiz;
+    while(aux!=NULL){
+        if(aux->verificarMultiaresta(getOrdem()))
+            return true;
+        aux = aux->getProx();
+    }
+    return false;
+}
+
+
 //! Calcula o grau do grafo
-//! Percorre todos os nós obtendo o grau de cada um e mantendo registro do maior
+//! Percorre todos os nÃ³s obtendo o grau de cada um e mantendo registro do maior
 int Grafo::calculaGrau() {
     No* aux = noRaiz;
     int maior = 0;

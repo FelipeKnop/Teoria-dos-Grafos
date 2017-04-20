@@ -11,14 +11,15 @@ class Grafo
         Grafo(bool direcionado);
         ~Grafo();
         //a
-        void imprimir(char* caminho);
+        bool lerArquivo(const char* caminho);
+        void imprimir(const char* caminho);
         //b
         void criarNo(int id, int dado);
         void criarAdj(int idNo1, int idNo2, int peso);
         void removerNo(int id);
         void removerAdj(int idNo1,int idNo2,int peso);
         //c
-
+        void informaGrauNo(int idNo);
         //d
         void verificaRegularidade(int k);
         //e
@@ -31,9 +32,10 @@ class Grafo
         void vizinhancaAberta(int id);
         //i
         void vizinhancaFechada(int id);
+        //j
+        bool verificarMultigrafo();
         //n
         int calculaGrau();
-
         //q
         void apresentaSequenciaGraus();
         void ordenaSequencia(int* sequencia, int n);

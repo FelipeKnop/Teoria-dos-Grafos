@@ -1,4 +1,4 @@
-#include <iostream>
+﻿#include <iostream>
 #include<fstream>
 #include<vector>
 #include "Grafo.h"
@@ -8,26 +8,19 @@
 
 int main(int argc, const char* argv[])
 {
-    //!Leitura
-    std::ifstream file;
+    Grafo* grafo = new Grafo(true);
 
-    //file.open(argv[1]);
-    file.open("grafo.txt");
-
-    if(!file){
-        std::cout<<"Arquivo nao encontrado!";
-        return 0;
+    bool arquivoExiste;
+    if (argc > 1) {
+        arquivoExiste = grafo->lerArquivo(argv[1]);
+    } else {
+        arquivoExiste = grafo->lerArquivo("grafo.txt");
     }
 
-    Grafo* grafo = new Grafo(true);
-    int n,i,d,p;
-    file>>n;
-
-    for(int i =1;i<=n;i++)
-        grafo->criarNo(i,1);
-
-    while(file>>i>>d>>p)
-        grafo->criarAdj(i,d,p);
+    if (!arquivoExiste) {
+        std::cout << "Arquivo nao encontrado!";
+        return 0;
+    }
 
     //!Manipulações no grafo
     //grafo->removerNo(1);
@@ -42,6 +35,10 @@ int main(int argc, const char* argv[])
     grafo->informaTrivial();
     grafo->informaNulo();
     grafo->apresentaSequenciaGraus();
+
+    grafo->informaGrauNo(2);
+    std::cout<<grafo->verificarMultigrafo();
+        
     std::vector<int> nos;
     nos.reserve(3);
     nos.push_back(3);
@@ -51,6 +48,7 @@ int main(int argc, const char* argv[])
     grafo->imprimeSubInduzido(3, nos);
     grafo->vizinhancaAberta(1);
     grafo->vizinhancaFechada(1);
+
 
     return 0;
 }
