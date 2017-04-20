@@ -109,6 +109,9 @@ void Grafo::removerAdj(int idNo1,int idNo2,int peso){
     }
 }
 
+
+//! Informar grau de nó
+//! Função informa o grau de um nó em um grafo não direcionado, ou o grau de saída e entrada de um nó em um digrafo
 void Grafo::informaGrauNo(int idNo){
     No* no = getNo(idNo);
     if(no!=NULL){
@@ -211,6 +214,22 @@ void Grafo::verificaRegularidade(int k) {
     }
     std::cout <<"Esse grafo "<<char(130) <<" "<< k << "-regular" << std::endl;
 }
+
+
+
+//! Verificar se é multigrafo
+//! A função verifica se um grafo é ou não multigrafo.
+//! Para fazer isso, passa por todas as arestas de cada nó e confere se elas têm adjacências com o mesmo destino
+bool Grafo::verificarMultigrafo(){
+    No* aux = noRaiz;
+    while(aux!=NULL){
+        if(aux->verificarMultiaresta(getOrdem()))
+            return true;
+        aux = aux->getProx();
+    }
+    return false;
+}
+
 
 //! Calcula o grau do grafo
 //! Percorre todos os nós obtendo o grau de cada um e mantendo registro do maior

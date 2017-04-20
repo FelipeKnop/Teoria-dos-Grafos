@@ -11,7 +11,7 @@
 - [x] G - Informar se o grafo é nulo
 - [ ] H - Mostrar a vizinhança aberta de um dado nó
 - [ ] I - Mostrar a vizinhança fechada de um dado nó
-- [ ] J - Verificar se o grafo é um multigrafo
+- [x] J - Verificar se o grafo é um multigrafo
 - [ ] K - Verificar se o grafo é um grafo completo
 - [ ] L - Verificar se o grafo é bipartido
 - [ ] M - Mostrar o caminho mais curto entre dois vértices utilizando Dijkstra e Floyd

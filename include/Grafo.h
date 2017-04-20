@@ -27,7 +27,8 @@ class Grafo
         void informaTrivial();
         //g
         void informaNulo();
-
+        //j
+        bool verificarMultigrafo();
         //n
         int calculaGrau();
 

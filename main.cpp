@@ -43,6 +43,6 @@ int main(int argc, const char* argv[])
     grafo->informaNulo();
     grafo->apresentaSequenciaGraus();
     grafo->informaGrauNo(2);
-
+    std::cout<<grafo->verificarMultigrafo();
     return 0;
 }

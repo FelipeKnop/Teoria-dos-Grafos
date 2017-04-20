@@ -77,6 +77,27 @@ void No::removerAdjs(No* destino){
 
 }
 
+//! Verificar se faz parte de multigrafo (busca multiaresta)
+//! Função serve para auxiliar a verificação de multigrafo da classe Grafo. Quando encontra duas adjacências com o mesmo destino conclui que existe uma multiaresta
+bool No::verificarMultiaresta(int ordem){
+    bool* visitados = new bool[ordem];
+    for(int i = 0;i<ordem;i++) visitados[i] = false;
+
+    Adjacencia* aux = adjRaiz;
+    while(aux!=NULL){
+        No* dest = aux->getNoFim();
+        int id = dest->getId();
+        if(visitados[id-1] == false){
+            visitados[id-1] = true;
+        }else{
+            return true; //é multigrafo
+        }
+        aux = aux->getProx();
+    }
+    return false;
+}
+
+
 
 //! Função para incrementar o grau de entrada do grafo (grafos direcionados) em i
 void No::addGrauEntrada(int i){
