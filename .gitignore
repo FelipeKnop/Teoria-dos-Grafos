@@ -1,4 +1,5 @@
 bin/Debug/Grafos.exe
+Grafos.exe
 *.o
 Grafos.layout
 *.depend
