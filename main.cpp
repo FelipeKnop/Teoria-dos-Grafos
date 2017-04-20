@@ -42,6 +42,7 @@ int main(int argc, const char* argv[])
     grafo->informaTrivial();
     grafo->informaNulo();
     grafo->apresentaSequenciaGraus();
+    grafo->informaGrauNo(2);
 
     return 0;
 }

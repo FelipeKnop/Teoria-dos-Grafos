@@ -38,6 +38,7 @@ void No::removerAdj(No* destino, int peso){
     if(aux->getNoFim() == destino && aux->getPeso() == peso){
         adjRaiz = aux->getProx();
         delete aux;
+        grau--;
     }else{
         while(aux->getProx()!=NULL && aux->getProx()->getNoFim() != destino && aux->getProx()->getPeso() != peso)
             aux = aux->getProx();
@@ -51,12 +52,15 @@ void No::removerAdj(No* destino, int peso){
 
 }
 
+//! Remover adjacencias
+//! Esta função remove todas as adjacências do nó que tiverem o nó "destino" como a extremidade final.
 void No::removerAdjs(No* destino){
     Adjacencia* aux = adjRaiz;
     if(aux == NULL) return;
     if(aux->getNoFim() == destino){
         adjRaiz = aux->getProx();
         delete aux;
+        grau--;
     }else{
         while(aux->getProx()!=NULL && aux->getProx()->getNoFim() != destino)
             aux = aux->getProx();

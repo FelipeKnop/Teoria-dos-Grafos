@@ -109,6 +109,18 @@ void Grafo::removerAdj(int idNo1,int idNo2,int peso){
     }
 }
 
+void Grafo::informaGrauNo(int idNo){
+    No* no = getNo(idNo);
+    if(no!=NULL){
+        if(!direcionado)
+            std::cout<<"Grau do n" << char(162) << " "<<idNo<<": "<<no->getGrau()<<std::endl;
+        else
+            std::cout<<"Grau de entrada do n" << char(162) << " "<<idNo<<": "<<no->getGrauEntrada()<<", grau de saida: "<<no->getGrau()<<std::endl;
+    }else{
+        std::cout<<"N" << char(162) << " n" << char(198) << "o encontrado!"<<std::endl;
+    }
+}
+
 //! Impressão de nós
 //! Com a ajuda de uma função auxiliar, imprimeNos imprime os ids e os dados de cada nó
 void imprimeNo(No* no){

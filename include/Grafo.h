@@ -18,7 +18,7 @@ class Grafo
         void removerNo(int id);
         void removerAdj(int idNo1,int idNo2,int peso);
         //c
-
+        void informaGrauNo(int idNo);
         //d
 
         //e
