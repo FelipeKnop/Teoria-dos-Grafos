@@ -20,7 +20,7 @@ class Grafo
         //c
 
         //d
-
+        void verificaRegularidade(int k);
         //e
         void informaOrdem();
         //f
