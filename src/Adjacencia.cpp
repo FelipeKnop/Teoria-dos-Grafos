@@ -4,7 +4,7 @@ Adjacencia::Adjacencia(No* inicio, No* fim, int peso)
 {
     noInicio = inicio;
     noFim = fim;
-    peso = peso;
+    this->peso = peso;
     prox = NULL;
 }
 

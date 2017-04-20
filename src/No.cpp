@@ -34,7 +34,11 @@ void No::adicionarAdj(No* destino, int peso){
 //! A função recebe um nó de destino e um peso e remove a aresta correspondente
 void No::removerAdj(No* destino, int peso){
     Adjacencia* aux = adjRaiz;
-    if(aux!=NULL){
+    if(aux == NULL) return;
+    if(aux->getNoFim() == destino && aux->getPeso() == peso){
+        adjRaiz = aux->getProx();
+        delete aux;
+    }else{
         while(aux->getProx()!=NULL && aux->getProx()->getNoFim() != destino && aux->getProx()->getPeso() != peso)
             aux = aux->getProx();
         if(aux->getProx()!=NULL){
@@ -44,6 +48,28 @@ void No::removerAdj(No* destino, int peso){
             grau--;
         }
     }
+
+}
+
+void No::removerAdjs(No* destino){
+    Adjacencia* aux = adjRaiz;
+    if(aux == NULL) return;
+    if(aux->getNoFim() == destino){
+        adjRaiz = aux->getProx();
+        delete aux;
+    }else{
+        while(aux->getProx()!=NULL && aux->getProx()->getNoFim() != destino)
+            aux = aux->getProx();
+        if(aux->getProx()!=NULL){
+            Adjacencia* lixo = aux->getProx();
+            aux->setProx(lixo->getProx());
+            delete lixo;
+            grau--;
+        }else{
+            return;
+        }
+    }
+    removerAdjs(destino);
 
 }
 
@@ -73,6 +99,10 @@ void No::setProx(No* no){
 
 int No::getGrau(){
     return grau;
+}
+
+Adjacencia* No::getAdjRaiz(){
+    return adjRaiz;
 }
 
 int No::getGrauEntrada(){

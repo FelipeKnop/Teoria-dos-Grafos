@@ -14,6 +14,23 @@ Grafo::~Grafo()
     //dtor
 }
 
+//! Imprimir grafo
+//! Função que imprime o grafo em um arquivo
+void Grafo::imprimir(char* caminho){
+    std::ofstream saida(caminho);
+    saida<<ordem<<std::endl;
+    No* aux = noRaiz;
+    while(aux!=NULL){
+        Adjacencia* aux2 = aux->getAdjRaiz();
+        while(aux2!=NULL){
+            saida<<aux->getId()<<" "<< aux2->getNoFim()->getId() <<" "<< aux2->getPeso()<<std::endl;
+            aux2 = aux2->getProx();
+        }
+        aux = aux->getProx();
+    }
+}
+
+
 //! Criação de nós
 //! Funçao recebe um id e um dado e adiciona o nó na lista encadeada
 void Grafo::criarNo(int id, int dado){
@@ -32,13 +49,34 @@ void Grafo::criarNo(int id, int dado){
 //! Funcao que recebe um id e remove o nó correpondente
 void Grafo::removerNo(int id){
     No* aux = noRaiz;
-    while(noRaiz->getProx()!= NULL && noRaiz->getProx()->getId()!=id)
-        aux = aux->getProx();
-    if(aux->getProx() != NULL){
-        No* lixo= aux->getProx();
-        aux->setProx(lixo->getProx());
-        delete lixo;
+    if(aux == NULL) return;
+    removerTodasAdj(id);
+    if(aux->getId() == id){
+        noRaiz = aux->getProx();
+        delete aux;
         ordem--;
+    }else{
+        while(aux->getProx()!= NULL && aux->getProx()->getId()!=id)
+            aux = aux->getProx();
+        if(aux->getProx() != NULL){
+            No* lixo= aux->getProx();
+            aux->setProx(lixo->getProx());
+            delete lixo;
+            ordem--;
+        }
+    }
+}
+
+
+//! Função que remove todas as adjacências com um determinado id. Complementa a remoção do nó.
+void Grafo::removerTodasAdj(int id){
+    No* remover = getNo(id);
+    if(remover==NULL) return;
+
+    No* aux = noRaiz;
+    while(aux!=NULL){
+        aux->removerAdjs(remover);
+        aux = aux->getProx();
     }
 }
 

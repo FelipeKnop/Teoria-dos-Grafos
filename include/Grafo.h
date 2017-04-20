@@ -2,6 +2,7 @@
 #define GRAFO_H
 #include "No.h"
 #include<stdlib.h>
+#include<fstream>
 #include<iostream>
 
 class Grafo
@@ -9,6 +10,8 @@ class Grafo
     public:
         Grafo(bool direcionado);
         ~Grafo();
+        //a
+        void imprimir(char* caminho);
         //b
         void criarNo(int id, int dado);
         void criarAdj(int idNo1, int idNo2, int peso);
@@ -19,6 +22,7 @@ class Grafo
         //d
 
         //Auxiliares
+        void removerTodasAdj(int id);
         void imprimeNos();
         No* getNo(int id);
         int getOrdem();

@@ -10,7 +10,7 @@ class No
 
         void adicionarAdj(No* destino, int peso);
         void removerAdj(No* destino, int peso);
-
+        void removerAdjs(No* destino);
         int getId();
         int getDado();
         No* getProx();
@@ -18,6 +18,7 @@ class No
         int getGrau();
         int getGrauEntrada();
         void addGrauEntrada(int i);
+        Adjacencia* getAdjRaiz();
 
 
     protected:
