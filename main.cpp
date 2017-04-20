@@ -38,6 +38,7 @@ int main(int argc, const char* argv[])
 
     //!Informações
     grafo->informaOrdem();
+    grafo->informaGrau();
     grafo->informaTrivial();
     grafo->informaNulo();
     grafo->apresentaSequenciaGraus();

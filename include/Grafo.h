@@ -29,14 +29,16 @@ class Grafo
         void informaNulo();
 
         //n
-        int getGrau();
+        int calculaGrau();
 
         //q
         void apresentaSequenciaGraus();
+        void ordenaSequencia(int* sequencia, int n);
 
         //Auxiliares
         void removerTodasAdj(int id);
         void imprimeNos();
+        void informaGrau();
         No* getNo(int id);
         int getOrdem();
 
@@ -45,7 +47,6 @@ class Grafo
         No* noRaiz;
         No* ultimo;
         //descritores
-        int grau;
         int ordem;
 };
 

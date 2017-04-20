@@ -146,11 +146,11 @@ void Grafo::informaOrdem() {
 }
 
 //! Informa se o grafo é trivial
-//! Chama a própria função getOrdem para obter a ordem do grafo e, se ela for menor ou igual a 1,
-//! imprime na tela que é um grafo trivial
+//! Chama as funções do grafo para obter a ordem e o grau,
+//! se o grau for igual a 0 e a ordem igual a 1, imprime na tela que é um grafo trivial,
+//! imprime que não é caso contrário
 void Grafo::informaTrivial() {
-    int ordemGrafo = getOrdem();
-    if (ordemGrafo <= 1) {
+    if (getOrdem() == 1 && calculaGrau() == 0) {
         std::cout << "O grafo " << char(130) << " trivial" << std::endl;
     } else {
         std::cout << "O grafo n" << char(198) << "o " << char(130) << " trivial" << std::endl;
@@ -158,11 +158,11 @@ void Grafo::informaTrivial() {
 }
 
 //! Informa se o grafo é nulo
-//! Chama a própria função getOrdem para obter a ordem do grafo e, se ela for igual a 0,
-//! imprime na tela que é um grafo nulo
+//! Chama as funções do grafo para obter a ordem e o grau,
+//! se o grau e a ordem forem iguais a 0, imprime na tela que é um grafo nulo,
+//! imprime que não é caso contrário
 void Grafo::informaNulo() {
-    int ordemGrafo = getOrdem();
-    if (ordemGrafo == 0) {
+    if (getOrdem() == 0 && calculaGrau() == 0) {
         std::cout << "O grafo " << char(130) << " nulo" << std::endl;
     } else {
         std::cout << "O grafo n" << char(198) << "o " << char(130) << " nulo" << std::endl;
@@ -172,20 +172,51 @@ void Grafo::informaNulo() {
 //! Imprime na tela a sequência de graus do grafo
 //! Percorre a lista encadeada de nós obtendo esses graus e imprimindo
 void Grafo::apresentaSequenciaGraus() {
+    int n = getOrdem();
+    int i = 0;
+    int* sequencia = new int[n];
     No* aux = noRaiz;
-    std::cout << "Sequ" << char(136) << "ncia de graus: ";
     while (aux != NULL) {
-        std::cout << aux->getGrau() << " ";
+        sequencia[i] = aux->getGrau();
         aux = aux->getProx();
+        i++;
     }
+    ordenaSequencia(sequencia, n);
+    std::cout << "Sequ" << char(136) << "ncia de graus: ";
+    for (i = 0; i < n; i++)
+        std::cout << sequencia[i] << " ";
     std::cout << std::endl;
 }
 
-//! Gets e seters
-
-int Grafo::getGrau() {
-    return grau;
+//! Calcula o grau do grafo
+//! Percorre todos os nós obtendo o grau de cada um e mantendo registro do maior
+int Grafo::calculaGrau() {
+    No* aux = noRaiz;
+    int maior = 0;
+    while(aux != NULL) {
+        if (aux->getGrau() > maior)
+            maior = aux->getGrau();
+        aux = aux->getProx();
+    }
+    return maior;
 }
+
+void Grafo::informaGrau() {
+    std::cout << "Grau do grafo: " << calculaGrau() << std::endl;
+}
+
+void Grafo::ordenaSequencia(int* sequencia, int n) {
+    int i, j, aux;
+
+    for (i = 1; i < n; i++) {
+        aux = sequencia[i];
+        for (j = i - 1; j >= 0 && sequencia[j] > aux; j--)
+            sequencia[j+1] = sequencia[j];
+        sequencia[j+1] = aux;
+    }
+}
+
+//! Gets e seters
 
 int Grafo::getOrdem(){
     return ordem;
