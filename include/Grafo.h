@@ -11,8 +11,8 @@ class Grafo
         Grafo(bool direcionado);
         ~Grafo();
         //a
-        bool lerArquivo(const char* caminho);
-        void imprimir(const char* caminho);
+        bool lerArquivo(const char *caminho);
+        void salvarArquivo(const char *caminho);
         //b
         void criarNo(int id, int dado);
         void criarAdj(int idNo1, int idNo2, int peso);
@@ -38,7 +38,7 @@ class Grafo
         int calculaGrau();
         //q
         void apresentaSequenciaGraus();
-        void ordenaSequencia(int* sequencia, int n);
+        void ordenaSequencia(int *sequencia, int n);
         //r
         void imprimeSubInduzido(int total, std::vector<int> &n);
         //Auxiliares

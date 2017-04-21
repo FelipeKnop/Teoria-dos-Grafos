@@ -1,0 +1,70 @@
+make.bat:
+- [ ] Alterar nome do executável para 'grafosGrupoX' (X é numero do grupo)
+
+Grafo
+- [ ] Alterar a ordem das funções para ficar igual entre '.h' e '.cpp'
+
+Grafo::lerArquivo()
+- [ ] Limpar o grafo antes de inserir os novos nós
+- [ ] Permitir que a leitura crie um grafo não direcionado
+    - [ ] Oferecer opção no menu para ser um grafo não direcionado
+
+Grafo::criarNo()
+- [ ] ID do nó deve ser gerado automaticamente com base em quantos nós o grafo já possui
+
+Grafo::criarAdj()
+- [ ] Retornar booleano dizendo se conseguiu criar adjacencia ao inves de imprimir uma mensagem
+
+Grafo::informaGrauNo()
+- [ ] Retornar inteiro com o grau do nó ao inves de imprimir uma mensagem
+
+Grafo::imprimeNos()
+- [ ] Não precisa usar recursividade
+
+Grafo::getNo()
+- [ ] Não precisa usar recursividade
+
+Grafo::informaOrdem()
+- [ ] As mensagens podem ser escritas diretas no menu
+
+Grafo::informaTrivial()
+- [ ] As mensagens podem ser escritas diretas no menu
+- [ ] Retornar booleano dizendo se é um grafo trivial
+
+Grafo::informaNulo()
+- [ ] As mensagens podem ser escritas diretas no menu
+- [ ] Retornar booleano dizendo se é um grafo nulo
+
+Grafo::apresentaSequenciaGraus()
+- [ ] As mensagens podem ser escritas diretas no menu
+- [ ] Retornar lista de inteiros com a sequencia de graus
+- [ ] Criar função para imprimir uma lista de inteiros
+
+Grafo::verificaRegularidade()
+- [ ] As mensagens podem ser escritas diretas no menu
+- [ ] Retornar booleano dizendo se é um grafo k-regular
+
+Grafo::informaGrau()
+- [ ] As mensagens podem ser escritas diretas no menu
+
+Grafo::ordenaSequencia()
+- [ ] Não precisa ser um metodo da classe grafo
+
+Grafo::imprimeSubInduzido()
+- [ ] Gerar um outro grafo ao inves de imprimir
+- [ ] É necessario usar std::vector?
+
+Grafo::vizinhancaAberta()
+- [ ] Gerar um outro grafo ao inves de imprimir
+- [ ] É necessario usar std::vector?
+
+Grafo::vizinhancaFechada()
+- [ ] Gerar um outro grafo ao inves de imprimir
+- [ ] É necessario usar std::vector?
+
+No
+- [ ] Alterar grauEntrada mesmo para grafos não direcionados (grau de entrada igual ao grau de saida)
+
+No::removerAdj()
+- [ ] Precisa receber peso como parametro?
+    - [ ] O mesmo vale para Grafo::removerAdj()
