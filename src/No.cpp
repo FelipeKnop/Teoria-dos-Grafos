@@ -133,12 +133,12 @@ void No::addGrauEntrada(int i){
 //!Gets e seters
 
 
-int No::getDado(){
-    return dado;
-}
-
 int No::getId(){
     return id;
+}
+
+int No::getDado(){
+    return dado;
 }
 
 No* No::getProx(){
@@ -152,10 +152,10 @@ int No::getGrau(){
     return grau;
 }
 
-Adjacencia* No::getAdjRaiz(){
-    return adjRaiz;
-}
-
 int No::getGrauEntrada(){
     return grauEntrada;
+}
+
+Adjacencia* No::getAdjRaiz(){
+    return adjRaiz;
 }

@@ -11,6 +11,8 @@ Grafo::~Grafo()
 {
 }
 
+//!a
+
 //! Ler um arquivo
 //! Função que lê o grafo de um arquivo
 bool Grafo::lerArquivo(const char *caminho)
@@ -52,6 +54,8 @@ void Grafo::salvarArquivo(const char *caminho)
     }
 }
 
+
+//!b
 
 //! Criação de nós
 //! Função recebe um id e um dado e adiciona o nó na lista encadeada
@@ -95,20 +99,6 @@ void Grafo::removerNo(int id)
 }
 
 
-//! Função que remove todas as adjacências com um determinado id. Complementa a remoção do nó.
-void Grafo::removerTodasAdj(int id)
-{
-    No *remover = getNo(id);
-    if (remover == NULL) return;
-
-    No* aux = noRaiz;
-    while (aux != NULL) {
-        aux->removerAdjs(remover);
-        aux = aux->getProx();
-    }
-}
-
-
 //! Criação de adjacência
 //! A função recebe dois ids e um peso para a aresta, e adiciona a adjacência em ambos os nós para o grafo não direcionado, ou apenas no primeiro para o direcionado
 void Grafo::criarAdj(int idNoInicio, int idNoFim, int peso)
@@ -142,6 +132,8 @@ void Grafo::removerAdj(int idNo1, int idNo2, int peso)
 }
 
 
+//!c
+
 //! Informar grau de nó
 //! Função informa o grau de um nó em um grafo não direcionado, ou o grau de saída e entrada de um nó em um digrafo
 void Grafo::informaGrauNo(int idNo)
@@ -158,95 +150,7 @@ void Grafo::informaGrauNo(int idNo)
 }
 
 
-//! Impressão do Grafo
-//! Imprime o grafo na tela no modelo:
-//! No
-//! |-adjacente, peso
-
-void Grafo::imprimeGrafo()
-{
-    No* aux = noRaiz;
-    while(aux!=NULL){
-        std::cout<<"Id " <<aux->getId()<<", Info "<<aux->getDado()<<std::endl;
-        Adjacencia* aux2 = aux->getAdjRaiz();
-        while(aux2!=NULL){
-            std::cout<<"  |- Destino: " <<aux2->getNoFim()->getId()<<", Peso: "<<aux2->getPeso()<<std::endl;
-            aux2 = aux2->getProx();
-        }
-        aux = aux->getProx();
-    }
-}
-
-
-//! Obter Nó
-//! A função recebe um id e retorna um ponteiro para o nó correspondente.
-No* auxGetNo(No* no, int id)
-{
-    if(no == NULL) return NULL;
-
-    if (no->getId() == id) return no;
-    else return auxGetNo(no->getProx(),id);
-}
-
-No* Grafo::getNo(int id)
-{
-    return auxGetNo(noRaiz,id);
-}
-
-
-//! Informa a ordem do grafo
-//! Chama a própria função getOrdem para obter essa informação e a imprime na tela
-void Grafo::informaOrdem()
-{
-    int ordemGrafo = getOrdem();
-    std::cout << "Ordem do grafo: " << ordemGrafo << std::endl;
-}
-
-//! Informa se o grafo é trivial
-//! Chama as funções do grafo para obter a ordem e o grau,
-//! se o grau for igual a 0 e a ordem igual a 1, imprime na tela que é um grafo trivial,
-//! imprime que não é caso contrário
-void Grafo::informaTrivial()
-{
-    if (getOrdem() == 1 && calculaGrau() == 0) {
-        std::cout << "O grafo " << char(130) << " trivial" << std::endl;
-    } else {
-        std::cout << "O grafo n" << char(198) << "o " << char(130) << " trivial" << std::endl;
-    }
-}
-
-//! Informa se o grafo é nulo
-//! Chama as funções do grafo para obter a ordem e o grau,
-//! se o grau e a ordem forem iguais a 0, imprime na tela que é um grafo nulo,
-//! imprime que não é caso contrário
-void Grafo::informaNulo()
-{
-    if (getOrdem() == 0 && calculaGrau() == 0) {
-        std::cout << "O grafo " << char(130) << " nulo" << std::endl;
-    } else {
-        std::cout << "O grafo n" << char(198) << "o " << char(130) << " nulo" << std::endl;
-    }
-}
-
-//! Imprime na tela a sequência de graus do grafo
-//! Percorre a lista encadeada de nós obtendo esses graus e imprimindo
-void Grafo::apresentaSequenciaGraus()
-{
-    int n = getOrdem();
-    int i = 0;
-    int *sequencia = new int[n];
-    No *aux = noRaiz;
-    while (aux != NULL) {
-        sequencia[i] = aux->getGrau();
-        aux = aux->getProx();
-        i++;
-    }
-    ordenaSequencia(sequencia, n);
-    std::cout << "Sequ" << char(136) << "ncia de graus: ";
-    for (i = 0; i < n; i++)
-        std::cout << sequencia[i] << " ";
-    std::cout << std::endl;
-}
+//!d
 
 //! Verifica se o grafo é k-regular
 //! Percorre a lista encadeada buscando nós com grau diferente de k
@@ -262,6 +166,90 @@ bool Grafo::verificaRegularidade(int k)
 }
 
 
+//!e
+
+//! Informa a ordem do grafo
+//! Chama a própria função getOrdem para obter essa informação e a imprime na tela
+void Grafo::informaOrdem()
+{
+    int ordemGrafo = getOrdem();
+    std::cout << "Ordem do grafo: " << ordemGrafo << std::endl;
+}
+
+
+//!f
+
+//! Informa se o grafo é trivial
+//! Chama as funções do grafo para obter a ordem e o grau,
+//! se o grau for igual a 0 e a ordem igual a 1, imprime na tela que é um grafo trivial,
+//! imprime que não é caso contrário
+void Grafo::informaTrivial()
+{
+    if (getOrdem() == 1 && calculaGrau() == 0) {
+        std::cout << "O grafo " << char(130) << " trivial" << std::endl;
+    } else {
+        std::cout << "O grafo n" << char(198) << "o " << char(130) << " trivial" << std::endl;
+    }
+}
+
+
+//!g
+
+//! Informa se o grafo é nulo
+//! Chama as funções do grafo para obter a ordem e o grau,
+//! se o grau e a ordem forem iguais a 0, imprime na tela que é um grafo nulo,
+//! imprime que não é caso contrário
+void Grafo::informaNulo()
+{
+    if (getOrdem() == 0 && calculaGrau() == 0) {
+        std::cout << "O grafo " << char(130) << " nulo" << std::endl;
+    } else {
+        std::cout << "O grafo n" << char(198) << "o " << char(130) << " nulo" << std::endl;
+    }
+}
+
+
+//!h
+
+//! Imprime a vizinhanca aberta de um no
+void Grafo::vizinhancaAberta(int id)
+{
+    No *aux = getNo(id);
+    Adjacencia *adj = aux->getAdjRaiz();
+    std::vector<int> nos;
+    int i = 0;
+    while(adj != NULL) {
+        i++;
+        nos.resize(i);
+        nos.push_back(adj->getNoFim()->getId());
+        adj = adj->getProx();
+    }
+    imprimeSubInduzido(nos.size(), nos);
+}
+
+//!i
+
+
+//! Imprime a vizinhanca fechada de um no
+void Grafo::vizinhancaFechada(int id)
+{
+    No *aux = getNo(id);
+    Adjacencia *adj = aux->getAdjRaiz();
+    std::vector<int> nos;
+    int i = 1;
+    nos.reserve(i);
+    nos.push_back(id);
+    while(adj != NULL) {
+        i++;
+        nos.resize(i);
+        nos.push_back(adj->getNoFim()->getId());
+        adj = adj->getProx();
+    }
+    imprimeSubInduzido(nos.size(), nos);
+}
+
+
+//!j
 
 //! Verificar se é multigrafo
 //! A função verifica se um grafo é ou não multigrafo.
@@ -278,6 +266,68 @@ bool Grafo::verificarMultigrafo()
 }
 
 
+//!k
+
+//! Verifica se o grafo é completo
+//! Obtém o grau do grafo e usa a função de verificar regularidade
+//! para saber se ele é k-1-regular, depois verifica se é simples
+bool Grafo::verificarCompleto() {
+    int n = getOrdem();
+    return verificaRegularidade(n-1) && verificarSimples();
+}
+
+
+//!l
+
+//! Verifica se o grafo é bipartido
+//! Função auxiliar realiza busca em profundidade para definir as partições
+bool profBipartido(No* no, int* particoes,int parte){
+    int id = no->getId();
+
+    if(particoes[id-1]==0) particoes[id-1] = parte;
+    else if(particoes[id-1]!=parte) {
+        return false;
+    }
+    parte = (parte==1)?2:1;
+
+    Adjacencia* aux = no->getAdjRaiz();
+    while(aux!=NULL){
+        if (profBipartido(aux->getNoFim(),particoes,parte) == false) return false;
+        aux = aux->getProx();
+    }
+    return true;
+}
+
+//! Função principal da verificação de existência de bipartição
+bool Grafo::verificarBipartido(){
+    int * particao = new int[getMaiorId()];
+    for(int i = 0;i<getOrdem();i++){
+        particao[i] = 0;
+    }
+    No* aux = noRaiz;
+    while(aux!=NULL){
+        if(particao[aux->getId() - 1]==0){
+            //Em grafos direcionados, um nó começar estar com o valor 0 não significa que ele não é adjacência de nenhum anterior
+            //Por isso, preciso testar colocar nele tanto a partição 1 quanto a 2
+            int * particao2 = new int[getMaiorId()]; //Preciso de uma cópia para o caso de 1 falhar na partição
+            for(int i = 0;i<getMaiorId();i++) particao2[i] = particao[i];
+
+            if(!profBipartido(aux,particao,1)){ //Testo se posso iniciar esse nó na partição 1
+                if(!profBipartido(aux,particao2,2)){ //Testo se posso iniciar esse nó na partição 2
+                    return false;
+                }else{
+                    particao = particao2; //se a partição 2 for a correto para o nó, seguimos com este vetor
+                }
+            }
+        }
+        aux = aux->getProx();
+    }
+    return true;
+}
+
+
+//!n
+
 //! Calcula o grau do grafo
 //! Percorre todos os nós obtendo o grau de cada um e mantendo registro do maior
 int Grafo::calculaGrau()
@@ -292,22 +342,31 @@ int Grafo::calculaGrau()
     return maior;
 }
 
-void Grafo::informaGrau()
-{
-    std::cout << "Grau do grafo: " << calculaGrau() << std::endl;
-}
 
-void Grafo::ordenaSequencia(int *sequencia, int n)
-{
-    int i, j, aux;
+//!q
 
-    for (i = 1; i < n; i++) {
-        aux = sequencia[i];
-        for (j = i - 1; j >= 0 && sequencia[j] > aux; j--)
-            sequencia[j+1] = sequencia[j];
-        sequencia[j+1] = aux;
+//! Imprime na tela a sequência de graus do grafo
+//! Percorre a lista encadeada de nós obtendo esses graus e imprimindo
+void Grafo::apresentaSequenciaGraus()
+{
+    int n = getOrdem();
+    int i = 0;
+    int *sequencia = new int[n];
+    No *aux = noRaiz;
+    while (aux != NULL) {
+        sequencia[i] = aux->getGrau();
+        aux = aux->getProx();
+        i++;
     }
+    ordenaVetor(sequencia, n);
+    std::cout << "Sequ" << char(136) << "ncia de graus: ";
+    for (i = 0; i < n; i++)
+        std::cout << sequencia[i] << " ";
+    std::cout << std::endl;
 }
+
+
+//!r
 
 //! Imprime o subgrafo induzido por um conjunto de nós informados pelos seus ids
 void Grafo::imprimeSubInduzido(int total, std::vector<int> &n)
@@ -337,107 +396,7 @@ void Grafo::imprimeSubInduzido(int total, std::vector<int> &n)
 }
 
 
-//! Imprime a vizinhanca aberta de um no
-void Grafo::vizinhancaAberta(int id)
-{
-    No *aux = getNo(id);
-    Adjacencia *adj = aux->getAdjRaiz();
-    std::vector<int> nos;
-    int i = 0;
-    while(adj != NULL) {
-        i++;
-        nos.resize(i);
-        nos.push_back(adj->getNoFim()->getId());
-        adj = adj->getProx();
-    }
-    imprimeSubInduzido(nos.size(), nos);
-}
-
-
-//! Imprime a vizinhanca fechada de um no
-void Grafo::vizinhancaFechada(int id)
-{
-    No *aux = getNo(id);
-    Adjacencia *adj = aux->getAdjRaiz();
-    std::vector<int> nos;
-    int i = 1;
-    nos.reserve(i);
-    nos.push_back(id);
-    while(adj != NULL) {
-        i++;
-        nos.resize(i);
-        nos.push_back(adj->getNoFim()->getId());
-        adj = adj->getProx();
-    }
-    imprimeSubInduzido(nos.size(), nos);
-}
-
-//! Verifica se o grafo é completo
-//! Obtém o grau do grafo e usa a função de verificar regularidade
-//! para saber se ele é k-1-regular, depois verifica se é simples
-bool Grafo::verificarCompleto() {
-    int n = getOrdem();
-    return verificaRegularidade(n-1) && verificarSimples();
-}
-
-bool Grafo::verificarSelfLoop() {
-    No *aux = noRaiz;
-    while (aux != NULL) {
-        if(aux->verificarSelfLoop())
-            return true;
-        aux = aux->getProx();
-    }
-    return false;
-}
-
-bool Grafo::verificarSimples() {
-    return !verificarMultigrafo() && !verificarSelfLoop();
-}
-
-//! Verifica se o grafo é bipartido
-//! Função auxiliar realiza busca em profundidade para definir as partições
-bool profBipartido(No* no, int* particoes,int parte){
-    int id = no->getId();
-
-    if(particoes[id-1]==0) particoes[id-1] = parte;
-    else if(particoes[id-1]!=parte) {
-        return false;
-    }
-    parte = (parte==1)?2:1;
-
-    Adjacencia* aux = no->getAdjRaiz();
-    while(aux!=NULL){
-        if (profBipartido(aux->getNoFim(),particoes,parte) == false) return false;
-        aux = aux->getProx();
-    }
-    return true;
-}
-//! Função principal da verificação de existência de bipartição
-bool Grafo::verificarBipartido(){
-    int * particao = new int[getMaiorId()];
-    for(int i = 0;i<getOrdem();i++){
-        particao[i] = 0;
-    }
-    No* aux = noRaiz;
-    while(aux!=NULL){
-        if(particao[aux->getId() - 1]==0){
-            //Em grafos direcionados, um nó começar estar com o valor 0 não significa que ele não é adjacência de nenhum anterior
-            //Por isso, preciso testar colocar nele tanto a partição 1 quanto a 2
-            int * particao2 = new int[getMaiorId()]; //Preciso de uma cópia para o caso de 1 falhar na partição
-            for(int i = 0;i<getMaiorId();i++) particao2[i] = particao[i];
-
-            if(!profBipartido(aux,particao,1)){ //Testo se posso iniciar esse nó na partição 1
-                if(!profBipartido(aux,particao2,2)){ //Testo se posso iniciar esse nó na partição 2
-                    return false;
-                }else{
-                    particao = particao2; //se a partição 2 for a correto para o nó, seguimos com este vetor
-                }
-            }
-        }
-        aux = aux->getProx();
-    }
-    return true;
-}
+//!s
 
 //! Obter complementar
 //! Função retorna o complementar de um grafo
@@ -460,6 +419,10 @@ Grafo* Grafo::obterComplementar(){
 
 }
 
+
+
+//! Auxiliares
+
 //!Apesar do maior Id na maioria das vezes ser a ordem do nó, essa função vai evitar problemas caso o grafo tenha sofrido alguma remoção que diminua a ordem
 int Grafo::getMaiorId(){
     int maior = 0;
@@ -473,8 +436,94 @@ int Grafo::getMaiorId(){
 
 }
 
-//! Gets e seters
 
+//! Função que remove todas as adjacências com um determinado id. Complementa a remoção do nó.
+void Grafo::removerTodasAdj(int id)
+{
+    No *remover = getNo(id);
+    if (remover == NULL) return;
+
+    No* aux = noRaiz;
+    while (aux != NULL) {
+        aux->removerAdjs(remover);
+        aux = aux->getProx();
+    }
+}
+
+
+//! Impressão do Grafo
+//! Imprime o grafo na tela no modelo:
+//! No
+//! |-adjacente, peso
+
+void Grafo::imprimeGrafo()
+{
+    No* aux = noRaiz;
+    while(aux!=NULL){
+        std::cout<<"Id " <<aux->getId()<<", Info "<<aux->getDado()<<std::endl;
+        Adjacencia* aux2 = aux->getAdjRaiz();
+        while(aux2!=NULL){
+            std::cout<<"  |- Destino: " <<aux2->getNoFim()->getId()<<", Peso: "<<aux2->getPeso()<<std::endl;
+            aux2 = aux2->getProx();
+        }
+        aux = aux->getProx();
+    }
+}
+
+
+//! InsertionSort
+void Grafo::ordenaVetor(int *vet, int n)
+{
+    int i, j, aux;
+
+    for (i = 1; i < n; i++) {
+        aux = vet[i];
+        for (j = i - 1; j >= 0 && vet[j] > aux; j--)
+            vet[j+1] = vet[j];
+        vet[j+1] = aux;
+    }
+}
+
+
+//! Verifica se o grafo é simples
+//! Chama as funções do grafo para saber se ele é multigrafo ou tem selfloop
+bool Grafo::verificarSimples() {
+    return !verificarMultigrafo() && !verificarSelfLoop();
+}
+
+
+//! Verifica se o grafo tem selfloop
+//! Percorre todos os nós chamando a função deles que verifica
+//! se tem alguma adjacência que aponta para o próprio nó
+bool Grafo::verificarSelfLoop() {
+    No *aux = noRaiz;
+    while (aux != NULL) {
+        if(aux->verificarSelfLoop())
+            return true;
+        aux = aux->getProx();
+    }
+    return false;
+}
+
+
+//! Obter Nó
+//! A função recebe um id e retorna um ponteiro para o nó correspondente.
+No* auxGetNo(No* no, int id)
+{
+    if(no == NULL) return NULL;
+
+    if (no->getId() == id) return no;
+    else return auxGetNo(no->getProx(),id);
+}
+
+No* Grafo::getNo(int id)
+{
+    return auxGetNo(noRaiz,id);
+}
+
+
+
+//! Gets e seters
 
 int Grafo::getOrdem(){
     return ordem;

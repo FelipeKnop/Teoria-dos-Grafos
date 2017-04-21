@@ -16,8 +16,8 @@ class Grafo
         void salvarArquivo(const char *caminho);
         //b
         void criarNo(int id, int dado);
-        void criarAdj(int idNo1, int idNo2, int peso);
         void removerNo(int id);
+        void criarAdj(int idNo1, int idNo2, int peso);
         void removerAdj(int idNo1,int idNo2,int peso);
         //c
         void informaGrauNo(int idNo);
@@ -43,7 +43,6 @@ class Grafo
         int calculaGrau();
         //q
         void apresentaSequenciaGraus();
-        void ordenaSequencia(int *sequencia, int n);
         //r
         void imprimeSubInduzido(int total, std::vector<int> &n);
         //s
@@ -52,7 +51,7 @@ class Grafo
         int getMaiorId();
         void removerTodasAdj(int id);
         void imprimeGrafo();
-        void informaGrau();
+        void ordenaVetor(int *sequencia, int n);
         bool verificarSimples();
         bool verificarSelfLoop();
         No* getNo(int id);

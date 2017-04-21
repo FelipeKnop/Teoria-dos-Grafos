@@ -16,14 +16,6 @@ Adjacencia::~Adjacencia()
 
 //!Gets e Seters
 
-No* Adjacencia::getNoFim(){
-    return noFim;
-}
-
-int Adjacencia::getPeso(){
-    return peso;
-}
-
 
 void Adjacencia::setProx(Adjacencia* adj){
     prox = adj;
@@ -31,4 +23,12 @@ void Adjacencia::setProx(Adjacencia* adj){
 
 Adjacencia* Adjacencia::getProx(){
     return prox;
+}
+
+int Adjacencia::getPeso(){
+    return peso;
+}
+
+No* Adjacencia::getNoFim(){
+    return noFim;
 }

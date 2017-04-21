@@ -1,8 +1,8 @@
 make.bat:
-- [ ] Alterar nome do executável para 'grafosGrupoX' (X é numero do grupo)
+- [x] Alterar nome do executável para 'grafosGrupoX' (X é numero do grupo)
 
 Grafo
-- [ ] Alterar a ordem das funções para ficar igual entre '.h' e '.cpp'
+- [x] Alterar a ordem das funções para ficar igual entre '.h' e '.cpp'
 
 Grafo::lerArquivo()
 - [ ] Limpar o grafo antes de inserir os novos nós
