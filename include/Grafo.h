@@ -55,7 +55,7 @@ class Grafo
         int getMaiorId();
         void removerTodasAdj(int id);
         void imprimeGrafo();
-        void ordenaVetor(int *sequencia, int n);
+        void ordenaVetor(int *vet, int n);
         bool verificarSimples();
         bool verificarSelfLoop();
         No* getNo(int id);

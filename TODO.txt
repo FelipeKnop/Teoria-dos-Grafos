@@ -41,11 +41,11 @@ Grafo::apresentaSequenciaGraus()
 - [ ] Criar função para imprimir uma lista de inteiros
 
 Grafo::verificaRegularidade()
-- [ ] As mensagens podem ser escritas diretas no menu
-- [ ] Retornar booleano dizendo se é um grafo k-regular
+- [x] As mensagens podem ser escritas diretas no menu
+- [x] Retornar booleano dizendo se é um grafo k-regular
 
-Grafo::informaGrau()
-- [ ] As mensagens podem ser escritas diretas no menu
+Grafo::informaGrau() -- função removida
+- [x] As mensagens podem ser escritas diretas no menu
 
 Grafo::ordenaSequencia()
 - [ ] Não precisa ser um metodo da classe grafo
