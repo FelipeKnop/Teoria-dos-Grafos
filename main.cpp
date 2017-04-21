@@ -24,6 +24,7 @@ int main(int argc, const char *argv[])
         std::cout << "Arquivo n" << char(198) << "o encontrado!";
         return 0;
     }
+
     for (;;) {
         char operacao, subOperacao;
         std::cout << "@ - Opera" << char(135) << char(228) << "es extras" << std::endl;
@@ -41,6 +42,8 @@ int main(int argc, const char *argv[])
         std::cout << "L - Verificar se o grafo " << char(130) << " bipartido" << std::endl;
         std::cout << "M - Informar o menor caminho entre dois n" << char(162) << "s e seu custo" << std::endl;
         std::cout << "N - Imprimir o grau do grafo" << std::endl;
+        std::cout << "O - Obter fecho transitivo direto" << std::endl;
+        std::cout << "P - Obter fecho transitivo indireto" << std::endl;
         std::cout << "Q - Imprimir sequ" << char(136) << "ncia de graus" << std::endl;
         std::cout << "R - Obter subgrafo induzido" << std::endl;
         std::cout << "S - Obter complementar do grafo" << std::endl;
@@ -255,13 +258,29 @@ int main(int argc, const char *argv[])
             case 'o':
             case 'O': {
                 std::cout << "----------------------------" << std::endl;
-                std::cout << "Fun" << char(135) << char(198) << "o n" << char(198) << "o implementada!" << std::endl;
+                int id;
+                std::cout << "[id]: ";
+                std::cin >> id;
+                std::cout<<std::endl;
+                std::vector<int> ftd = grafo->fechoTransitivoDireto(id);
+                for(int i = 0 ; i<ftd.size();i++){
+                    std::cout<<ftd.at(i)<<" ";
+                }
+                std::cout<<std::endl;
                 break;
             }
             case 'p':
             case 'P': {
                 std::cout << "----------------------------" << std::endl;
-                std::cout << "Fun" << char(135) << char(198) << "o n" << char(198) << "o implementada!" << std::endl;
+                int id;
+                std::cout << "[id]: ";
+                std::cin >> id;
+                std::cout<<std::endl;
+                std::vector<int> fti = grafo->fechoTransitivoIndireto(id);
+                for(int i = 0 ; i<fti.size();i++){
+                    std::cout<<fti.at(i)<<" ";
+                }
+                std::cout<<std::endl;
                 break;
             }
             case 'q':

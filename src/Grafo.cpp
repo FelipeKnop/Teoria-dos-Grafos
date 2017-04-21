@@ -410,6 +410,40 @@ int Grafo::calculaGrau()
     return maior;
 }
 
+//!o
+
+//! Encontrar fecho transitivo direto
+//! Imprime na tela os ids dos nós pertencentes ao fecho transitivo direto de um nó
+std::vector<int> Grafo::fechoTransitivoDireto(int idNo){
+    std::vector<int> ftd;
+    bool *visitados = new bool[getMaiorId()];
+    for(int i=0; i<getMaiorId() ;i++)  visitados[i] = false;
+    buscaProfundidade(idNo,visitados);
+    for(int i=0;i<getMaiorId();i++){
+        if(visitados[i] == true)
+            ftd.push_back(i+1);
+    }
+    return ftd;
+}
+
+
+//!p
+
+//! Encontrar fecho transitivo indireto
+//! Imprime na tela os ids dos nós pertencentes ao fecho transitivo direto de um nó
+std::vector<int> Grafo::fechoTransitivoIndireto(int idNo){
+    std::vector<int> fti;
+    No* aux = noRaiz;
+    while(aux!=NULL){
+        bool *visitados = new bool[getMaiorId()];
+        for(int i=0; i<getMaiorId() ;i++)  visitados[i] = false;
+        buscaProfundidade(aux->getId(),visitados);
+        if(visitados[idNo-1]==true)
+            fti.push_back(aux->getId());
+        aux = aux->getProx();
+    }
+    return fti;
+}
 
 //!q
 
