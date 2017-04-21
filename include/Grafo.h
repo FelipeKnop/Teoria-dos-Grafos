@@ -1,6 +1,7 @@
 #ifndef GRAFO_H
 #define GRAFO_H
 #include "No.h"
+#include "Adjacencia.h"
 #include<stdlib.h>
 #include<fstream>
 #include<iostream>
@@ -36,6 +37,8 @@ class Grafo
         bool verificarMultigrafo();
         //k
         bool verificarCompleto();
+        //l
+        bool verificarBipartido();
         //n
         int calculaGrau();
         //q
