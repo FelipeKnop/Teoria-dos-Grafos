@@ -112,6 +112,17 @@ bool No::verificarSelfLoop(){
     return false;
 }
 
+//!Função que confere se existe uma adjacência no nó com destino de determinado id
+bool No::existeAdj(int destino){
+    Adjacencia* aux = adjRaiz;
+    while(aux!=NULL){
+        No* dest = aux->getNoFim();
+        if (dest->getId() == destino)
+            return true;
+        aux = aux->getProx();
+    }
+    return false;
+}
 
 
 //! Função para incrementar o grau de entrada do grafo (grafos direcionados) em i

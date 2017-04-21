@@ -46,7 +46,10 @@ class Grafo
         void ordenaSequencia(int *sequencia, int n);
         //r
         void imprimeSubInduzido(int total, std::vector<int> &n);
+        //s
+        Grafo* obterComplementar();
         //Auxiliares
+        int getMaiorId();
         void removerTodasAdj(int id);
         void imprimeGrafo();
         void informaGrau();

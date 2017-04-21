@@ -167,7 +167,7 @@ void Grafo::imprimeGrafo()
 {
     No* aux = noRaiz;
     while(aux!=NULL){
-        std::cout<<"ID" <<aux->getId()<<", INFO "<<aux->getDado()<<std::endl;
+        std::cout<<"Id " <<aux->getId()<<", Info "<<aux->getDado()<<std::endl;
         Adjacencia* aux2 = aux->getAdjRaiz();
         while(aux2!=NULL){
             std::cout<<"  |- Destino: " <<aux2->getNoFim()->getId()<<", Peso: "<<aux2->getPeso()<<std::endl;
@@ -270,7 +270,7 @@ bool Grafo::verificarMultigrafo()
 {
     No *aux = noRaiz;
     while (aux != NULL) {
-        if(aux->verificarMultiaresta(getOrdem()))
+        if(aux->verificarMultiaresta(getMaiorId()))
             return true;
         aux = aux->getProx();
     }
@@ -414,7 +414,7 @@ bool profBipartido(No* no, int* particoes,int parte){
 }
 //! Função principal da verificação de existência de bipartição
 bool Grafo::verificarBipartido(){
-    int * particao = new int[getOrdem()];
+    int * particao = new int[getMaiorId()];
     for(int i = 0;i<getOrdem();i++){
         particao[i] = 0;
     }
@@ -423,8 +423,8 @@ bool Grafo::verificarBipartido(){
         if(particao[aux->getId() - 1]==0){
             //Em grafos direcionados, um nó começar estar com o valor 0 não significa que ele não é adjacência de nenhum anterior
             //Por isso, preciso testar colocar nele tanto a partição 1 quanto a 2
-            int * particao2 = new int[getOrdem()]; //Preciso de uma cópia para o caso de 1 falhar na partição
-            for(int i = 0;i<getOrdem();i++) particao2[i] = particao[i];
+            int * particao2 = new int[getMaiorId()]; //Preciso de uma cópia para o caso de 1 falhar na partição
+            for(int i = 0;i<getMaiorId();i++) particao2[i] = particao[i];
 
             if(!profBipartido(aux,particao,1)){ //Testo se posso iniciar esse nó na partição 1
                 if(!profBipartido(aux,particao2,2)){ //Testo se posso iniciar esse nó na partição 2
@@ -439,7 +439,42 @@ bool Grafo::verificarBipartido(){
     return true;
 }
 
+//! Obter complementar
+//! Função retorna o complementar de um grafo
+Grafo* Grafo::obterComplementar(){
+    Grafo* comp = new Grafo(direcionado);
+    int n = getMaiorId();
+    for(int i=1;i<=getMaiorId();i++){
+        if(getNo(i)!=NULL)
+            comp->criarNo(i,getNo(i)->getDado());
+    }
+    No* aux = noRaiz;
+    while(aux!=NULL){
+        for(int i = 1;i<=getMaiorId();i++){
+            if(!aux->existeAdj(i))
+                comp->criarAdj(aux->getId(),i,0);
+        }
+        aux = aux->getProx();
+    }
+    return comp;
+
+}
+
+//!Apesar do maior Id na maioria das vezes ser a ordem do nó, essa função vai evitar problemas caso o grafo tenha sofrido alguma remoção que diminua a ordem
+int Grafo::getMaiorId(){
+    int maior = 0;
+    No* aux = noRaiz;
+    while(aux!=NULL){
+        if(aux->getId()>maior)
+            maior = aux->getId();
+        aux = aux->getProx();
+    }
+    return maior;
+
+}
+
 //! Gets e seters
+
 
 int Grafo::getOrdem(){
     return ordem;

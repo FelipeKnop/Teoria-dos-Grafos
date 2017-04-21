@@ -13,6 +13,7 @@ class No
         void removerAdjs(No* destino);
         bool verificarMultiaresta(int ordem);
         bool verificarSelfLoop();
+        bool existeAdj(int destino);
 
         int getId();
         int getDado();

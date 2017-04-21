@@ -39,6 +39,7 @@ int main(int argc, const char *argv[])
         std::cout << "N - Imprimir o grau do grafo" << std::endl;
         std::cout << "Q - Imprimir sequencia de graus" << std::endl;
         std::cout << "R - Obter subgrafo induzido" << std::endl;
+        std::cout << "S - Obter complementar do grafo" << std::endl;
         std::cout << "Escolha uma operacao ('!' para sair): ";
         std::cin >> operacao;
 
@@ -266,7 +267,8 @@ int main(int argc, const char *argv[])
             case 's':
             case 'S': {
                 std::cout << "----------------------------" << std::endl;
-                std::cout << "Funcao nao implementada!" << std::endl;
+                Grafo* comp = grafo->obterComplementar();
+                comp->imprimeGrafo();
                 break;
             }
             case 't':
