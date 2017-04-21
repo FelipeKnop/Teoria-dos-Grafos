@@ -21,26 +21,29 @@ int main(int argc, const char *argv[])
     }
 
     if (!grafo->lerArquivo(arquivoEntrada)) {
-        std::cout << "Arquivo nao encontrado!";
+        std::cout << "Arquivo n" << char(198) << "o encontrado!";
         return 0;
     }
     for (;;) {
         char operacao, subOperacao;
-        std::cout << "@ - Operacoes extras" << std::endl;
+        std::cout << "@ - Opera" << char(135) << char(228) << "es extras" << std::endl;
         std::cout << "A - Leitura e escrita" << std::endl;
-        std::cout << "B - Criar e remover nos e adjacencias" << std::endl;
-        std::cout << "C - Imprimir grau de um no" << std::endl;
-        std::cout << "D - Verificar se o grafo e k-regular" << std::endl;
+        std::cout << "B - Criar e remover n" << char(162) << "s e adjac" << char(136) << "ncias" << std::endl;
+        std::cout << "C - Imprimir grau de um n" << char(162) << std::endl;
+        std::cout << "D - Verificar se o grafo " << char(130) << " k-regular" << std::endl;
         std::cout << "E - Imprimir ordem do grafo" << std::endl;
-        std::cout << "F - Verificar se o grafo e trivial" << std::endl;
-        std::cout << "G - Verificar se o grafo e nulo" << std::endl;
-        std::cout << "J - Verificar se o grafo e multigrafo" << std::endl;
-        std::cout << "L - Verificar se o grafo e bipartido" << std::endl;
+        std::cout << "F - Verificar se o grafo " << char(130) << " trivial" << std::endl;
+        std::cout << "G - Verificar se o grafo " << char(130) << " nulo" << std::endl;
+        std::cout << "H - Mostrar a vizinhan" << char(135) << "a aberta de um dado n" << char(162) << std::endl;
+        std::cout << "I - Mostrar a vizinhan" << char(135) << "a fechada de um dado n" << char(162) << std::endl;
+        std::cout << "J - Verificar se o grafo " << char(130) << " multigrafo" << std::endl;
+        std::cout << "K - Verificar se o grafo " << char(130) << " um grafo completo" << std::endl;
+        std::cout << "L - Verificar se o grafo " << char(130) << " bipartido" << std::endl;
         std::cout << "N - Imprimir o grau do grafo" << std::endl;
-        std::cout << "Q - Imprimir sequencia de graus" << std::endl;
+        std::cout << "Q - Imprimir sequ" << char(136) << "ncia de graus" << std::endl;
         std::cout << "R - Obter subgrafo induzido" << std::endl;
         std::cout << "S - Obter complementar do grafo" << std::endl;
-        std::cout << "Escolha uma operacao ('!' para sair): ";
+        std::cout << "Escolha uma operac" << char(198) << "o ('!' para sair): ";
         std::cin >> operacao;
 
         if (operacao == '!')
@@ -49,9 +52,9 @@ int main(int argc, const char *argv[])
         switch (operacao) {
             case '@': {
                 std::cout << "----------------------------" << std::endl;
-                std::cout << "1 - Remover todas as adjacencias" << std::endl;
+                std::cout << "1 - Remover todas as adjac" << char(136) << "ncias" << std::endl;
                 std::cout << "2 - Imprimir grafo" << std::endl;
-                std::cout << "Escolha uma sub operacao: ";
+                std::cout << "Escolha uma sub opera" << char(135) << char(198) << "o: ";
                 std::cin >> subOperacao;
 
                 switch (subOperacao) {
@@ -74,7 +77,7 @@ int main(int argc, const char *argv[])
                 std::cout << "----------------------------" << std::endl;
                 std::cout << "1 - Ler arquivo" << std::endl;
                 std::cout << "2 - Salvar arquivo" << std::endl;
-                std::cout << "Escolha uma sub operacao: ";
+                std::cout << "Escolha uma sub opera" << char(135) << char(198) << "o: ";
                 std::cin >> subOperacao;
 
                 switch (subOperacao) {
@@ -93,11 +96,11 @@ int main(int argc, const char *argv[])
             case 'b':
             case 'B': {
                 std::cout << "----------------------------" << std::endl;
-                std::cout << "1 - Criar no" << std::endl;
-                std::cout << "2 - Criar adjacencia" << std::endl;
-                std::cout << "3 - Remover no" << std::endl;
-                std::cout << "4 - Remover adjacencia" << std::endl;
-                std::cout << "Escolha uma sub operacao: ";
+                std::cout << "1 - Criar n" << char(162) << std::endl;
+                std::cout << "2 - Criar adjac" << char(136) << "ncia" << std::endl;
+                std::cout << "3 - Remover n" << char(162) << std::endl;
+                std::cout << "4 - Remover adjac" << char(136) << "ncia" << std::endl;
+                std::cout << "Escolha uma sub opera" << char(135) << char(198) << "o: ";
                 std::cin >> subOperacao;
 
                 switch (subOperacao) {
@@ -193,10 +196,10 @@ int main(int argc, const char *argv[])
             case 'j':
             case 'J': {
                 std::cout << "----------------------------" << std::endl;
-                std::cout << (grafo->verificarMultigrafo() ?
-                    "O grafo e multigrafo":
-                    "O grafo nao e multigrafo")
-                    << std::endl;
+                if (grafo->verificarMultigrafo())
+                    std::cout << "O grafo " << char(130) << " multigrafo" << std::endl;
+                else
+                    std::cout << "O grafo n" << char(198) << "o " << char(130) << " multigrafo" << std::endl;
                 break;
             }
             case 'k':
@@ -220,7 +223,7 @@ int main(int argc, const char *argv[])
             case 'm':
             case 'M': {
                 std::cout << "----------------------------" << std::endl;
-                std::cout << "Funcao nao implementada!" << std::endl;
+                std::cout << "Fun" << char(135) << char(198) << "o n" << char(198) << "o implementada!" << std::endl;
                 break;
             }
             case 'n':
@@ -232,13 +235,13 @@ int main(int argc, const char *argv[])
             case 'o':
             case 'O': {
                 std::cout << "----------------------------" << std::endl;
-                std::cout << "Funcao nao implementada!" << std::endl;
+                std::cout << "Fun" << char(135) << char(198) << "o n" << char(198) << "o implementada!" << std::endl;
                 break;
             }
             case 'p':
             case 'P': {
                 std::cout << "----------------------------" << std::endl;
-                std::cout << "Funcao nao implementada!" << std::endl;
+                std::cout << "Fun" << char(135) << char(198) << "o n" << char(198) << "o implementada!" << std::endl;
                 break;
             }
             case 'q':
@@ -251,7 +254,7 @@ int main(int argc, const char *argv[])
             case 'R': {
                 std::cout << "----------------------------" << std::endl;
                 int numeroNos;
-                std::cout << "Numero de nos: ";
+                std::cout << "N" << char(163) << "mero de n" << char(162) << "s: ";
                 std::cin >> numeroNos;
 
                 int nos[numeroNos];
@@ -274,49 +277,49 @@ int main(int argc, const char *argv[])
             case 't':
             case 'T': {
                 std::cout << "----------------------------" << std::endl;
-                std::cout << "Funcao nao implementada!" << std::endl;
+                std::cout << "Fun" << char(135) << char(198) << "o n" << char(198) << "o implementada!" << std::endl;
                 break;
             }
             case 'u':
             case 'U': {
                 std::cout << "----------------------------" << std::endl;
-                std::cout << "Funcao nao implementada!" << std::endl;
+                std::cout << "Fun" << char(135) << char(198) << "o n" << char(198) << "o implementada!" << std::endl;
                 break;
             }
             case 'v':
             case 'V': {
                 std::cout << "----------------------------" << std::endl;
-                std::cout << "Funcao nao implementada!" << std::endl;
+                std::cout << "Fun" << char(135) << char(198) << "o n" << char(198) << "o implementada!" << std::endl;
                 break;
             }
             case 'w':
             case 'W': {
                 std::cout << "----------------------------" << std::endl;
-                std::cout << "Funcao nao implementada!" << std::endl;
+                std::cout << "Fun" << char(135) << char(198) << "o n" << char(198) << "o implementada!" << std::endl;
                 break;
             }
             case 'x':
             case 'X': {
                 std::cout << "----------------------------" << std::endl;
-                std::cout << "Funcao nao implementada!" << std::endl;
+                std::cout << "Fun" << char(135) << char(198) << "o n" << char(198) << "o implementada!" << std::endl;
                 break;
             }
             case 'y':
             case 'Y': {
                 std::cout << "----------------------------" << std::endl;
-                std::cout << "Funcao nao implementada!" << std::endl;
+                std::cout << "Fun" << char(135) << char(198) << "o n" << char(198) << "o implementada!" << std::endl;
                 break;
             }
             case 'z':
             case 'Z': {
                 std::cout << "----------------------------" << std::endl;
-                std::cout << "Funcao nao implementada!" << std::endl;
+                std::cout << "Fun" << char(135) << char(198) << "o n" << char(198) << "o implementada!" << std::endl;
                 break;
             }
 
             default:
                 std::cout << "----------------------------" << std::endl;
-                std::cout << "Opcao invalida!" << std::endl;
+                std::cout << "Op" << char(135) << char(198) << "o inv" << char(160) << "lida!" << std::endl;
         }
 
         std::cout << "============================" << std::endl;
