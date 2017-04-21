@@ -36,6 +36,7 @@ int main(int argc, const char *argv[])
         std::cout << "F - Verificar se o grafo e trivial" << std::endl;
         std::cout << "G - Verificar se o grafo e nulo" << std::endl;
         std::cout << "J - Verificar se o grafo e multigrafo" << std::endl;
+        std::cout << "L - Verificar se o grafo e bipartido" << std::endl;
         std::cout << "N - Imprimir o grau do grafo" << std::endl;
         std::cout << "Q - Imprimir sequencia de graus" << std::endl;
         std::cout << "R - Obter subgrafo induzido" << std::endl;
@@ -210,7 +211,10 @@ int main(int argc, const char *argv[])
             case 'l':
             case 'L': {
                 std::cout << "----------------------------" << std::endl;
-                std::cout << "Funcao nao implementada!" << std::endl;
+                if (grafo->verificarBipartido())
+                    std::cout <<"Esse grafo " << char(130) << " " << "bipartido" << std::endl;
+                else
+                    std::cout <<"Esse grafo n" << char(198) << "o " << char(130) << " " << "bipartido" << std::endl;
                 break;
             }
             case 'm':

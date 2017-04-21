@@ -390,6 +390,50 @@ bool Grafo::verificarSimples() {
     return !verificarMultigrafo() && !verificarSelfLoop();
 }
 
+//! Verifica se o grafo é bipartido
+//! Função auxiliar realiza busca em profundidade para definir as partições
+bool profBipartido(No* no, int* particoes,int parte){
+    int id = no->getId();
+
+    if(particoes[id-1]==0) particoes[id-1] = parte;
+    else if(particoes[id-1]!=parte) {
+        return false;
+    }
+    parte = (parte==1)?2:1;
+
+    Adjacencia* aux = no->getAdjRaiz();
+    while(aux!=NULL){
+        if (profBipartido(aux->getNoFim(),particoes,parte) == false) return false;
+        aux = aux->getProx();
+    }
+    return true;
+}
+//! Função principal da verificação de existência de bipartição
+bool Grafo::verificarBipartido(){
+    int * particao = new int[getOrdem()];
+    for(int i = 0;i<getOrdem();i++){
+        particao[i] = 0;
+    }
+    No* aux = noRaiz;
+    while(aux!=NULL){
+        if(particao[aux->getId() - 1]==0){
+            //Em grafos direcionados, um nó começar estar com o valor 0 não significa que ele não é adjacência de nenhum anterior
+            //Por isso, preciso testar colocar nele tanto a partição 1 quanto a 2
+            int * particao2 = new int[getOrdem()]; //Preciso de uma cópia para o caso de 1 falhar na partição
+            for(int i = 0;i<getOrdem();i++) particao2[i] = particao[i];
+
+            if(!profBipartido(aux,particao,1)){ //Testo se posso iniciar esse nó na partição 1
+                if(!profBipartido(aux,particao2,2)){ //Testo se posso iniciar esse nó na partição 2
+                    return false;
+                }else{
+                    particao = particao2; //se a partição 2 for a correto para o nó, seguimos com este vetor
+                }
+            }
+        }
+        aux = aux->getProx();
+    }
+    return true;
+}
 
 //! Gets e seters
 
