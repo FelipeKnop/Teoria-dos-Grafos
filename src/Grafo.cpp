@@ -1,4 +1,5 @@
 #include "Grafo.h"
+#include <limits>
 
 Grafo::Grafo(bool direcionado)
 {
@@ -325,6 +326,71 @@ bool Grafo::verificarBipartido(){
         aux = aux->getProx();
     }
     return true;
+}
+
+
+//!m
+
+//! Informa o menor caminho entre dois nós usando o algoritmo de Dijkstra
+void Grafo::menorCaminhoDijkstra(int idOrigem, int idDestino) {
+
+}
+
+
+//! Imprime o resultado do algoritmo de Floyd
+void imprimeResultadoFloyd(int idOrigem, int idDestino, std::vector< std::vector<double> > distancias, std::vector< std::vector<int> > caminho, int ordem) {
+    double distancia = distancias[idOrigem - 1][idDestino - 1];
+
+    int i, u = idOrigem;
+
+    if (distancia == std::numeric_limits<double>::infinity()) {
+        std::cout << "N" << char(198) << "o existe caminho entre os n" << char(162) << "s de id " << idOrigem << " e " << idDestino << std::endl;
+    } else {
+        std::cout << "O menor caminho entre os n" << char(162) << "s de id " << idOrigem << " e " << idDestino << " " << char(130) << ": " << idOrigem;
+        do {
+            u = caminho[u - 1][idDestino - 1];
+            std::cout << " -> " << u;
+        } while (u != idDestino);
+        std::cout << std::endl;
+
+        std::cout << "E o custo desse caminho " << char(130) << ": ";
+        std::cout << distancia << std::endl;
+    }
+}
+
+//! Informa o menor caminho entre dois nós usando o algoritmo de Floyd
+void Grafo::menorCaminhoFloyd(int idOrigem, int idDestino) {
+    int i, j, k, n = getOrdem();
+
+    std::vector< std::vector<double> > distancias(n, std::vector<double>(n, std::numeric_limits<double>::infinity()));
+
+    No* aux = noRaiz;
+    while (aux != NULL) {
+        Adjacencia* adj = aux->getAdjRaiz();
+        while (adj != NULL) {
+            int id1 = adj->getNoInicio()->getId();
+            int id2 = adj->getNoFim()->getId();
+            distancias[id1 - 1][id2 - 1] = adj->getPeso();
+            adj = adj->getProx();
+        }
+        aux = aux->getProx();
+    }
+
+    std::vector< std::vector<int> > next(n, std::vector<int>(n));
+    for (i = 0; i < next.size(); i++)
+        for (j = 0; j < next.size(); j++)
+            if (i != j)
+                next[i][j] = j + 1;
+
+    for (i = 0; i < n; i++)
+        for (j = 0; j < n; j++)
+            for (k = 0; k < n; k++)
+                if (distancias[j][k] > distancias[j][i] + distancias[i][k]) {
+                        distancias[j][k] = distancias[j][i] + distancias[i][k];
+                        next[j][k] = next[j][i];
+                }
+
+    imprimeResultadoFloyd(idOrigem, idDestino, distancias, next, n);
 }
 
 

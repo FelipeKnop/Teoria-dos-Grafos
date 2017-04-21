@@ -29,6 +29,10 @@ int Adjacencia::getPeso(){
     return peso;
 }
 
+No* Adjacencia::getNoInicio() {
+    return noInicio;
+}
+
 No* Adjacencia::getNoFim(){
     return noFim;
 }

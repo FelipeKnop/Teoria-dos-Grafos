@@ -14,6 +14,7 @@ class Adjacencia
         void setProx(Adjacencia* adj);
         Adjacencia* getProx();
         int getPeso();
+        No* getNoInicio();
         No* getNoFim();
 
     protected:

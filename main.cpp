@@ -39,6 +39,7 @@ int main(int argc, const char *argv[])
         std::cout << "J - Verificar se o grafo " << char(130) << " multigrafo" << std::endl;
         std::cout << "K - Verificar se o grafo " << char(130) << " um grafo completo" << std::endl;
         std::cout << "L - Verificar se o grafo " << char(130) << " bipartido" << std::endl;
+        std::cout << "M - Informar o menor caminho entre dois n" << char(162) << "s e seu custo" << std::endl;
         std::cout << "N - Imprimir o grau do grafo" << std::endl;
         std::cout << "Q - Imprimir sequ" << char(136) << "ncia de graus" << std::endl;
         std::cout << "R - Obter subgrafo induzido" << std::endl;
@@ -223,7 +224,26 @@ int main(int argc, const char *argv[])
             case 'm':
             case 'M': {
                 std::cout << "----------------------------" << std::endl;
-                std::cout << "Fun" << char(135) << char(198) << "o n" << char(198) << "o implementada!" << std::endl;
+                int idOrigem, idDestino;
+                std::cout << "[idOrigem]: ";
+                std::cin >> idOrigem;
+                std::cout << "[idDestino]: ";
+                std::cin >> idDestino;
+                std::cout << "1 - Dijkstra" << std::endl;
+                std::cout << "2 - Floyd" << std::endl;
+                std::cout << "Escolha uma sub opera" << char(135) << char(198) << "o: ";
+                std::cin >> subOperacao;
+
+                switch (subOperacao) {
+                    case '1': {
+                        grafo->menorCaminhoDijkstra(idOrigem, idDestino);
+                        break;
+                    }
+                    case '2': {
+                        grafo->menorCaminhoFloyd(idOrigem, idDestino);
+                        break;
+                    }
+                }
                 break;
             }
             case 'n':

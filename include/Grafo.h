@@ -39,6 +39,9 @@ class Grafo
         bool verificarCompleto();
         //l
         bool verificarBipartido();
+        //m
+        void menorCaminhoDijkstra(int idOrigem, int idDestino);
+        void menorCaminhoFloyd(int idOrigem, int idDestino);
         //n
         int calculaGrau();
         //q
