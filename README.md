@@ -13,7 +13,7 @@
 - [x] I - Mostrar a vizinhança fechada de um dado nó
 - [x] J - Verificar se o grafo é um multigrafo
 - [ ] K - Verificar se o grafo é um grafo completo
-- [ ] L - Verificar se o grafo é bipartido
+- [x] L - Verificar se o grafo é bipartido
 - [ ] M - Mostrar o caminho mais curto entre dois vértices utilizando Dijkstra e Floyd
 - [x] N - Retornar o grau do grafo
 - [ ] O - Retornar o fecho transitivo direto de um dado nó
