@@ -41,6 +41,10 @@ class Grafo
         bool verificarBipartido();
         //n
         int calculaGrau();
+        //o
+        std::vector<int> fechoTransitivoDireto(int idNo);
+        //p
+        std::vector<int> fechoTransitivoIndireto(int idNo);
         //q
         void apresentaSequenciaGraus();
         //r
