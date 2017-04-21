@@ -402,6 +402,8 @@ bool profBipartido(No* no, int* particoes,int parte){
     if(particoes[id-1]==0) particoes[id-1] = parte;
     else if(particoes[id-1]!=parte) {
         return false;
+    }else{
+        return true;
     }
     parte = (parte==1)?2:1;
 
@@ -471,6 +473,63 @@ int Grafo::getMaiorId(){
     }
     return maior;
 
+}
+
+//! Função para contar o número de componentes conexas
+//! Só funciona para grafos não direcionados
+int Grafo::numComponentesConexas(){
+    if(direcionado)
+        return obterSubjacente()->numComponentesConexas();
+    bool * visitados = new bool[getMaiorId()];
+    int numComp= 0;
+    for(int i = 0;i<getMaiorId();i++){
+        visitados[i] = false;
+    }
+    No* aux = noRaiz;
+    while(aux!=NULL){
+        if(visitados[aux->getId() - 1]==false){
+            numComp++;
+            buscaProfundidade(aux->getId(),visitados);
+        }
+        aux = aux->getProx();
+    }
+    return numComp;
+}
+
+//! Função para obter subjacente do grafo
+Grafo* Grafo::obterSubjacente(){
+    if(!direcionado) return this;
+    Grafo* subjacente = new Grafo(false);
+    int n = getMaiorId();
+    for(int i=1;i<=getMaiorId();i++){
+        if(getNo(i)!=NULL)
+            subjacente->criarNo(i,getNo(i)->getDado());
+    }
+    No* aux = noRaiz;
+    while(aux!=NULL){
+        Adjacencia* aux2 = aux->getAdjRaiz();
+        while(aux2!=NULL){
+            subjacente->criarAdj(aux->getId(),aux2->getNoFim()->getId(),aux2->getPeso());
+            aux2 = aux2->getProx();
+        }
+        aux = aux->getProx();
+    }
+    return subjacente;
+
+}
+
+//! Função de busca em profundidade. Marca os elementos visitados com True
+void Grafo::buscaProfundidade(int id, bool* visitados){
+    if(visitados[id - 1] != true){
+        visitados[id - 1] = true;
+    }else{
+        return;
+    }
+    Adjacencia* aux = getNo(id)->getAdjRaiz();
+    while(aux!=NULL){
+        buscaProfundidade(aux->getNoFim()->getId(),visitados);
+        aux = aux->getProx();
+    }
 }
 
 //! Gets e seters

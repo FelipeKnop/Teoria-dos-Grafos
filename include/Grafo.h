@@ -48,7 +48,11 @@ class Grafo
         void imprimeSubInduzido(int total, std::vector<int> &n);
         //s
         Grafo* obterComplementar();
+
         //Auxiliares
+        Grafo* obterSubjacente();
+        int numComponentesConexas();
+        void buscaProfundidade(int id, bool* visitados);
         int getMaiorId();
         void removerTodasAdj(int id);
         void imprimeGrafo();
