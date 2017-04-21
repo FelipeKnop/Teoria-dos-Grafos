@@ -20,7 +20,7 @@
 - [ ] P - Retornar o fecho transitivo indireto de um dado nó
 - [x] Q - Apresentar a sequência de graus
 - [x] R - Apresentar o subgrafo induzido por um conjunto de vértices
-- [ ] S - Apresentar o complementar do grafo
+- [x] S - Apresentar o complementar do grafo
 - [ ] T - Para digrafos, apresentar as componentes fortemente conexas
 - [ ] U - Verificar se o grafo é euleriano
 - [ ] V - Apresentar os nós de articulção
