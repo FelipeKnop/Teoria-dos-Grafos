@@ -18,8 +18,8 @@ Grafo::criarAdj()
 Grafo::informaGrauNo()
 - [ ] Retornar inteiro com o grau do nó ao inves de imprimir uma mensagem
 
-Grafo::imprimeNos()
-- [ ] Não precisa usar recursividade
+Grafo::imprimeNos() -> imprimeGrafo()
+- [X] Não precisa usar recursividade
 
 Grafo::getNo()
 - [ ] Não precisa usar recursividade

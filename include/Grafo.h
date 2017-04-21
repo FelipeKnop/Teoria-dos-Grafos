@@ -48,7 +48,7 @@ class Grafo
         void imprimeSubInduzido(int total, std::vector<int> &n);
         //Auxiliares
         void removerTodasAdj(int id);
-        void imprimeNos();
+        void imprimeGrafo();
         void informaGrau();
         bool verificarSimples();
         bool verificarSelfLoop();

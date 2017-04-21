@@ -158,19 +158,23 @@ void Grafo::informaGrauNo(int idNo)
 }
 
 
-//! Impressão de nós
-//! Com a ajuda de uma função auxiliar, imprimeNos imprime os ids e os dados de cada nó
-void imprimeNo(No *no)
-{
-    std::cout << no->getId() << " " << no->getDado() << std::endl;
-    if (no->getProx() != NULL) {
-        imprimeNo(no->getProx());
-    }
-}
+//! Impressão do Grafo
+//! Imprime o grafo na tela no modelo:
+//! No
+//! |-adjacente, peso
 
-void Grafo::imprimeNos()
+void Grafo::imprimeGrafo()
 {
-    imprimeNo(noRaiz);
+    No* aux = noRaiz;
+    while(aux!=NULL){
+        std::cout<<"ID" <<aux->getId()<<", INFO "<<aux->getDado()<<std::endl;
+        Adjacencia* aux2 = aux->getAdjRaiz();
+        while(aux2!=NULL){
+            std::cout<<"  |- Destino: " <<aux2->getNoFim()->getId()<<", Peso: "<<aux2->getPeso()<<std::endl;
+            aux2 = aux2->getProx();
+        }
+        aux = aux->getProx();
+    }
 }
 
 

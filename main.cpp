@@ -24,7 +24,6 @@ int main(int argc, const char *argv[])
         std::cout << "Arquivo nao encontrado!";
         return 0;
     }
-
     for (;;) {
         char operacao, subOperacao;
         std::cout << "@ - Operacoes extras" << std::endl;
@@ -50,7 +49,7 @@ int main(int argc, const char *argv[])
             case '@': {
                 std::cout << "----------------------------" << std::endl;
                 std::cout << "1 - Remover todas as adjacencias" << std::endl;
-                std::cout << "2 - Imprimir nos" << std::endl;
+                std::cout << "2 - Imprimir grafo" << std::endl;
                 std::cout << "Escolha uma sub operacao: ";
                 std::cin >> subOperacao;
 
@@ -63,7 +62,7 @@ int main(int argc, const char *argv[])
                         break;
                     }
                     case '2': {
-                        grafo->imprimeNos();
+                        grafo->imprimeGrafo();
                         break;
                     }
                 }
