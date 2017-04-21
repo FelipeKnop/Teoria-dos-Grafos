@@ -121,7 +121,7 @@ void Grafo::criarAdj(int idNoInicio, int idNoFim, int peso)
         else
             no2->addGrauEntrada(1);
     } else {
-        std::cout << "Adjacencia " << idNoInicio << "," << idNoFim << " nao pode ser criada!" << std::endl;
+        std::cout << "Adjac" << char(136) << "ncia " << idNoInicio << "," << idNoFim << " n" << char(198) << "o p" << char(147) << "de ser criada!" << std::endl;
     }
 }
 
@@ -151,7 +151,7 @@ void Grafo::informaGrauNo(int idNo)
         if (!direcionado)
             std::cout << "Grau do n" << char(162) << " " << idNo << ": " << no->getGrau() << std::endl;
         else
-            std::cout << "Grau de entrada do n" << char(162) << " " << idNo << ": " << no->getGrauEntrada() << ", grau de saida: " << no->getGrau() << std::endl;
+            std::cout << "Grau de entrada do n" << char(162) << " " << idNo << ": " << no->getGrauEntrada() << ", grau de sa" << char(161) << "da: " << no->getGrau() << std::endl;
     } else {
         std::cout << "N" << char(162) << " n" << char(198) << "o encontrado!" << std::endl;
     }
