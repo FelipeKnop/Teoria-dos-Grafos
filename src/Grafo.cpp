@@ -370,10 +370,24 @@ void Grafo::vizinhancaFechada(int id)
 
 //! Verifica se o grafo é completo
 //! Obtém o grau do grafo e usa a função de verificar regularidade
-//! para saber se ele é completo
+//! para saber se ele é k-1-regular, depois verifica se é simples
 bool Grafo::verificarCompleto() {
     int n = getOrdem();
-    return verificaRegularidade(n-1);
+    return verificaRegularidade(n-1) && verificarSimples();
+}
+
+bool Grafo::verificarSelfLoop() {
+    No *aux = noRaiz;
+    while (aux != NULL) {
+        if(aux->verificarSelfLoop())
+            return true;
+        aux = aux->getProx();
+    }
+    return false;
+}
+
+bool Grafo::verificarSimples() {
+    return !verificarMultigrafo() && !verificarSelfLoop();
 }
 
 

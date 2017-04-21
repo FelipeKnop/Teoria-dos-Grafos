@@ -97,6 +97,21 @@ bool No::verificarMultiaresta(int ordem){
     return false;
 }
 
+//! Verificar se contém selfloop
+//! Função serve para auxiliar a verificação de grafo simples da classe Grafo.
+//! Quando encontra uma adjacência com o próprio nó como destino,
+//! conclui que existe um selfloop
+bool No::verificarSelfLoop(){
+    Adjacencia* aux = adjRaiz;
+    while(aux!=NULL){
+        No* dest = aux->getNoFim();
+        if (dest->getId() == getId())
+            return true;
+        aux = aux->getProx();
+    }
+    return false;
+}
+
 
 
 //! Função para incrementar o grau de entrada do grafo (grafos direcionados) em i

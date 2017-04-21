@@ -12,7 +12,7 @@ class No
         void removerAdj(No* destino, int peso);
         void removerAdjs(No* destino);
         bool verificarMultiaresta(int ordem);
-
+        bool verificarSelfLoop();
 
         int getId();
         int getDado();

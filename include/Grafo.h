@@ -47,6 +47,8 @@ class Grafo
         void removerTodasAdj(int id);
         void imprimeNos();
         void informaGrau();
+        bool verificarSimples();
+        bool verificarSelfLoop();
         No* getNo(int id);
         int getOrdem();
 
