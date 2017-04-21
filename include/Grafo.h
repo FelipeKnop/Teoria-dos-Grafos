@@ -21,7 +21,7 @@ class Grafo
         //c
         void informaGrauNo(int idNo);
         //d
-        void verificaRegularidade(int k);
+        bool verificaRegularidade(int k);
         //e
         void informaOrdem();
         //f
@@ -34,6 +34,8 @@ class Grafo
         void vizinhancaFechada(int id);
         //j
         bool verificarMultigrafo();
+        //k
+        bool verificarCompleto();
         //n
         int calculaGrau();
         //q

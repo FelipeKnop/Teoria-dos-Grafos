@@ -246,16 +246,15 @@ void Grafo::apresentaSequenciaGraus()
 
 //! Verifica se o grafo é k-regular
 //! Percorre a lista encadeada buscando nós com grau diferente de k
-void Grafo::verificaRegularidade(int k)
+bool Grafo::verificaRegularidade(int k)
 {
     No *aux = noRaiz;
     while (aux != NULL) {
-        if (aux->getGrau() != k) {
-            std::cout <<"Esse grafo n" << char(198) << "o " << char(130) << " " << k << "-regular" << std::endl;
-            return;
-        }
+        if (aux->getGrau() != k)
+            return false;
+        aux = aux->getProx();
     }
-    std::cout << "Esse grafo " << char(130) << " " << k << "-regular" << std::endl;
+    return true;
 }
 
 
@@ -367,6 +366,14 @@ void Grafo::vizinhancaFechada(int id)
         adj = adj->getProx();
     }
     imprimeSubInduzido(nos.size(), nos);
+}
+
+//! Verifica se o grafo é completo
+//! Obtém o grau do grafo e usa a função de verificar regularidade
+//! para saber se ele é completo
+bool Grafo::verificarCompleto() {
+    int n = getOrdem();
+    return verificaRegularidade(n-1);
 }
 
 

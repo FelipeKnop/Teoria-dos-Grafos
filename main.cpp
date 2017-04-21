@@ -147,7 +147,10 @@ int main(int argc, const char *argv[])
                 int k;
                 std::cout << "[k]: ";
                 std::cin >> k;
-                grafo->verificaRegularidade(k);
+                if (grafo->verificaRegularidade(k))
+                    std::cout << "Esse grafo " << char(130) << " " << k << "-regular" << std::endl;
+                else
+                    std::cout <<"Esse grafo n" << char(198) << "o " << char(130) << " " << k << "-regular" << std::endl;
                 break;
             }
             case 'e':
@@ -190,7 +193,7 @@ int main(int argc, const char *argv[])
             case 'J': {
                 std::cout << "----------------------------" << std::endl;
                 std::cout << (grafo->verificarMultigrafo() ?
-                    "O grafo e multigrafo" :
+                    "O grafo e multigrafo":
                     "O grafo nao e multigrafo")
                     << std::endl;
                 break;
@@ -198,7 +201,10 @@ int main(int argc, const char *argv[])
             case 'k':
             case 'K': {
                 std::cout << "----------------------------" << std::endl;
-                std::cout << "Funcao nao implementada!" << std::endl;
+                if (grafo->verificarCompleto())
+                    std::cout <<"Esse grafo " << char(130) << " " << "completo" << std::endl;
+                else
+                    std::cout <<"Esse grafo n" << char(198) << "o " << char(130) << " " << "completo" << std::endl;
                 break;
             }
             case 'l':
