@@ -16,8 +16,8 @@
 - [x] L - Verificar se o grafo é bipartido
 - [ ] M - Mostrar o caminho mais curto entre dois vértices utilizando Dijkstra e Floyd
 - [x] N - Retornar o grau do grafo
-- [ ] O - Retornar o fecho transitivo direto de um dado nó
-- [ ] P - Retornar o fecho transitivo indireto de um dado nó
+- [x] O - Retornar o fecho transitivo direto de um dado nó
+- [x] P - Retornar o fecho transitivo indireto de um dado nó
 - [x] Q - Apresentar a sequência de graus
 - [x] R - Apresentar o subgrafo induzido por um conjunto de vértices
 - [x] S - Apresentar o complementar do grafo
