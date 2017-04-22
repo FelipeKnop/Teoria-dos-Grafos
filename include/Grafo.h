@@ -55,10 +55,16 @@ class Grafo
         void imprimeSubInduzido(int total, std::vector<int> &n);
         //s
         Grafo* obterComplementar();
+        //t
+        int componentesFortementeConexas(bool imprime); //retorna o numero de componentes fortemente conexas
+
 
         //Auxiliares
+        void ordenacaoTopologica(int v, bool visitados[], std::vector<int>& pilha);
+        void buscaProfundidadeImprimindo(int v, bool visitados[]);
         void reordenaIds();
         Grafo* obterSubjacente();
+        Grafo* grafoReverso();
         int numComponentesConexas();
         void buscaProfundidade(int id, bool* visitados);
         int getMaiorId();

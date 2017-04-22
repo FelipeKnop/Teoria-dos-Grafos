@@ -622,9 +622,87 @@ Grafo* Grafo::obterComplementar(){
 
 }
 
+//!t
+
+//! Componentes Fortemente Conexas
+//! Função retorna o numero de componentes, mas também possui a opção de imprimí-las na tela
+int Grafo::componentesFortementeConexas(bool imprime){
+    int k = 0,i,n = getOrdem();
+    std::vector<int> pilhaNos;
+
+    bool* visitados = new bool[n];
+    for(int i = 0;i<n;i++) visitados[i]=false;
+
+    for(int i = 1; i <= n; i++)
+    {
+        if(visitados[i-1] == false)
+            ordenacaoTopologica(i, visitados, pilhaNos);
+    }
+
+    Grafo* reverso = grafoReverso();
+    for(int i = 0;i<n;i++) visitados[i]=false;
+    while(pilhaNos.size()!=0){
+        int v = pilhaNos[pilhaNos.size()-1];
+        pilhaNos.pop_back();
+        if(visitados[v-1]==false){
+            if(imprime){
+                std::cout<<"Componente "<<k+1<<": ";
+                reverso->buscaProfundidadeImprimindo(v,visitados);
+                std::cout << std::endl;
+            }else
+                buscaProfundidade(v,visitados);
+            k++;
+        }
+    }
+    return k;
+}
+
+
+
+
 
 
 //! Auxiliares
+
+
+//!Preenche o vetor pilha na ordem que os nós "morrem" na busca em profundidade
+void Grafo::ordenacaoTopologica(int v, bool visitados[], std::vector<int>& pilha)
+{
+    // marca o vértice atual como visitado
+    visitados[v-1] = true;
+
+    Adjacencia* aux = getNo(v)->getAdjRaiz();
+    while(aux!=NULL){
+        int destId = aux->getNoFim()->getId();
+        if(visitados[destId-1] == false){
+            ordenacaoTopologica(destId,visitados,pilha);
+        }
+        aux = aux->getProx();
+
+    }
+    pilha.push_back(v);
+}
+
+//!Realiza uma busca em profundidade imprimindo cada nó visitado
+void Grafo::buscaProfundidadeImprimindo(int v, bool visitados[])
+{
+    // marca o vértice atual como visitado
+    visitados[v-1] = true;
+
+    // imprime o vértice
+    std::cout<< std::endl<<"   | Id: "<<v<<", Dado: "<<getNo(v)->getDado();
+
+    // percorre os adjacentes de v
+    Adjacencia* aux = getNo(v)->getAdjRaiz();
+    while(aux!=NULL){
+        int destId = aux->getNoFim()->getId();
+        if(visitados[destId-1] == false){
+            buscaProfundidadeImprimindo(destId,visitados);
+        }
+        aux = aux->getProx();
+
+    }
+}
 
 void Grafo::reordenaIds() {
     No* aux = noRaiz;
@@ -656,6 +734,26 @@ Grafo* Grafo::obterSubjacente(){
         aux = aux->getProx();
     }
     return subjacente;
+
+}
+
+Grafo* Grafo::grafoReverso(){
+    Grafo* reverso = new Grafo(true);
+    int n = getOrdem();
+    for(int i=1;i<=n;i++){
+        if(getNo(i)!=NULL)
+            reverso->criarNo(i,getNo(i)->getDado());
+    }
+    No* aux = noRaiz;
+    while(aux!=NULL){
+        Adjacencia* aux2 = aux->getAdjRaiz();
+        while(aux2!=NULL){
+            reverso->criarAdj(aux2->getNoFim()->getId(),aux->getId(),aux2->getPeso());
+            aux2 = aux2->getProx();
+        }
+        aux = aux->getProx();
+    }
+    return reverso;
 
 }
 

@@ -47,6 +47,7 @@ int main(int argc, const char *argv[])
         std::cout << "Q - Imprimir sequ" << char(136) << "ncia de graus" << std::endl;
         std::cout << "R - Obter subgrafo induzido" << std::endl;
         std::cout << "S - Obter complementar do grafo" << std::endl;
+        std::cout << "T - Obter componentes fortemente conexos" << std::endl;
         std::cout << "Escolha uma operac" << char(198) << "o ('!' para sair): ";
         std::cin >> operacao;
 
@@ -327,7 +328,7 @@ int main(int argc, const char *argv[])
             case 't':
             case 'T': {
                 std::cout << "----------------------------" << std::endl;
-                std::cout << "Fun" << char(135) << char(198) << "o n" << char(198) << "o implementada!" << std::endl;
+                grafo->componentesFortementeConexas(true);
                 break;
             }
             case 'u':
