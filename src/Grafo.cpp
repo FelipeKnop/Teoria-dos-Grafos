@@ -1,5 +1,4 @@
 #include "Grafo.h"
-#include <limits>
 
 Grafo::Grafo(bool direcionado)
 {
@@ -331,24 +330,85 @@ bool Grafo::verificarBipartido(){
 
 //!m
 
+//! Imprime o resultado do algoritmo de Dijkstra
+void imprimeResultadoDijkstra(int idOrigem, int idDestino, std::vector<double> distancias, std::vector<int> caminho, int ordem) {
+    double distancia = distancias[idDestino - 1];
+    int i;
+
+    if (distancia == std::numeric_limits<double>::infinity()) {
+        std::cout << "N" << char(198) << "o existe caminho entre os n" << char(162) << "s de id " << idOrigem << " e " << idDestino << std::endl;
+    } else {
+        std::cout << "O menor caminho entre os n" << char(162) << "s de id " << idOrigem << " e " << idDestino << " " << char(130) << ": " << idOrigem;
+        for (i = 0; i < ordem; i++) {
+            std::cout << " -> " << caminho[i];
+        }
+        std::cout << std::endl;
+
+        std::cout << "E o custo desse caminho " << char(130) << ": ";
+        std::cout << distancia << std::endl;
+    }
+}
+
+void imprimeVetor(std::vector<double> vetor) {
+    for (std::vector<double>::iterator it = vetor.begin(); it < vetor.end(); it++)
+        std::cout << *it << " ";
+    std::cout << std::endl;
+}
+
+int noMenorDistancia (std::vector<double> distancias, int n) {
+    int i, menor = 0;
+    for (i = 0; i < n; i++)
+        if (distancias[i] < distancias[menor])
+            menor = i;
+    return menor + 1;
+}
+
 //! Informa o menor caminho entre dois nós usando o algoritmo de Dijkstra
 void Grafo::menorCaminhoDijkstra(int idOrigem, int idDestino) {
+    int i, n = getOrdem();
 
+    std::vector<double> distancias (n, std::numeric_limits<double>::infinity());
+    distancias[idOrigem - 1] = 0;
+
+    No* aux = getNo(idOrigem);
+    imprimeVetor(distancias);
+
+    for (i = 0; i < n; i++) {
+
+    Adjacencia* adj = aux->getAdjRaiz();
+    while (adj != NULL) {
+        int posAux = aux->getId() - 1;
+        double dist = distancias[posAux];
+        double peso = adj->getPeso();
+        int posDestino = adj->getNoFim()->getId() - 1;
+        if (dist + peso < distancias[posDestino])
+            distancias[posDestino] = dist + peso;
+        adj = adj->getProx();
+    }
+
+    imprimeVetor(distancias);
+
+    int idMenor = noMenorDistancia(distancias, n);
+    aux = getNo(idMenor);
+
+    }
+
+   //imprimeResultadoDijkstra(idOrigem, idDestino, distancias, caminho, n);
 }
 
 
 //! Imprime o resultado do algoritmo de Floyd
-void imprimeResultadoFloyd(int idOrigem, int idDestino, std::vector< std::vector<double> > distancias, std::vector< std::vector<int> > caminho, int ordem) {
+void imprimeResultadoFloyd(int idOrigem, int idDestino, std::vector< std::vector<double> > distancias, std::vector< std::vector<int> > next, int ordem) {
     double distancia = distancias[idOrigem - 1][idDestino - 1];
 
-    int i, u = idOrigem;
+    int u = idOrigem;
 
     if (distancia == std::numeric_limits<double>::infinity()) {
         std::cout << "N" << char(198) << "o existe caminho entre os n" << char(162) << "s de id " << idOrigem << " e " << idDestino << std::endl;
     } else {
         std::cout << "O menor caminho entre os n" << char(162) << "s de id " << idOrigem << " e " << idDestino << " " << char(130) << ": " << idOrigem;
         do {
-            u = caminho[u - 1][idDestino - 1];
+            u = next[u - 1][idDestino - 1];
             std::cout << " -> " << u;
         } while (u != idDestino);
         std::cout << std::endl;

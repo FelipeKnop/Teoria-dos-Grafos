@@ -232,6 +232,17 @@ int main(int argc, const char *argv[])
                 std::cin >> idOrigem;
                 std::cout << "[idDestino]: ";
                 std::cin >> idDestino;
+
+                if (idOrigem == idDestino) {
+                    std::cout << "Digite ids diferentes" << std::endl;
+                    break;
+                }
+
+                if (grafo->getNo(idOrigem) == NULL || grafo->getNo(idDestino) == NULL) {
+                    std::cout << "Digite somente o id de n" << char(162) << "s que existem" << std::endl;
+                    break;
+                }
+
                 std::cout << "1 - Dijkstra" << std::endl;
                 std::cout << "2 - Floyd" << std::endl;
                 std::cout << "Escolha uma sub opera" << char(135) << char(198) << "o: ";

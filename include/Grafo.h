@@ -6,6 +6,7 @@
 #include<fstream>
 #include<iostream>
 #include<vector>
+#include <limits>
 class Grafo
 {
     public:
