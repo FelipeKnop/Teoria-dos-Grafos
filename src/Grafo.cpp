@@ -103,18 +103,21 @@ void Grafo::removerNo(int id)
 
 //! Criação de adjacência
 //! A função recebe dois ids e um peso para a aresta, e adiciona a adjacência em ambos os nós para o grafo não direcionado, ou apenas no primeiro para o direcionado
-void Grafo::criarAdj(int idNoInicio, int idNoFim, int peso)
+bool Grafo::criarAdj(int idNoInicio, int idNoFim, int peso)
 {
     No *no1 = getNo(idNoInicio), *no2 = getNo(idNoFim);
-    if (no1 != NULL && no2 != NULL) {
-        no1->adicionarAdj(no2, peso);
-        if (!direcionado)
-            no2->adicionarAdj(no1, peso);
-        else
-            no2->addGrauEntrada(1);
-    } else {
-        std::cout << "Adjac" << char(136) << "ncia " << idNoInicio << "," << idNoFim << " n" << char(198) << "o p" << char(147) << "de ser criada!" << std::endl;
-    }
+
+    if (no1 == NULL || no2 == NULL)
+        return false;
+
+    no1->adicionarAdj(no2, peso);
+    if (!direcionado)
+        no2->adicionarAdj(no1, peso);
+    else
+        no2->addGrauEntrada(1);
+
+    // std::cout << "Adjac" << char(136) << "ncia " << idNoInicio << "," << idNoFim << " n" << char(198) << "o p" << char(147) << "de ser criada!" << std::endl;
+    return true;
 }
 
 
