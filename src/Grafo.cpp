@@ -330,24 +330,36 @@ bool Grafo::verificarBipartido(){
 
 //!m
 
+//!Imprime o caminho de dijkstra
+void imprimeCaminhoDijkstra(std::vector<int> anterior, int posOrigem,int posDestino)
+{
+    if (posOrigem == posDestino)
+
+        return;
+
+    imprimeCaminhoDijkstra(anterior,posOrigem, anterior[posDestino]);
+
+    std::cout<<posDestino+1<<"->";
+
+}
+
 //! Imprime o resultado do algoritmo de Dijkstra
-void imprimeResultadoDijkstra(int idOrigem, int idDestino, std::vector<double> distancias, std::vector<int> caminho, int ordem) {
+void imprimeResultadoDijkstra(int idOrigem, int idDestino, std::vector<double> distancias, std::vector<int> anterior, int ordem) {
     double distancia = distancias[idDestino - 1];
     int i;
 
     if (distancia == std::numeric_limits<double>::infinity()) {
         std::cout << "N" << char(198) << "o existe caminho entre os n" << char(162) << "s de id " << idOrigem << " e " << idDestino << std::endl;
     } else {
-        std::cout << "O menor caminho entre os n" << char(162) << "s de id " << idOrigem << " e " << idDestino << " " << char(130) << ": " << idOrigem;
-        for (i = 0; i < caminho.size(); i++) {
-            std::cout << " -> " << caminho[i];
-        }
-        std::cout << std::endl;
+        std::cout << "O menor caminho entre os n" << char(162) << "s de id " << idOrigem << " e " << idDestino << " " << char(130) << ": " << idOrigem<<"->";
+        imprimeCaminhoDijkstra(anterior,idOrigem-1,anterior[idDestino-1]);
+        std::cout <<idDestino<< std::endl;
 
         std::cout << "E o custo desse caminho " << char(130) << ": ";
         std::cout << distancia << std::endl;
     }
 }
+
 
 //!Imprime um vector
 void imprimeVetor(std::vector<double> vetor) {
@@ -386,13 +398,16 @@ bool vazio(std::vector<bool> vetor) {
 //! Informa o menor caminho entre dois nós usando o algoritmo de Dijkstra
 void Grafo::menorCaminhoDijkstra(int idOrigem, int idDestino) {
     int i, n = getOrdem();
-    std::vector<int>caminho;
     std::vector<double> distancias (n, std::numeric_limits<double>::infinity());
     std::vector<bool> sBarra(n,true);
     distancias[idOrigem - 1] = 0;
     sBarra[idOrigem - 1] = false;
     No* aux = getNo(idOrigem);
-    //imprimeVetor(distancias);
+
+    std::vector< int > anterior(n,0);
+    for (int i = 0; i<n;i++)
+        anterior[i] = i;
+
     while(!vazio(sBarra)){
 
         Adjacencia* adj = aux->getAdjRaiz();
@@ -403,7 +418,7 @@ void Grafo::menorCaminhoDijkstra(int idOrigem, int idDestino) {
             int posDestino = adj->getNoFim()->getId() - 1;
             if (dist + peso < distancias[posDestino]){
                 distancias[posDestino] = dist + peso;
-                if(posDestino == idDestino-1) caminho.push_back(posAux+1);
+                anterior[posDestino] = posAux;
             }
             adj = adj->getProx();
         }
@@ -413,8 +428,7 @@ void Grafo::menorCaminhoDijkstra(int idOrigem, int idDestino) {
 
     }
 
-    caminho.push_back(idDestino);
-    imprimeResultadoDijkstra(idOrigem, idDestino, distancias, caminho, n);
+    imprimeResultadoDijkstra(idOrigem, idDestino, distancias, anterior, n);
 }
 
 
