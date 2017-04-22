@@ -18,7 +18,7 @@ class Grafo
         //b
         void criarNo(int id, int dado);
         void removerNo(int id);
-        void criarAdj(int idNo1, int idNo2, int peso);
+        bool criarAdj(int idNo1, int idNo2, int peso);
         void removerAdj(int idNo1,int idNo2,int peso);
         //c
         void informaGrauNo(int idNo);
@@ -57,6 +57,7 @@ class Grafo
         Grafo* obterComplementar();
 
         //Auxiliares
+        void reordenaIds();
         Grafo* obterSubjacente();
         int numComponentesConexas();
         void buscaProfundidade(int id, bool* visitados);

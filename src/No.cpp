@@ -14,8 +14,16 @@ No::No(int id, int dado)
 
 No::~No()
 {
-    //!implementar esse destrutor para apagar toda a lista de adjacencias
+    do {
+        Adjacencia* adj = adjRaiz;
+        if (adj != NULL) {
+            adjRaiz = adj->getProx();
+            delete adj;
+        }
+    } while (adjRaiz != NULL);
 }
+
+
 //! Adicionar adjacencia
 //! A função recebe um nó de destino e um peso e adiciona a adjacencia na lista do nó que a chamou
 void No::adicionarAdj(No* destino, int peso){
@@ -135,6 +143,10 @@ void No::addGrauEntrada(int i){
 
 int No::getId(){
     return id;
+}
+
+void No::setId(int id) {
+    this->id = id;
 }
 
 int No::getDado(){

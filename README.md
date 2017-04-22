@@ -14,7 +14,7 @@
 - [x] J - Verificar se o grafo é um multigrafo
 - [x] K - Verificar se o grafo é um grafo completo
 - [x] L - Verificar se o grafo é bipartido
-- [ ] M - Mostrar o caminho mais curto entre dois vértices utilizando Dijkstra e Floyd
+- [x] M - Mostrar o caminho mais curto entre dois vértices utilizando Dijkstra e Floyd
 - [x] N - Retornar o grau do grafo
 - [x] O - Retornar o fecho transitivo direto de um dado nó
 - [x] P - Retornar o fecho transitivo indireto de um dado nó
