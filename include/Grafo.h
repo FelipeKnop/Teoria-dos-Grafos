@@ -18,7 +18,7 @@ class Grafo
         //b
         void criarNo(int id, int dado);
         void removerNo(int id);
-        void criarAdj(int idNo1, int idNo2, int peso);
+        bool criarAdj(int idNo1, int idNo2, int peso);
         void removerAdj(int idNo1,int idNo2,int peso);
         //c
         void informaGrauNo(int idNo);

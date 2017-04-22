@@ -13,7 +13,8 @@ Grafo::criarNo()
 - [ ] ID do nó deve ser gerado automaticamente com base em quantos nós o grafo já possui
 
 Grafo::criarAdj()
-- [ ] Retornar booleano dizendo se conseguiu criar adjacencia ao inves de imprimir uma mensagem
+- [x] Retornar booleano dizendo se conseguiu criar adjacencia ao inves de imprimir uma mensagem
+    - [ ] Escrever mensagem de erro nos codigos que utilizam essa função
 
 Grafo::informaGrauNo()
 - [ ] Retornar inteiro com o grau do nó ao inves de imprimir uma mensagem
