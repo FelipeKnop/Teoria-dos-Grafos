@@ -21,7 +21,7 @@
 - [x] Q - Apresentar a sequência de graus
 - [x] R - Apresentar o subgrafo induzido por um conjunto de vértices
 - [x] S - Apresentar o complementar do grafo
-- [ ] T - Para digrafos, apresentar as componentes fortemente conexas
+- [x] T - Para digrafos, apresentar as componentes fortemente conexas
 - [ ] U - Verificar se o grafo é euleriano
 - [ ] V - Apresentar os nós de articulção
 - [ ] W - Apresentar as arestas ponte
