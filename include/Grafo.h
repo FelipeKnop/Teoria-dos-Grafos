@@ -57,6 +57,7 @@ class Grafo
         Grafo* obterComplementar();
 
         //Auxiliares
+        void reordenaIds();
         Grafo* obterSubjacente();
         int numComponentesConexas();
         void buscaProfundidade(int id, bool* visitados);

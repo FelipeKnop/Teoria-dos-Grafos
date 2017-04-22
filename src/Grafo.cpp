@@ -96,6 +96,8 @@ void Grafo::removerNo(int id)
             ordem--;
         }
     }
+
+    reordenaIds();
 }
 
 
@@ -339,7 +341,7 @@ void imprimeResultadoDijkstra(int idOrigem, int idDestino, std::vector<double> d
         std::cout << "N" << char(198) << "o existe caminho entre os n" << char(162) << "s de id " << idOrigem << " e " << idDestino << std::endl;
     } else {
         std::cout << "O menor caminho entre os n" << char(162) << "s de id " << idOrigem << " e " << idDestino << " " << char(130) << ": " << idOrigem;
-        for (i = 0; i < caminho.size(); i++) {
+        for (i = 0; i < static_cast<int>(caminho.size()); i++) {
             std::cout << " -> " << caminho[i];
         }
         std::cout << std::endl;
@@ -385,7 +387,7 @@ bool vazio(std::vector<bool> vetor) {
 
 //! Informa o menor caminho entre dois nós usando o algoritmo de Dijkstra
 void Grafo::menorCaminhoDijkstra(int idOrigem, int idDestino) {
-    int i, n = getOrdem();
+    int n = getOrdem();
     std::vector<int>caminho;
     std::vector<double> distancias (n, std::numeric_limits<double>::infinity());
     std::vector<bool> sBarra(n,true);
@@ -458,8 +460,8 @@ void Grafo::menorCaminhoFloyd(int idOrigem, int idDestino) {
     }
 
     std::vector< std::vector<int> > next(n, std::vector<int>(n));
-    for (i = 0; i < next.size(); i++)
-        for (j = 0; j < next.size(); j++)
+    for (i = 0; i < static_cast<int>(next.size()); i++)
+        for (j = 0; j < static_cast<int>(next.size()); j++)
             if (i != j)
                 next[i][j] = j + 1;
 
@@ -586,13 +588,13 @@ void Grafo::imprimeSubInduzido(int total, std::vector<int> &n)
 Grafo* Grafo::obterComplementar(){
     Grafo* comp = new Grafo(direcionado);
     int n = getMaiorId();
-    for(int i=1;i<=getMaiorId();i++){
+    for(int i=1;i<=n;i++){
         if(getNo(i)!=NULL)
             comp->criarNo(i,getNo(i)->getDado());
     }
     No* aux = noRaiz;
     while(aux!=NULL){
-        for(int i = 1;i<=getMaiorId();i++){
+        for(int i = 1;i<=n;i++){
             if(!aux->existeAdj(i))
                 comp->criarAdj(aux->getId(),i,0);
         }
@@ -605,6 +607,40 @@ Grafo* Grafo::obterComplementar(){
 
 
 //! Auxiliares
+
+void Grafo::reordenaIds() {
+    No* aux = noRaiz;
+    int i = 1;
+    while (aux != NULL) {
+        aux->setId(i);
+        i++;
+        aux = aux->getProx();
+    }
+}
+
+
+//! Função para obter subjacente do grafo
+Grafo* Grafo::obterSubjacente(){
+    if(!direcionado) return this;
+    Grafo* subjacente = new Grafo(false);
+    int n = getMaiorId();
+    for(int i=1;i<=n;i++){
+        if(getNo(i)!=NULL)
+            subjacente->criarNo(i,getNo(i)->getDado());
+    }
+    No* aux = noRaiz;
+    while(aux!=NULL){
+        Adjacencia* aux2 = aux->getAdjRaiz();
+        while(aux2!=NULL){
+            subjacente->criarAdj(aux->getId(),aux2->getNoFim()->getId(),aux2->getPeso());
+            aux2 = aux2->getProx();
+        }
+        aux = aux->getProx();
+    }
+    return subjacente;
+
+}
+
 
 //! Função para contar o número de componentes conexas
 //! Só funciona para grafos não direcionados
@@ -625,29 +661,6 @@ int Grafo::numComponentesConexas(){
         aux = aux->getProx();
     }
     return numComp;
-}
-
-
-//! Função para obter subjacente do grafo
-Grafo* Grafo::obterSubjacente(){
-    if(!direcionado) return this;
-    Grafo* subjacente = new Grafo(false);
-    int n = getMaiorId();
-    for(int i=1;i<=getMaiorId();i++){
-        if(getNo(i)!=NULL)
-            subjacente->criarNo(i,getNo(i)->getDado());
-    }
-    No* aux = noRaiz;
-    while(aux!=NULL){
-        Adjacencia* aux2 = aux->getAdjRaiz();
-        while(aux2!=NULL){
-            subjacente->criarAdj(aux->getId(),aux2->getNoFim()->getId(),aux2->getPeso());
-            aux2 = aux2->getProx();
-        }
-        aux = aux->getProx();
-    }
-    return subjacente;
-
 }
 
 

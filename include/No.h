@@ -5,7 +5,7 @@
 class No
 {
     public:
-        No(int id,int  dado);
+        No(int id, int dado);
         ~No();
 
         void adicionarAdj(No* destino, int peso);
@@ -16,6 +16,7 @@ class No
         bool existeAdj(int destino);
 
         int getId();
+        void setId(int id);
         int getDado();
         No* getProx();
         void setProx(No* no);
