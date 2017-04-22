@@ -351,7 +351,6 @@ void imprimeCaminhoDijkstra(std::vector<int> anterior, int posOrigem,int posDest
 //! Imprime o resultado do algoritmo de Dijkstra
 void imprimeResultadoDijkstra(int idOrigem, int idDestino, std::vector<double> distancias, std::vector<int> anterior, int ordem) {
     double distancia = distancias[idDestino - 1];
-    int i;
 
     if (distancia == std::numeric_limits<double>::infinity()) {
         std::cout << "N" << char(198) << "o existe caminho entre os n" << char(162) << "s de id " << idOrigem << " e " << idDestino << std::endl;
@@ -403,7 +402,7 @@ bool vazio(std::vector<bool> vetor) {
 //! Informa o menor caminho entre dois nós usando o algoritmo de Dijkstra
 void Grafo::menorCaminhoDijkstra(int idOrigem, int idDestino) {
 
-    int i, n = getOrdem();
+    int n = getOrdem();
 
     std::vector<double> distancias (n, std::numeric_limits<double>::infinity());
     std::vector<bool> sBarra(n,true);
