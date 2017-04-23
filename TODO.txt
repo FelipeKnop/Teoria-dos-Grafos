@@ -4,6 +4,11 @@ make.bat:
 Grafo
 - [x] Alterar a ordem das funções para ficar igual entre '.h' e '.cpp'
 
+Nó/Grafo
+- [ ] Tratar o dado do nó como o novo id (usamos o dado quando quisermos fazer referẽncia a um nó agora)
+Obs: Não alterar gets e sets atuais (não sabemos como isso pode influenciar no comportamento interno de algumas funções), criar novas funções auxiliares para obter Nó por dado, e só adaptar a entrada e saída das demais funções do grafo para se referir ao nó pelo dado.
+
+
 Grafo::lerArquivo()
 - [ ] Limpar o grafo antes de inserir os novos nós
 - [ ] Permitir que a leitura crie um grafo não direcionado
