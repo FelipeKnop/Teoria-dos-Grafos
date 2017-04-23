@@ -22,7 +22,7 @@
 - [x] R - Apresentar o subgrafo induzido por um conjunto de vértices
 - [x] S - Apresentar o complementar do grafo
 - [x] T - Para digrafos, apresentar as componentes fortemente conexas
-- [ ] U - Verificar se o grafo é euleriano
+- [x] U - Verificar se o grafo é euleriano
 - [ ] V - Apresentar os nós de articulção
 - [ ] W - Apresentar as arestas ponte
 - [ ] X - Apresentar o raio, o diâmetro, o centro e a periferia do grafo
