@@ -767,9 +767,11 @@ void Grafo::imprimeRaioDiaCentPerif() {
     std::cout << "Raio: " << raio << std::endl;
     std::cout << "Di" << char(131) << "metro: " << diametro << std::endl;
     std::cout << "Centro: " << std::endl;
-    imprimeSubInduzido(static_cast<int>(nosCentrais.size()), nosCentrais);
+    Grafo* sub1 = subInduzido(static_cast<int>(nosCentrais.size()), nosCentrais);
+    sub1->imprimeGrafo();
     std::cout << "Periferia: " << std::endl;
-    imprimeSubInduzido(static_cast<int>(nosPerifericos.size()), nosPerifericos);
+    Grafo* sub2 = subInduzido(static_cast<int>(nosPerifericos.size()), nosPerifericos);
+    sub2->imprimeGrafo();
 }
 
 
