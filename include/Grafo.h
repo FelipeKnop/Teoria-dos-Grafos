@@ -33,9 +33,9 @@ class Grafo
         //g
         void informaNulo();
         //h
-        void vizinhancaAberta(int id);
+        Grafo* vizinhancaAberta(int id);
         //i
-        void vizinhancaFechada(int id);
+        Grafo* vizinhancaFechada(int id);
         //j
         bool verificarMultigrafo();
         //k
@@ -57,7 +57,7 @@ class Grafo
         //q
         void apresentaSequenciaGraus();
         //r
-        void imprimeSubInduzido(int total, std::vector<int> &n);
+        Grafo* subInduzido(int total, std::vector<int> &n);
         //s
         Grafo* obterComplementar();
         //t

@@ -188,7 +188,8 @@ int main(int argc, const char *argv[])
                 int id;
                 std::cout << "[id]: ";
                 std::cin >> id;
-                grafo->vizinhancaAberta(id);
+                Grafo *vizinhancaAberta = grafo->vizinhancaAberta(id);
+                vizinhancaAberta->imprimeGrafo();
                 break;
             }
             case 'i':
@@ -197,7 +198,8 @@ int main(int argc, const char *argv[])
                 int id;
                 std::cout << "[id]: ";
                 std::cin >> id;
-                grafo->vizinhancaFechada(id);
+                Grafo* vizinhancaFechada = grafo->vizinhancaFechada(id);
+                vizinhancaFechada->imprimeGrafo();
                 break;
             }
             case 'j':
@@ -317,7 +319,8 @@ int main(int argc, const char *argv[])
                 }
 
                 std::vector<int> nosVector(nos, nos + numeroNos);
-                grafo->imprimeSubInduzido(numeroNos, nosVector);
+                Grafo* subInduzido = grafo->subInduzido(numeroNos, nosVector);
+                subInduzido->imprimeGrafo();
                 break;
             }
             case 's':
@@ -396,16 +399,6 @@ int main(int argc, const char *argv[])
     grafo->informaGrauNo(2);
 
     std::cout << grafo->verificarMultigrafo();
-
-    std::vector<int> nos;
-    nos.reserve(3);
-    nos.push_back(3);
-    nos.push_back(2);
-    nos.push_back(1);
-
-    grafo->imprimeSubInduzido(3, nos);
-    grafo->vizinhancaAberta(1);
-    grafo->vizinhancaFechada(1);
 
     return 0;
 }

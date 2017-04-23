@@ -216,8 +216,8 @@ void Grafo::informaNulo()
 
 //!h
 
-//! Imprime a vizinhanca aberta de um no
-void Grafo::vizinhancaAberta(int id)
+//! Gera a vizinhanca aberta de um nó
+Grafo* Grafo::vizinhancaAberta(int id)
 {
     No *aux = getNo(id);
     Adjacencia *adj = aux->getAdjRaiz();
@@ -229,14 +229,14 @@ void Grafo::vizinhancaAberta(int id)
         nos.push_back(adj->getNoFim()->getId());
         adj = adj->getProx();
     }
-    imprimeSubInduzido(nos.size(), nos);
+    return subInduzido(nos.size(), nos);
 }
 
 //!i
 
 
-//! Imprime a vizinhanca fechada de um no
-void Grafo::vizinhancaFechada(int id)
+//! Gera a vizinhanca fechada de um nó
+Grafo* Grafo::vizinhancaFechada(int id)
 {
     No *aux = getNo(id);
     Adjacencia *adj = aux->getAdjRaiz();
@@ -250,7 +250,7 @@ void Grafo::vizinhancaFechada(int id)
         nos.push_back(adj->getNoFim()->getId());
         adj = adj->getProx();
     }
-    imprimeSubInduzido(nos.size(), nos);
+    return subInduzido(nos.size(), nos);
 }
 
 
@@ -588,24 +588,27 @@ void Grafo::apresentaSequenciaGraus()
 
 
 //!r
-
-//! Imprime o subgrafo induzido por um conjunto de nós informados pelos seus ids
-void Grafo::imprimeSubInduzido(int total, std::vector<int> &n)
-{
+//! Gera o subgrafo Induzido pelos nós informados
+Grafo* Grafo::subInduzido(int total, std::vector<int> &n){
     No *aux;
+    Grafo *grafo = new Grafo(true);
     Adjacencia *adj;
     int noId;
     for (int i = 0; i < total; i++) {
         aux = getNo(n.at(i));
         if (aux != NULL)
+            grafo->criarNo(n.at(i), aux->getDado());
+    }
+    for (int i = 0; i < total; i++) {
+        aux = getNo(n.at(i));
+        if (aux != NULL)
         {
-            std::cout << "No " << n.at(i) << ":" << std::endl;
             adj = aux->getAdjRaiz();
             while (adj != NULL) {
                 noId = adj->getNoFim()->getId();
                 for (int k = 0; k < total; k++) {
                     if (noId == n.at(k)) {
-                        std::cout << "\t" << n.at(i) << "\t" << n.at(k) << "\t" << adj->getPeso() << std::endl;
+                        grafo->criarAdj(n.at(i), n.at(k), adj->getPeso());
                         break;
                     }
                 }
@@ -614,8 +617,8 @@ void Grafo::imprimeSubInduzido(int total, std::vector<int> &n)
         }
 
     }
+    return grafo;
 }
-
 
 //!s
 
