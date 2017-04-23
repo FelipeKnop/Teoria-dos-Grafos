@@ -348,8 +348,14 @@ void imprimeCaminhoDijkstra(std::vector<int> anterior, int posOrigem,int posDest
 
 }
 
-//! Imprime o resultado do algoritmo de Dijkstra
-void Grafo::imprimeResultadoDijkstra(int idOrigem, int idDestino, std::vector<double> distancias, std::vector<int> anterior) {
+//! Chama a função menorCaminhoDijkstra e utiliza o resultado para imprimir o menor caminho
+//! entre os dois nós e seu custo
+void Grafo::imprimeResultadoDijkstra(int idOrigem, int idDestino) {
+    std::pair< std::vector<double>, std::vector<int> > vetores = menorCaminhoDijkstra(idOrigem, idDestino);
+
+    std::vector<double> distancias = vetores.first;
+    std::vector<int> anterior = vetores.second;
+
     double distancia = distancias[idDestino - 1];
 
     if (distancia == std::numeric_limits<double>::infinity()) {
@@ -393,7 +399,6 @@ bool vazio(std::vector<bool> vetor) {
 
 //! Informa o menor caminho entre dois nós usando o algoritmo de Dijkstra
 std::pair< std::vector<double>, std::vector<int> > Grafo::menorCaminhoDijkstra(int idOrigem, int idDestino) {
-
     int n = getOrdem();
 
     std::vector<double> distancias (n, std::numeric_limits<double>::infinity());
@@ -430,22 +435,42 @@ std::pair< std::vector<double>, std::vector<int> > Grafo::menorCaminhoDijkstra(i
 }
 
 
-//! Imprime o resultado do algoritmo de Floyd
-void Grafo::imprimeResultadoFloyd(int idOrigem, int idDestino, std::vector< std::vector<double> > distancias, std::vector< std::vector<int> > next) {
-    double distancia = distancias[idOrigem - 1][idDestino - 1];
-
+//! Retorna o menor caminho entre dois nós a partir da matriz gerada pela função geraMatrizesFloyd
+std::vector<int> obtemCaminhoFloyd(int idOrigem, int idDestino, std::vector< std::vector<int> > next) {
+    std::vector<int> caminho;
     int u = idOrigem;
+    caminho.push_back(u);
+
+    do {
+        u = next[u - 1][idDestino - 1];
+        caminho.push_back(u);
+    } while (u != idDestino);
+
+    return caminho;
+}
+
+//! Chama a função geraMatrizesFloyd e utiliza o resultado para imprimir o menor caminho
+//! entre os dois nós e seu custo
+void Grafo::imprimeResultadoFloyd(int idOrigem, int idDestino) {
+    std::pair<std::vector< std::vector<double> >,
+    std::vector< std::vector<int> > > matrizes = geraMatrizesFloyd();
+
+    std::vector< std::vector<double> > distancias = matrizes.first;
+    std::vector< std::vector<int> > next = matrizes.second;
+
+    double distancia = distancias[idOrigem - 1][idDestino - 1];
 
     if (distancia == std::numeric_limits<double>::infinity()) {
         std::cout << "N" << char(198) << "o existe caminho entre os n" << char(162) << "s de id " << idOrigem << " e " << idDestino << std::endl;
     } else {
-        std::cout << "O menor caminho entre os n" << char(162) << "s de id " << idOrigem << " e " << idDestino << " " << char(130) << ": " << idOrigem;
-        do {
-            u = next[u - 1][idDestino - 1];
-            std::cout << " -> " << u;
-        } while (u != idDestino);
-        std::cout << std::endl;
+        std::vector<int> caminho = obtemCaminhoFloyd(idOrigem, idDestino, next);
 
+        std::cout << "O menor caminho entre os n" << char(162) << "s de id " << idOrigem << " e " << idDestino << " " << char(130) << ": " << caminho.front();
+
+        for (std::vector<int>::iterator it = caminho.begin() + 1; it != caminho.end(); it++)
+            std::cout << " -> " << *it;
+
+        std::cout << std::endl;
         std::cout << "E o custo desse caminho " << char(130) << ": ";
         std::cout << distancia << std::endl;
     }
@@ -453,7 +478,7 @@ void Grafo::imprimeResultadoFloyd(int idOrigem, int idDestino, std::vector< std:
 
 //! Utiliza o algoritmo de Floyd para gerar a matriz de distâncias e a que indica os caminhos
 std::pair< std::vector< std::vector<double> >,
-std::vector< std::vector<int> > > Grafo::menorCaminhoFloyd(int idOrigem, int idDestino) {
+std::vector< std::vector<int> > > Grafo::geraMatrizesFloyd() {
     int i, j, k, n = getOrdem();
 
     std::vector< std::vector<double> > distancias(n, std::vector<double>(n, std::numeric_limits<double>::infinity()));
@@ -682,6 +707,67 @@ bool Grafo::verificarEuleriano(){
     return true;
 }
 
+
+//!x
+
+//! Apresentar raio, diâmetro, centro e periferia do grafo
+void Grafo::imprimeRaioDiaCentPerif() {
+    int i, j, n = getOrdem();
+
+    std::pair< std::vector< std::vector<double> >,
+    std::vector< std::vector<int> > > matrizes = geraMatrizesFloyd();
+
+    std::vector< std::vector<double> > distancias = matrizes.first;
+    std::vector< std::vector<int> > next = matrizes.second;
+
+    std::vector<int> tamanhosCaminhos;
+
+    for (i = 1; i <= n; i++)
+        for (j = 1; j <= n; j++)
+            if (i != j) {
+                int tamanho = 0;
+                if (distancias[i - 1][j - 1] != std::numeric_limits<double>::infinity())
+                    tamanho = static_cast<int>(obtemCaminhoFloyd(i, j, next).size()) - 1;
+                tamanhosCaminhos.push_back(tamanho);
+            }
+
+
+    std::vector<int> excentricidades;
+
+    for (i = 0; i < n; i++) {
+        int excentricidade = 0;
+        for (j = 0; j < n - 1; j++)
+            if (tamanhosCaminhos[(n - 1) * i + j] > excentricidade)
+                excentricidade = tamanhosCaminhos[(n - 1) * i + j];
+        excentricidades.push_back(excentricidade);
+    }
+
+    int raio = n, diametro = 0;
+
+    for (std::vector<int>::iterator it = excentricidades.begin(); it != excentricidades.end(); it++) {
+        if (*it < raio && *it != 0)
+            raio = *it;
+        if (*it > diametro)
+            diametro = *it;
+    }
+
+    std::vector<int> nosPerifericos;
+    std::vector<int> nosCentrais;
+
+    for (i = 0; i < n; i++) {
+        if (excentricidades[i] == diametro)
+            nosPerifericos.push_back(i + 1);
+        if (excentricidades[i] == raio)
+            nosCentrais.push_back(i + 1);
+    }
+
+    std::cout << "Raio: " << raio << std::endl;
+    std::cout << "Di" << char(131) << "metro: " << diametro << std::endl;
+    std::cout << "Centro: " << std::endl;
+    imprimeSubInduzido(static_cast<int>(nosCentrais.size()), nosCentrais);
+    std::cout << "Periferia: " << std::endl;
+    imprimeSubInduzido(static_cast<int>(nosPerifericos.size()), nosPerifericos);
+}
 
 
 

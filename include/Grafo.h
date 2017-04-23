@@ -43,11 +43,11 @@ class Grafo
         //l
         bool verificarBipartido();
         //m
+        void imprimeResultadoDijkstra(int idOrigem, int idDestino);
         std::pair< std::vector<double>, std::vector<int> > menorCaminhoDijkstra(int idOrigem, int idDestino);
-        void imprimeResultadoDijkstra(int idOrigem, int idDestino, std::vector<double> distancias, std::vector<int> anterior);
+        void imprimeResultadoFloyd(int idOrigem, int idDestino);
         std::pair< std::vector< std::vector<double> >,
-        std::vector< std::vector<int> > > menorCaminhoFloyd(int idOrigem, int idDestino);
-        void imprimeResultadoFloyd(int idOrigem, int idDestino, std::vector< std::vector<double> > distancias, std::vector< std::vector<int> > next);
+            std::vector< std::vector<int> > > geraMatrizesFloyd();
         //n
         int calculaGrau();
         //o
@@ -64,6 +64,8 @@ class Grafo
         int componentesFortementeConexas(bool imprime); //retorna o numero de componentes fortemente conexas
         //u
         bool verificarEuleriano();
+        //x
+        void imprimeRaioDiaCentPerif();
 
 
         //Auxiliares

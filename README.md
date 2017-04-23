@@ -25,6 +25,6 @@
 - [x] U - Verificar se o grafo é euleriano
 - [ ] V - Apresentar os nós de articulção
 - [ ] W - Apresentar as arestas ponte
-- [ ] X - Apresentar o raio, o diâmetro, o centro e a periferia do grafo
+- [x] X - Apresentar o raio, o diâmetro, o centro e a periferia do grafo
 - [ ] Y - Apresentar a AGM do grafo ou as florestas de custo mínimo
 - [ ] Z - Apresentar as árvores de busca em profundidade e em largura

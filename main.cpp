@@ -49,6 +49,7 @@ int main(int argc, const char *argv[])
         std::cout << "S - Obter complementar do grafo" << std::endl;
         std::cout << "T - Obter componentes fortemente conexos" << std::endl;
         std::cout << "U - Verificar se grafo " << char(130) << " euleriano" << std::endl;
+        std::cout << "X - Apresentar raio, di" << char(131) << "metro, centro e periferia do grafo" << std::endl;
         std::cout << "Escolha uma operac" << char(198) << "o ('!' para sair): ";
         std::cin >> operacao;
 
@@ -252,15 +253,11 @@ int main(int argc, const char *argv[])
 
                 switch (subOperacao) {
                     case '1': {
-                        std::pair<std::vector<double>,
-                        std::vector<int> > vetores = grafo->menorCaminhoDijkstra(idOrigem, idDestino);
-                        grafo->imprimeResultadoDijkstra(idOrigem, idDestino, vetores.first, vetores.second);
+                        grafo->imprimeResultadoDijkstra(idOrigem, idDestino);
                         break;
                     }
                     case '2': {
-                        std::pair<std::vector< std::vector<double> >,
-                        std::vector< std::vector<int> > > matrizes = grafo->menorCaminhoFloyd(idOrigem, idDestino);
-                        grafo->imprimeResultadoFloyd(idOrigem, idDestino, matrizes.first, matrizes.second);
+                        grafo->imprimeResultadoFloyd(idOrigem, idDestino);
                         break;
                     }
                 }
@@ -360,7 +357,7 @@ int main(int argc, const char *argv[])
             case 'x':
             case 'X': {
                 std::cout << "----------------------------" << std::endl;
-                std::cout << "Fun" << char(135) << char(198) << "o n" << char(198) << "o implementada!" << std::endl;
+                grafo->imprimeRaioDiaCentPerif();
                 break;
             }
             case 'y':
