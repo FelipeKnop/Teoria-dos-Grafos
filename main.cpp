@@ -252,7 +252,9 @@ int main(int argc, const char *argv[])
 
                 switch (subOperacao) {
                     case '1': {
-                        grafo->menorCaminhoDijkstra(idOrigem, idDestino);
+                        std::pair<std::vector<double>,
+                        std::vector<int> > vetores = grafo->menorCaminhoDijkstra(idOrigem, idDestino);
+                        grafo->imprimeResultadoDijkstra(idOrigem, idDestino, vetores.first, vetores.second);
                         break;
                     }
                     case '2': {

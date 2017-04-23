@@ -344,19 +344,19 @@ void imprimeCaminhoDijkstra(std::vector<int> anterior, int posOrigem,int posDest
 
     imprimeCaminhoDijkstra(anterior,posOrigem, anterior[posDestino]);
 
-    std::cout<<posDestino+1<<"->";
+    std::cout<<posDestino+1<<" -> ";
 
 }
 
 //! Imprime o resultado do algoritmo de Dijkstra
-void imprimeResultadoDijkstra(int idOrigem, int idDestino, std::vector<double> distancias, std::vector<int> anterior, int ordem) {
+void Grafo::imprimeResultadoDijkstra(int idOrigem, int idDestino, std::vector<double> distancias, std::vector<int> anterior) {
     double distancia = distancias[idDestino - 1];
 
     if (distancia == std::numeric_limits<double>::infinity()) {
         std::cout << "N" << char(198) << "o existe caminho entre os n" << char(162) << "s de id " << idOrigem << " e " << idDestino << std::endl;
     } else {
 
-        std::cout << "O menor caminho entre os n" << char(162) << "s de id " << idOrigem << " e " << idDestino << " " << char(130) << ": " << idOrigem<<"->";
+        std::cout << "O menor caminho entre os n" << char(162) << "s de id " << idOrigem << " e " << idDestino << " " << char(130) << ": " << idOrigem<<" -> ";
         imprimeCaminhoDijkstra(anterior,idOrigem-1,anterior[idDestino-1]);
         std::cout <<idDestino<< std::endl;
         std::cout << "E o custo desse caminho " << char(130) << ": ";
@@ -392,7 +392,7 @@ bool vazio(std::vector<bool> vetor) {
 }
 
 //! Informa o menor caminho entre dois nós usando o algoritmo de Dijkstra
-void Grafo::menorCaminhoDijkstra(int idOrigem, int idDestino) {
+std::pair< std::vector<double>, std::vector<int> > Grafo::menorCaminhoDijkstra(int idOrigem, int idDestino) {
 
     int n = getOrdem();
 
@@ -426,7 +426,7 @@ void Grafo::menorCaminhoDijkstra(int idOrigem, int idDestino) {
 
     }
 
-    imprimeResultadoDijkstra(idOrigem, idDestino, distancias, anterior, n);
+    return std::make_pair(distancias, anterior);
 }
 
 
@@ -451,7 +451,7 @@ void Grafo::imprimeResultadoFloyd(int idOrigem, int idDestino, std::vector< std:
     }
 }
 
-//! Informa o menor caminho entre dois nós usando o algoritmo de Floyd
+//! Utiliza o algoritmo de Floyd para gerar a matriz de distâncias e a que indica os caminhos
 std::pair< std::vector< std::vector<double> >,
 std::vector< std::vector<int> > > Grafo::menorCaminhoFloyd(int idOrigem, int idDestino) {
     int i, j, k, n = getOrdem();

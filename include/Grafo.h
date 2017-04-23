@@ -43,7 +43,8 @@ class Grafo
         //l
         bool verificarBipartido();
         //m
-        void menorCaminhoDijkstra(int idOrigem, int idDestino);
+        std::pair< std::vector<double>, std::vector<int> > menorCaminhoDijkstra(int idOrigem, int idDestino);
+        void imprimeResultadoDijkstra(int idOrigem, int idDestino, std::vector<double> distancias, std::vector<int> anterior);
         std::pair< std::vector< std::vector<double> >,
         std::vector< std::vector<int> > > menorCaminhoFloyd(int idOrigem, int idDestino);
         void imprimeResultadoFloyd(int idOrigem, int idDestino, std::vector< std::vector<double> > distancias, std::vector< std::vector<int> > next);
