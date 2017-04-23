@@ -22,6 +22,7 @@ class No
         void setProx(No* no);
         int getGrau();
         int getGrauEntrada();
+        int getGrauSaida();
         void addGrauEntrada(int i);
         Adjacencia* getAdjRaiz();
 

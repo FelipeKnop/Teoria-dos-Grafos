@@ -161,11 +161,15 @@ void No::setProx(No* no){
 }
 
 int No::getGrau(){
-    return grau;
+    return getGrauEntrada() + getGrauSaida(); //Observe que grafos no direcionados retornam apenas o grau de saída, por grauEntrada = 0;
 }
 
 int No::getGrauEntrada(){
     return grauEntrada;
+}
+
+int No::getGrauSaida(){
+    return grau;
 }
 
 Adjacencia* No::getAdjRaiz(){

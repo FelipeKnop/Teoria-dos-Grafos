@@ -57,6 +57,8 @@ class Grafo
         Grafo* obterComplementar();
         //t
         int componentesFortementeConexas(bool imprime); //retorna o numero de componentes fortemente conexas
+        //u
+        bool verificarEuleriano();
 
 
         //Auxiliares

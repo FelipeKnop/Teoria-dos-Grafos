@@ -650,14 +650,44 @@ int Grafo::componentesFortementeConexas(bool imprime){
                 reverso->buscaProfundidadeImprimindo(v,visitados);
                 std::cout << std::endl;
             }else
-                buscaProfundidade(v,visitados);
+                reverso->buscaProfundidade(v,visitados);
             k++;
         }
     }
     return k;
 }
 
+//!u
 
+//! Verificar se é euleriano
+//! Função verifica se um grafo ou um digrafo é euleriano. Baseado nos seguintes teoremas:
+//! Um digrafo conexo G é euleriano se, se somente se, ele é balanceado, d+(v) = d-(v) para todo v em G
+//! Um grafo conexo G é um grafo euleriano se e somente se todo vértice de G possui grau par.
+bool Grafo::verificarEuleriano(){
+    No * aux = noRaiz;
+    if(direcionado){
+        if(componentesFortementeConexas(false) == 1){
+            while(aux!=NULL){
+                if(aux->getGrauEntrada()!=aux->getGrauSaida())
+                    return false;
+                aux = aux->getProx();
+            }
+        }else{
+            return false;
+        }
+    }else{
+        if(numComponentesConexas() == 1){
+            while(aux!=NULL){
+                if(aux->getGrau()%2==1)
+                    return false;
+                aux = aux->getProx();
+            }
+        }else{
+            return false;
+        }
+    }
+    return true;
+}
 
 
 

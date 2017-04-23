@@ -48,6 +48,7 @@ int main(int argc, const char *argv[])
         std::cout << "R - Obter subgrafo induzido" << std::endl;
         std::cout << "S - Obter complementar do grafo" << std::endl;
         std::cout << "T - Obter componentes fortemente conexos" << std::endl;
+        std::cout << "U - Verificar se grafo é euleriano" << std::endl;
         std::cout << "Escolha uma operac" << char(198) << "o ('!' para sair): ";
         std::cin >> operacao;
 
@@ -334,7 +335,10 @@ int main(int argc, const char *argv[])
             case 'u':
             case 'U': {
                 std::cout << "----------------------------" << std::endl;
-                std::cout << "Fun" << char(135) << char(198) << "o n" << char(198) << "o implementada!" << std::endl;
+                if (grafo->verificarEuleriano())
+                    std::cout <<"Esse grafo " << char(130) << " " << "euleriano" << std::endl;
+                else
+                    std::cout <<"Esse grafo n" << char(198) << "o " << char(130) << " " << "euleriano" << std::endl;
                 break;
             }
             case 'v':
