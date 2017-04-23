@@ -53,19 +53,21 @@ Grafo::ordenaSequencia()
 
 Grafo::imprimeSubInduzido()
 - [ ] Gerar um outro grafo ao inves de imprimir
-- [ ] É necessario usar std::vector?
+- [ ] É necessario usar std::vector? -> Favor manter isso para que a minha função que retorna fechos transitivos faça sentido
 
 Grafo::vizinhancaAberta()
 - [ ] Gerar um outro grafo ao inves de imprimir
-- [ ] É necessario usar std::vector?
+- [ ] É necessario usar std::vector? 
 
 Grafo::vizinhancaFechada()
 - [ ] Gerar um outro grafo ao inves de imprimir
 - [ ] É necessario usar std::vector?
 
 No
-- [ ] Alterar grauEntrada mesmo para grafos não direcionados (grau de entrada igual ao grau de saida)
+- [x] Alterar grauEntrada mesmo para grafos não direcionados (grau de entrada igual ao grau de saida)
+Coloquei o getGrau do grafo como entrada + saída (a sequẽncia de graus de um direcionado precisa retornar essa soma né?)
+O grauEntrada deve então permanecer 0 nos grafos não direcionados para a função funcionar com os dois tipos de grafos
 
 No::removerAdj()
-- [ ] Precisa receber peso como parametro?
-    - [ ] O mesmo vale para Grafo::removerAdj()
+- [x] Precisa receber peso como parametro? -> precisa para identificar a adjacencia em multigrafos
+    - [x] O mesmo vale para Grafo::removerAdj()
