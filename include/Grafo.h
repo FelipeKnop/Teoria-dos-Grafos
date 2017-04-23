@@ -2,11 +2,13 @@
 #define GRAFO_H
 #include "No.h"
 #include "Adjacencia.h"
-#include<stdlib.h>
-#include<fstream>
-#include<iostream>
-#include<vector>
+#include <stdlib.h>
+#include <fstream>
+#include <iostream>
+#include <vector>
 #include <limits>
+#include <utility>
+
 class Grafo
 {
     public:
@@ -42,7 +44,9 @@ class Grafo
         bool verificarBipartido();
         //m
         void menorCaminhoDijkstra(int idOrigem, int idDestino);
-        void menorCaminhoFloyd(int idOrigem, int idDestino);
+        std::pair< std::vector< std::vector<double> >,
+        std::vector< std::vector<int> > > menorCaminhoFloyd(int idOrigem, int idDestino);
+        void imprimeResultadoFloyd(int idOrigem, int idDestino, std::vector< std::vector<double> > distancias, std::vector< std::vector<int> > next);
         //n
         int calculaGrau();
         //o

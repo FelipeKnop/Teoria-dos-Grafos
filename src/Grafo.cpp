@@ -364,14 +364,6 @@ void imprimeResultadoDijkstra(int idOrigem, int idDestino, std::vector<double> d
     }
 }
 
-
-//!Imprime um vector
-void imprimeVetor(std::vector<double> vetor) {
-    for (std::vector<double>::iterator it = vetor.begin(); it < vetor.end(); it++)
-        std::cout << *it << " ";
-    std::cout << std::endl;
-}
-
 //!Encontra a menor distancia em "pi" dentre aqueles pertencentes a sBarra
 int noMenorDistancia (std::vector<double> *distancias, int n,std::vector<bool> *sBarra) {
     int i, menor = 0;
@@ -439,7 +431,7 @@ void Grafo::menorCaminhoDijkstra(int idOrigem, int idDestino) {
 
 
 //! Imprime o resultado do algoritmo de Floyd
-void imprimeResultadoFloyd(int idOrigem, int idDestino, std::vector< std::vector<double> > distancias, std::vector< std::vector<int> > next, int ordem) {
+void Grafo::imprimeResultadoFloyd(int idOrigem, int idDestino, std::vector< std::vector<double> > distancias, std::vector< std::vector<int> > next) {
     double distancia = distancias[idOrigem - 1][idDestino - 1];
 
     int u = idOrigem;
@@ -460,7 +452,8 @@ void imprimeResultadoFloyd(int idOrigem, int idDestino, std::vector< std::vector
 }
 
 //! Informa o menor caminho entre dois nós usando o algoritmo de Floyd
-void Grafo::menorCaminhoFloyd(int idOrigem, int idDestino) {
+std::pair< std::vector< std::vector<double> >,
+std::vector< std::vector<int> > > Grafo::menorCaminhoFloyd(int idOrigem, int idDestino) {
     int i, j, k, n = getOrdem();
 
     std::vector< std::vector<double> > distancias(n, std::vector<double>(n, std::numeric_limits<double>::infinity()));
@@ -491,7 +484,7 @@ void Grafo::menorCaminhoFloyd(int idOrigem, int idDestino) {
                         next[j][k] = next[j][i];
                 }
 
-    imprimeResultadoFloyd(idOrigem, idDestino, distancias, next, n);
+    return std::make_pair(distancias, next);
 }
 
 
@@ -627,7 +620,7 @@ Grafo* Grafo::obterComplementar(){
 //! Componentes Fortemente Conexas
 //! Função retorna o numero de componentes, mas também possui a opção de imprimí-las na tela
 int Grafo::componentesFortementeConexas(bool imprime){
-    int k = 0,i,n = getOrdem();
+    int k = 0,n = getOrdem();
     std::vector<int> pilhaNos;
 
     bool* visitados = new bool[n];

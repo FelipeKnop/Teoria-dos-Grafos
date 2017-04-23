@@ -48,7 +48,7 @@ int main(int argc, const char *argv[])
         std::cout << "R - Obter subgrafo induzido" << std::endl;
         std::cout << "S - Obter complementar do grafo" << std::endl;
         std::cout << "T - Obter componentes fortemente conexos" << std::endl;
-        std::cout << "U - Verificar se grafo é euleriano" << std::endl;
+        std::cout << "U - Verificar se grafo " << char(130) << " euleriano" << std::endl;
         std::cout << "Escolha uma operac" << char(198) << "o ('!' para sair): ";
         std::cin >> operacao;
 
@@ -256,7 +256,9 @@ int main(int argc, const char *argv[])
                         break;
                     }
                     case '2': {
-                        grafo->menorCaminhoFloyd(idOrigem, idDestino);
+                        std::pair<std::vector< std::vector<double> >,
+                        std::vector< std::vector<int> > > matrizes = grafo->menorCaminhoFloyd(idOrigem, idDestino);
+                        grafo->imprimeResultadoFloyd(idOrigem, idDestino, matrizes.first, matrizes.second);
                         break;
                     }
                 }
@@ -276,7 +278,7 @@ int main(int argc, const char *argv[])
                 std::cin >> id;
                 std::cout<<std::endl;
                 std::vector<int> ftd = grafo->fechoTransitivoDireto(id);
-                for(int i = 0 ; i<ftd.size();i++){
+                for(int i = 0; i < static_cast<int>(ftd.size()); i++){
                     std::cout<<ftd.at(i)<<" ";
                 }
                 std::cout<<std::endl;
@@ -290,7 +292,7 @@ int main(int argc, const char *argv[])
                 std::cin >> id;
                 std::cout<<std::endl;
                 std::vector<int> fti = grafo->fechoTransitivoIndireto(id);
-                for(int i = 0 ; i<fti.size();i++){
+                for(int i = 0; i < static_cast<int>(fti.size()); i++){
                     std::cout<<fti.at(i)<<" ";
                 }
                 std::cout<<std::endl;
