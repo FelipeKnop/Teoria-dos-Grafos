@@ -49,6 +49,7 @@ int main(int argc, const char *argv[])
         std::cout << "S - Obter complementar do grafo" << std::endl;
         std::cout << "T - Obter componentes fortemente conexos" << std::endl;
         std::cout << "U - Verificar se grafo " << char(130) << " euleriano" << std::endl;
+        std::cout << "V - Obter n" << char(162) << "s de articula" << char(135) << char(198) << "o" << std::endl;
         std::cout << "X - Apresentar raio, di" << char(131) << "metro, centro e periferia do grafo" << std::endl;
         std::cout << "Escolha uma operac" << char(198) << "o ('!' para sair): ";
         std::cin >> operacao;
@@ -348,7 +349,12 @@ int main(int argc, const char *argv[])
             case 'v':
             case 'V': {
                 std::cout << "----------------------------" << std::endl;
-                std::cout << "Fun" << char(135) << char(198) << "o n" << char(198) << "o implementada!" << std::endl;
+                std::vector<int> articulacao = grafo->nosArticulacao();
+
+                std::cout << "N" << char(162) << "s de articula" << char(135) << char(198) << "o: ";
+                for (std::vector<int>::iterator it = articulacao.begin(); it < articulacao.end(); it++)
+                    std::cout << *it << " ";
+                std::cout << std::endl;
                 break;
             }
             case 'w':

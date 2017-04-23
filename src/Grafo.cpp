@@ -711,6 +711,23 @@ bool Grafo::verificarEuleriano(){
 }
 
 
+//v
+std::vector<int> Grafo::nosArticulacao()
+{
+    int ordem = getOrdem();
+
+    dfs *nos = buscaProfundidade();
+    std::vector<int> articulacoes;
+
+    for (int i = 0; i < ordem; ++i) {
+        if (nos[i].articulacao)
+            articulacoes.push_back(i+1);
+    }
+
+    return articulacoes;
+}
+
+
 //!x
 
 //! Apresentar raio, diâmetro, centro e periferia do grafo
@@ -775,9 +792,65 @@ void Grafo::imprimeRaioDiaCentPerif() {
 }
 
 
+//z
+dfs* Grafo::buscaProfundidade()
+{
+    int ordem = getOrdem();
+    int tempo = 0;
+
+    bool *visitados = new bool[ordem];
+    dfs *nos = new dfs[ordem];
+
+    for (int id = 1; id <= ordem; ++id) {
+        visitados[id-1] = false;
+        nos[id-1].pai = 0;
+        nos[id-1].descoberto = 0;
+        nos[id-1].menor = 0;
+        nos[id-1].articulacao = false;
+    }
+
+
+    for (int id = 1; id <= ordem; ++id) {
+        if (!visitados[id-1])
+            buscaProfundidade(id, visitados, nos, &tempo);
+    }
+
+    return nos;
+}
+
+void Grafo::buscaProfundidade(int id, bool *visitados, dfs *nos, int *tempo)
+{
+    nos[id-1].descoberto = nos[id-1].menor = ++(*tempo);
+    visitados[id-1] = true;
+    int numFilhos = 0;
+
+    Adjacencia* aux = getNo(id)->getAdjRaiz();
+    while (aux != NULL) {
+        int idAux = aux->getNoFim()->getId();
+
+        if (!visitados[idAux-1]) {
+            nos[idAux-1].pai = id;
+            buscaProfundidade(idAux, visitados, nos, tempo);
+
+            numFilhos++;
+            nos[id-1].menor = std::min(nos[id-1].menor, nos[idAux-1].menor);
+
+            if (nos[id-1].pai == 0 && numFilhos > 1)
+                nos[id-1].articulacao = true;
+
+            if (nos[id-1].pai != 0 && nos[idAux-1].menor >= nos[id-1].descoberto) {
+                nos[id-1].articulacao = true;
+            }
+        } else if (idAux != nos[id-1].pai) {
+            nos[id-1].menor = std::min(nos[id-1].menor, nos[idAux-1].descoberto);
+        }
+
+        aux = aux->getProx();
+    }
+}
+
 
 //! Auxiliares
-
 
 //!Preenche o vetor pilha na ordem que os nós "morrem" na busca em profundidade
 void Grafo::ordenacaoTopologica(int v, bool visitados[], std::vector<int>& pilha)

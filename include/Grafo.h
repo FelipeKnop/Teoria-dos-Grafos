@@ -9,6 +9,14 @@
 #include <limits>
 #include <utility>
 
+struct dfs
+{
+    int pai;
+    int descoberto;
+    int menor;
+    bool articulacao;
+};
+
 class Grafo
 {
     public:
@@ -64,9 +72,13 @@ class Grafo
         int componentesFortementeConexas(bool imprime); //retorna o numero de componentes fortemente conexas
         //u
         bool verificarEuleriano();
+        //v
+        std::vector<int> nosArticulacao();
         //x
         void imprimeRaioDiaCentPerif();
-
+        //z
+        dfs* buscaProfundidade();
+        void buscaProfundidade(int id, bool *visitados, dfs *nos, int *tempo);
 
         //Auxiliares
         void ordenacaoTopologica(int v, bool visitados[], std::vector<int>& pilha);
