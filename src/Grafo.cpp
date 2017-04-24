@@ -797,7 +797,8 @@ void Grafo::imprimeRaioDiaCentPerif() {
 
 Grafo* Grafo::AGM(){
     std::vector<No*> visitados, restantes;
-    No* aux = noRaiz;
+    Grafo* subjacente = this->obterSubjacente();
+    No* aux = subjacente->noRaiz;
     Adjacencia* adj;
     Grafo* arvore = new Grafo(true);
     int minimo, noIniId, noDestId, noDestDado, noDestIndex;
@@ -829,10 +830,16 @@ Grafo* Grafo::AGM(){
                 adj = adj->getProx();
             }
         }
-        arvore->criarNo(noDestId, noDestDado);
-        arvore->criarAdj(noIniId, noDestId, minimo);
-        visitados.push_back(restantes.at(noDestIndex));
-        restantes.erase(restantes.begin()+noDestIndex);
+        if(minimo!=9999){
+            arvore->criarNo(noDestId, noDestDado);
+            arvore->criarAdj(noIniId, noDestId, minimo);
+            visitados.push_back(restantes.at(noDestIndex));
+            restantes.erase(restantes.begin()+noDestIndex);
+        }else{
+            arvore->criarNo(restantes.at(0)->getId(), restantes.at(0)->getDado());
+            visitados.push_back(restantes.at(0));
+            restantes.erase(restantes.begin());
+        }
     }
     return arvore;
 }
