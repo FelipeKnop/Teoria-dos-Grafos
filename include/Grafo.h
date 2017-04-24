@@ -8,6 +8,7 @@
 #include <vector>
 #include <limits>
 #include <utility>
+#include <algorithm>
 
 struct dfs
 {
@@ -76,6 +77,8 @@ class Grafo
         std::vector<int> nosArticulacao();
         //x
         void imprimeRaioDiaCentPerif();
+        //y
+        Grafo* AGM();
         //z
         dfs* buscaProfundidade();
         void buscaProfundidade(int id, bool *visitados, dfs *nos, int *tempo);

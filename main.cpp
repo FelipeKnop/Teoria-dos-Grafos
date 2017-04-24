@@ -373,6 +373,8 @@ int main(int argc, const char *argv[])
             case 'Y': {
                 std::cout << "----------------------------" << std::endl;
                 std::cout << "Fun" << char(135) << char(198) << "o n" << char(198) << "o implementada!" << std::endl;
+                Grafo* AGM = grafo->AGM();
+                AGM->imprimeGrafo();
                 break;
             }
             case 'z':

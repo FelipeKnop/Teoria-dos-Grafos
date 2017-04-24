@@ -791,6 +791,51 @@ void Grafo::imprimeRaioDiaCentPerif() {
     sub2->imprimeGrafo();
 }
 
+//!y
+
+//! Gera a Arvore Geradora Minima pelo algoritmo de Prim
+
+Grafo* Grafo::AGM(){
+    std::vector<No*> visitados, restantes;
+    No* aux = noRaiz;
+    Adjacencia* adj;
+    Grafo* arvore = new Grafo(true);
+    int minimo, noIniId, noDestId, noDestDado, noDestIndex;
+    while(aux!=NULL){
+        restantes.push_back(aux);
+        aux = aux->getProx();
+    }
+    aux = restantes.at(0);
+    arvore->criarNo(aux->getId(), aux->getDado());
+    visitados.push_back(restantes.at(0));
+    restantes.erase(restantes.begin());
+    while(restantes.size()>0){
+        minimo = 9999;
+        for(int i = 0;i<visitados.size();i++){
+            aux = visitados.at(i);
+            adj = aux->getAdjRaiz();
+            while(adj!=NULL){
+                for(int j=0;j<restantes.size();j++){
+                    if(adj->getNoFim()==restantes.at(j)){
+                        if(adj->getPeso()<minimo){
+                            minimo = adj->getPeso();
+                            noIniId = visitados.at(i)->getId();
+                            noDestId = restantes.at(j)->getId();
+                            noDestDado = restantes.at(j)->getDado();
+                            noDestIndex = j;
+                        }
+                    }
+                }
+                adj = adj->getProx();
+            }
+        }
+        arvore->criarNo(noDestId, noDestDado);
+        arvore->criarAdj(noIniId, noDestId, minimo);
+        visitados.push_back(restantes.at(noDestIndex));
+        restantes.erase(restantes.begin()+noDestIndex);
+    }
+    return arvore;
+}
 
 //z
 dfs* Grafo::buscaProfundidade()
