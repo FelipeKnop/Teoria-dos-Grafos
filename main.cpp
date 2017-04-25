@@ -50,7 +50,9 @@ int main(int argc, const char *argv[])
         std::cout << "T - Obter componentes fortemente conexos" << std::endl;
         std::cout << "U - Verificar se grafo " << char(130) << " euleriano" << std::endl;
         std::cout << "V - Obter n" << char(162) << "s de articula" << char(135) << char(198) << "o" << std::endl;
+        std::cout << "W - Apresentar arestas pontes" << std::endl;
         std::cout << "X - Apresentar raio, di" << char(131) << "metro, centro e periferia do grafo" << std::endl;
+        std::cout << "Y - Apresentar a AGM(" << char(181) <<"rvore Geradora M" << char(161) << "nima)";
         std::cout << "Escolha uma operac" << char(198) << "o ('!' para sair): ";
         std::cin >> operacao;
 
@@ -360,7 +362,7 @@ int main(int argc, const char *argv[])
             case 'w':
             case 'W': {
                 std::cout << "----------------------------" << std::endl;
-                std::cout << "Fun" << char(135) << char(198) << "o n" << char(198) << "o implementada!" << std::endl;
+                grafo->arestaPonte();
                 break;
             }
             case 'x':
@@ -372,7 +374,6 @@ int main(int argc, const char *argv[])
             case 'y':
             case 'Y': {
                 std::cout << "----------------------------" << std::endl;
-                std::cout << "Fun" << char(135) << char(198) << "o n" << char(198) << "o implementada!" << std::endl;
                 Grafo* AGM = grafo->AGM();
                 AGM->imprimeGrafo();
                 break;

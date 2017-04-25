@@ -75,6 +75,8 @@ class Grafo
         bool verificarEuleriano();
         //v
         std::vector<int> nosArticulacao();
+        //w
+        void arestaPonte();
         //x
         void imprimeRaioDiaCentPerif();
         //y

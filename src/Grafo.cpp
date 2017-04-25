@@ -727,6 +727,48 @@ std::vector<int> Grafo::nosArticulacao()
     return articulacoes;
 }
 
+//!w
+//!Encontra as arestas ponte checando a remoção de quais arestas causaria um acréscimo no némero de componentes conexas,
+//!imprimindo os nós ligados pela aresta assim como seu peso
+void Grafo::arestaPonte(){
+    No* aux;
+    No* fim;
+    Adjacencia* adj;
+    std::vector<Adjacencia*> adjs;
+    int numComponentes = numComponentesConexas();
+    aux = noRaiz;
+    int pesoIda, pesoVolta;
+    while(aux!=NULL){
+        adj = aux->getAdjRaiz();
+        while(adj!=NULL){
+            adjs.push_back(adj);
+            adj = adj->getProx();
+        }
+        for(int i=0;i<adjs.size();i++){
+            fim = adjs.at(i)->getNoFim();
+            pesoIda = adjs.at(i)->getPeso();
+            adj = fim->getAdjRaiz();
+            pesoVolta=9999;
+            while(adj!=NULL){
+                if(adj->getNoFim()==aux){
+                    pesoVolta = adj->getPeso();
+                }
+                adj = adj->getProx();
+            }
+            aux->removerAdj(fim, pesoIda);
+            fim->removerAdj(aux, pesoVolta);
+            if(numComponentesConexas()> numComponentes)
+            {
+                std::cout << "ID1: "<<aux->getId() << "\tID2: "<<fim->getId() << "\tPeso: " << pesoIda << std::endl;
+            }
+            criarAdj(aux->getId(), fim->getId(), pesoIda);
+            if(pesoVolta!=9999)
+                criarAdj(fim->getId(), aux->getId(), pesoVolta);
+        }
+        aux = aux->getProx();
+        adjs.erase(adjs.begin(), adjs.end());
+    }
+}
 
 //!x
 
