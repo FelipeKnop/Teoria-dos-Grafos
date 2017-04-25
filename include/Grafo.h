@@ -6,6 +6,7 @@
 #include <fstream>
 #include <iostream>
 #include <vector>
+#include <queue>
 #include <limits>
 #include <utility>
 #include <algorithm>
@@ -16,6 +17,13 @@ struct dfs
     int descoberto;
     int menor;
     bool articulacao;
+};
+
+struct bfs
+{
+    int pai;
+    int descoberto;
+    int distancia;
 };
 
 class Grafo
@@ -84,6 +92,7 @@ class Grafo
         //z
         dfs* buscaProfundidade();
         void buscaProfundidade(int id, bool *visitados, dfs *nos, int *tempo);
+        bfs* buscaLargura();
 
         //Auxiliares
         void ordenacaoTopologica(int v, bool visitados[], std::vector<int>& pilha);

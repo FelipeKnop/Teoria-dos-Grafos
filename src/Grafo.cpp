@@ -711,7 +711,9 @@ bool Grafo::verificarEuleriano(){
 }
 
 
-//v
+//!v
+
+//! Apresentar os nos de articualção do grafo
 std::vector<int> Grafo::nosArticulacao()
 {
     int ordem = getOrdem();
@@ -877,32 +879,37 @@ Grafo* Grafo::AGM(){
     return arvore;
 }
 
-//z
+//!z
+
+//! Realiza uma busca em profundidade e retorna uma lista contendo informações da arvore gerada pela busca
 dfs* Grafo::buscaProfundidade()
 {
+    if(direcionado)
+        return obterSubjacente()->buscaProfundidade();
+
     int ordem = getOrdem();
     int tempo = 0;
 
     bool *visitados = new bool[ordem];
     dfs *nos = new dfs[ordem];
 
-    for (int id = 1; id <= ordem; ++id) {
-        visitados[id-1] = false;
-        nos[id-1].pai = 0;
-        nos[id-1].descoberto = 0;
-        nos[id-1].menor = 0;
-        nos[id-1].articulacao = false;
+    for (int i = 0; i < ordem; ++i) {
+        visitados[i] = false;
+        nos[i].pai = 0;
+        nos[i].descoberto = 0;
+        nos[i].menor = 0;
+        nos[i].articulacao = false;
     }
 
-
-    for (int id = 1; id <= ordem; ++id) {
-        if (!visitados[id-1])
-            buscaProfundidade(id, visitados, nos, &tempo);
+    for (int i = 0; i < ordem; ++i) {
+        if (!visitados[i])
+            buscaProfundidade(i+1, visitados, nos, &tempo);
     }
 
     return nos;
 }
 
+//! Metódo auxilar para a recursão da busca em profundidade
 void Grafo::buscaProfundidade(int id, bool *visitados, dfs *nos, int *tempo)
 {
     nos[id-1].descoberto = nos[id-1].menor = ++(*tempo);
@@ -923,15 +930,63 @@ void Grafo::buscaProfundidade(int id, bool *visitados, dfs *nos, int *tempo)
             if (nos[id-1].pai == 0 && numFilhos > 1)
                 nos[id-1].articulacao = true;
 
-            if (nos[id-1].pai != 0 && nos[idAux-1].menor >= nos[id-1].descoberto) {
+            if (nos[id-1].pai != 0 && nos[idAux-1].menor >= nos[id-1].descoberto)
                 nos[id-1].articulacao = true;
-            }
         } else if (idAux != nos[id-1].pai) {
             nos[id-1].menor = std::min(nos[id-1].menor, nos[idAux-1].descoberto);
         }
 
         aux = aux->getProx();
     }
+}
+
+//! Realiza uma busca em largura e retorna uma lista contendo informações da arvore gerada pela busca
+bfs* Grafo::buscaLargura()
+{
+    if(direcionado)
+        return obterSubjacente()->buscaLargura();
+
+    int ordem = getOrdem();
+    int tempo = 0;
+
+    bool *visitados = new bool[ordem];
+    std::queue<int> fila;
+    bfs *nos = new bfs[ordem];
+
+    for (int i = 0; i < ordem; ++i) {
+        visitados[i] = false;
+        nos[i].pai = 0;
+        nos[i].descoberto = 0;
+        nos[i].distancia = 0;
+    }
+
+    for (int i = 0; i < ordem; ++i) {
+        if (!visitados[i])
+            visitados[i] = true;
+            fila.push(i+1);
+
+        while (!fila.empty()) {
+            int id = fila.front();
+            fila.pop();
+            nos[id-1].descoberto = ++tempo;
+
+            Adjacencia* aux = getNo(id)->getAdjRaiz();
+            while (aux != NULL) {
+                int idAux = aux->getNoFim()->getId();
+
+                if (!visitados[idAux-1]) {
+                    nos[idAux-1].pai = id;
+                    nos[idAux-1].distancia = nos[id-1].distancia + 1;
+                    visitados[idAux-1] = true;
+                    fila.push(idAux);
+                }
+
+                aux = aux->getProx();
+            }
+        }
+    }
+
+    return nos;
 }
 
 
