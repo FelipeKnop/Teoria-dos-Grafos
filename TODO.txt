@@ -15,7 +15,7 @@ Grafo::lerArquivo()
     - [ ] Oferecer opção no menu para ser um grafo não direcionado
 
 Grafo::criarNo()
-- [ ] ID do nó deve ser gerado automaticamente com base em quantos nós o grafo já possui
+- [x] ID do nó deve ser gerado automaticamente com base em quantos nós o grafo já possui
 
 Grafo::criarAdj()
 - [x] Retornar booleano dizendo se conseguiu criar adjacencia ao inves de imprimir uma mensagem
