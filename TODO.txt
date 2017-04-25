@@ -57,16 +57,16 @@ Grafo::ordenaSequencia()
 - [ ] Não precisa ser um metodo da classe grafo
 
 Grafo::imprimeSubInduzido()
-- [ ] Gerar um outro grafo ao inves de imprimir
-- [ ] É necessario usar std::vector? -> Favor manter isso para que a minha função que retorna fechos transitivos faça sentido
+- [x] Gerar um outro grafo ao inves de imprimir
+- [x] É necessario usar std::vector? -> Favor manter isso para que a minha função que retorna fechos transitivos faça sentido
 
 Grafo::vizinhancaAberta()
-- [ ] Gerar um outro grafo ao inves de imprimir
-- [ ] É necessario usar std::vector? 
+- [x] Gerar um outro grafo ao inves de imprimir
+- [x] É necessario usar std::vector? 
 
 Grafo::vizinhancaFechada()
-- [ ] Gerar um outro grafo ao inves de imprimir
-- [ ] É necessario usar std::vector?
+- [x] Gerar um outro grafo ao inves de imprimir
+- [x] É necessario usar std::vector?
 
 No
 - [x] Alterar grauEntrada mesmo para grafos não direcionados (grau de entrada igual ao grau de saida)

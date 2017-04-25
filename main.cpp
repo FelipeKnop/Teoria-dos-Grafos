@@ -8,7 +8,13 @@
 
 int main(int argc, const char *argv[])
 {
-    Grafo *grafo = new Grafo(true);
+    int tipo;
+    std::cout<<"Favor escolher o tipo do grafo:"<<std::endl;
+    std::cout<< "1 - Grafo n"<<char(198)<<"o direcionado"<<std::endl;
+    std::cout<< "2 - Grafo direcionado"<<std::endl;
+    std::cin>>tipo;
+
+    Grafo *grafo = new Grafo((tipo==1)?false:true);
 
     const char *arquivoEntrada = "grafo.txt";
     const char *arquivoSaida = "saida.txt";
