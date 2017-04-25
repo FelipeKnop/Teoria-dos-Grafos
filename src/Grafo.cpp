@@ -893,6 +893,9 @@ Grafo* Grafo::AGM(){
 //! Realiza uma busca em profundidade e retorna uma lista contendo informações da arvore gerada pela busca
 dfs* Grafo::buscaProfundidade()
 {
+    if(direcionado)
+        return obterSubjacente()->buscaProfundidade();
+
     int ordem = getOrdem();
     int tempo = 0;
 
@@ -949,6 +952,9 @@ void Grafo::buscaProfundidade(int id, bool *visitados, dfs *nos, int *tempo)
 //! Realiza uma busca em largura e retorna uma lista contendo informações da arvore gerada pela busca
 bfs* Grafo::buscaLargura()
 {
+    if(direcionado)
+        return obterSubjacente()->buscaLargura();
+
     int ordem = getOrdem();
     int tempo = 0;
 
