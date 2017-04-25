@@ -33,6 +33,10 @@ int main(int argc, const char *argv[])
 
     for (;;) {
         char operacao, subOperacao;
+        std::cout<<"ATENÇÃO: Os ids de um nó são incrementados e regulados automaticamente (estando sempre entre 1 e a ordem do grafo)."<<std::endl;
+        std::cout<<"Para descobrir em qual nó o seu dado está armazenado, use a função de imprimir grafo em @->2"<<std::endl;
+        std::cout<<"Todos os nós são aqui referenciados pelos seus ids"<<std::endl;
+
         std::cout << "@ - Opera" << char(135) << char(228) << "es extras" << std::endl;
         std::cout << "A - Leitura e escrita" << std::endl;
         std::cout << "B - Criar e remover n" << char(162) << "s e adjac" << char(136) << "ncias" << std::endl;
@@ -122,10 +126,10 @@ int main(int argc, const char *argv[])
 
                 switch (subOperacao) {
                     case '1': {
-                        int id, dado;
-                        std::cout << "[id, dado]: ";
-                        std::cin >> id >> dado;
-                        grafo->criarNo(id, dado);
+                        int dado;
+                        std::cout << "[dado numerico a ser armazenado]: ";
+                        std::cin >> dado;
+                        grafo->criarNo(dado);
                         break;
                     }
                     case '2': {

@@ -35,6 +35,7 @@ class Grafo
         bool lerArquivo(const char *caminho);
         void salvarArquivo(const char *caminho);
         //b
+        void criarNo(int dado);
         void criarNo(int id, int dado);
         void removerNo(int id);
         bool criarAdj(int idNo1, int idNo2, int peso);

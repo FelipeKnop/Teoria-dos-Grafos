@@ -72,6 +72,20 @@ void Grafo::criarNo(int id, int dado)
     ordem++;
 }
 
+//! Função recebe um dado e adiciona o nó na lista encadeada, incrementando o id de acordo com a ordem
+void Grafo::criarNo(int dado)
+{
+    No *no = new No(ordem+1, dado);
+    if (noRaiz == NULL) {
+        noRaiz = no;
+        ultimo = no;
+    } else {
+        ultimo->setProx(no);
+        ultimo = no;
+    }
+    ordem++;
+}
+
 //! Remoção de nó
 //! Função que recebe um id e remove o nó correpondente
 void Grafo::removerNo(int id)
@@ -1159,7 +1173,7 @@ void Grafo::imprimeGrafo()
 {
     No* aux = noRaiz;
     while(aux!=NULL){
-        std::cout<<"Id " <<aux->getId()<<", Info "<<aux->getDado()<<std::endl;
+        std::cout<<"Id " <<aux->getId()<<", Dado "<<aux->getDado()<<std::endl;
         Adjacencia* aux2 = aux->getAdjRaiz();
         while(aux2!=NULL){
             std::cout<<"  |- Destino: " <<aux2->getNoFim()->getId()<<", Peso: "<<aux2->getPeso()<<std::endl;
