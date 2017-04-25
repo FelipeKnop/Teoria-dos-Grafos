@@ -737,7 +737,8 @@ void Grafo::arestaPonte(){
     std::vector<Adjacencia*> adjs;
     int numComponentes = numComponentesConexas();
     aux = noRaiz;
-    int pesoIda, pesoVolta;
+    int peso;
+    bool volta;
     while(aux!=NULL){
         adj = aux->getAdjRaiz();
         while(adj!=NULL){
@@ -746,24 +747,14 @@ void Grafo::arestaPonte(){
         }
         for(int i=0;i<adjs.size();i++){
             fim = adjs.at(i)->getNoFim();
-            pesoIda = adjs.at(i)->getPeso();
-            adj = fim->getAdjRaiz();
-            pesoVolta=9999;
-            while(adj!=NULL){
-                if(adj->getNoFim()==aux){
-                    pesoVolta = adj->getPeso();
-                }
-                adj = adj->getProx();
-            }
-            aux->removerAdj(fim, pesoIda);
-            fim->removerAdj(aux, pesoVolta);
+            peso = adjs.at(i)->getPeso();
+            aux->removerAdj(fim, peso);
             if(numComponentesConexas()> numComponentes)
             {
-                std::cout << "ID1: "<<aux->getId() << "\tID2: "<<fim->getId() << "\tPeso: " << pesoIda << std::endl;
+                std::cout << "ID1: "<<aux->getId() << "\tID2: "<<fim->getId() << "\tPeso: " << peso << std::endl;
             }
-            criarAdj(aux->getId(), fim->getId(), pesoIda);
-            if(pesoVolta!=9999)
-                criarAdj(fim->getId(), aux->getId(), pesoVolta);
+            criarAdj(aux->getId(), fim->getId(), peso);
+
         }
         aux = aux->getProx();
         adjs.erase(adjs.begin(), adjs.end());
@@ -842,7 +833,7 @@ Grafo* Grafo::AGM(){
     Grafo* subjacente = this->obterSubjacente();
     No* aux = subjacente->noRaiz;
     Adjacencia* adj;
-    Grafo* arvore = new Grafo(true);
+    Grafo* arvore = new Grafo(false);
     int minimo, noIniId, noDestId, noDestDado, noDestIndex;
     while(aux!=NULL){
         restantes.push_back(aux);
