@@ -52,7 +52,8 @@ int main(int argc, const char *argv[])
         std::cout << "V - Obter n" << char(162) << "s de articula" << char(135) << char(198) << "o" << std::endl;
         std::cout << "W - Apresentar arestas pontes" << std::endl;
         std::cout << "X - Apresentar raio, di" << char(131) << "metro, centro e periferia do grafo" << std::endl;
-        std::cout << "Y - Apresentar a AGM(" << char(181) <<"rvore Geradora M" << char(161) << "nima)";
+        std::cout << "Y - Apresentar a AGM(" << char(181) <<"rvore Geradora M" << char(161) << "nima)" << std::endl;
+        std::cout << "Z - Obter " << char(181) <<"rvores de busca em profundidade e largura" << std::endl;
         std::cout << "Escolha uma operac" << char(198) << "o ('!' para sair): ";
         std::cin >> operacao;
 
@@ -381,7 +382,44 @@ int main(int argc, const char *argv[])
             case 'z':
             case 'Z': {
                 std::cout << "----------------------------" << std::endl;
-                std::cout << "Fun" << char(135) << char(198) << "o n" << char(198) << "o implementada!" << std::endl;
+                std::cout << "1 - " << char(181) <<"rvore de busca em profundidade" << std::endl;
+                std::cout << "2 - " << char(181) <<"rvore de busca em largura" << std::endl;
+                std::cout << "Escolha uma sub opera" << char(135) << char(198) << "o: ";
+                std::cin >> subOperacao;
+
+                int ordem = grafo->getOrdem();
+
+                switch (subOperacao) {
+                    case '1': {
+                        dfs *nos = grafo->buscaProfundidade();
+
+                        Grafo *arvore = new Grafo(true);
+                        for (int i = 0; i < ordem; ++i)
+                            arvore->criarNo(i+1, nos[i].menor);
+                        for (int i = 0; i < ordem; ++i)
+                        {
+                            if (nos[i].pai != 0)
+                                arvore->criarAdj(nos[i].pai, i+1, 1);
+                        }
+                        arvore->imprimeGrafo();
+                        break;
+                    }
+                    case '2': {
+                        bfs *nos = grafo->buscaLargura();
+
+                        Grafo *arvore = new Grafo(true);
+                        for (int i = 0; i < ordem; ++i)
+                            arvore->criarNo(i+1, nos[i].distancia);
+                        for (int i = 0; i < ordem; ++i)
+                        {
+                            if (nos[i].pai != 0)
+                                arvore->criarAdj(nos[i].pai, i+1, 1);
+                        }
+                        arvore->imprimeGrafo();
+                        break;
+                    }
+                }
+
                 break;
             }
 
