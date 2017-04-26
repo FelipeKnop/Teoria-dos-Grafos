@@ -10,7 +10,7 @@ Obs: Não alterar gets e sets atuais (não sabemos como isso pode influenciar no
 
 
 Grafo::lerArquivo()
-- [ ] Limpar o grafo antes de inserir os novos nós
+- [x] Limpar o grafo antes de inserir os novos nós
 - [ ] Permitir que a leitura crie um grafo não direcionado
     - [ ] Oferecer opção no menu para ser um grafo não direcionado
 

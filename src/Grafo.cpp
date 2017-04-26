@@ -3,6 +3,7 @@
 Grafo::Grafo(bool direcionado)
 {
     noRaiz = NULL;
+    ultimo = NULL;
     ordem = 0;
     this->direcionado = direcionado;
 }
@@ -23,11 +24,14 @@ bool Grafo::lerArquivo(const char *caminho)
         return false;
     }
 
+    if(noRaiz!=NULL){
+        limparNos();
+    }
     int ordem, noInicio, noFim, peso;
     file >> ordem;
 
     for (int i = 1; i <= ordem; i++)
-        criarNo(i, i * 100);
+        criarNo(i, i);
 
     while (file >> noInicio >> noFim >> peso)
         criarAdj(noInicio, noFim, peso);
@@ -96,6 +100,7 @@ void Grafo::removerNo(int id)
     removerTodasAdj(id);
 
     if (aux->getId() == id) {
+        if(aux == ultimo) ultimo = aux->getProx();
         noRaiz = aux->getProx();
         delete aux;
         ordem--;
@@ -104,6 +109,7 @@ void Grafo::removerNo(int id)
             aux = aux->getProx();
 
         if (aux->getProx() != NULL) {
+            if(aux->getProx() == ultimo) ultimo = aux;
             No* lixo = aux->getProx();
             aux->setProx(lixo->getProx());
             delete lixo;
@@ -1005,6 +1011,13 @@ bfs* Grafo::buscaLargura()
 
 
 //! Auxiliares
+
+//!Remove os nós de um grafo, auxiliar para a releitura de arquivos
+void Grafo::limparNos(){
+    while(noRaiz!=NULL){
+        removerNo(1);
+    }
+}
 
 //!Preenche o vetor pilha na ordem que os nós "morrem" na busca em profundidade
 void Grafo::ordenacaoTopologica(int v, bool visitados[], std::vector<int>& pilha)

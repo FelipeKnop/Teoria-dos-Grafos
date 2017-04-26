@@ -96,7 +96,7 @@ int main(int argc, const char *argv[])
             case 'a':
             case 'A': {
                 std::cout << "----------------------------" << std::endl;
-                std::cout << "1 - Ler arquivo" << std::endl;
+                std::cout << "1 - Reler arquivo de entrada" << std::endl;
                 std::cout << "2 - Salvar arquivo" << std::endl;
                 std::cout << "Escolha uma sub opera" << char(135) << char(198) << "o: ";
                 std::cin >> subOperacao;

@@ -96,6 +96,7 @@ class Grafo
         bfs* buscaLargura();
 
         //Auxiliares
+        void limparNos();
         void ordenacaoTopologica(int v, bool visitados[], std::vector<int>& pilha);
         void buscaProfundidadeImprimindo(int v, bool visitados[]);
         void reordenaIds();
