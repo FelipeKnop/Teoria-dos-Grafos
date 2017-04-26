@@ -33,9 +33,9 @@ int main(int argc, const char *argv[])
 
     for (;;) {
         char operacao, subOperacao;
-        std::cout<<"ATENÇÃO: Os ids de um nó são incrementados e regulados automaticamente (estando sempre entre 1 e a ordem do grafo)."<<std::endl;
-        std::cout<<"Para descobrir em qual nó o seu dado está armazenado, use a função de imprimir grafo em @->2"<<std::endl;
-        std::cout<<"Todos os nós são aqui referenciados pelos seus ids"<<std::endl;
+        std::cout<<"ATEN" << char(128) << char(199) << "O: Os ids de um n" << char(162) << " s" << char(198) << "o incrementados e regulados automaticamente (estando sempre entre 1 e a ordem do grafo)."<<std::endl;
+        std::cout<<"Para descobrir em qual n" << char(162) << " o seu dado est" << char(160) <<" armazenado, use a fun" << char(135) << char(198) << "o de imprimir grafo em @->2"<<std::endl;
+        std::cout<<"Todos os n" << char(162) << "s s" << char(198) << "o aqui referenciados pelos seus ids"<<std::endl;
 
         std::cout << "@ - Opera" << char(135) << char(228) << "es extras" << std::endl;
         std::cout << "A - Leitura e escrita" << std::endl;
