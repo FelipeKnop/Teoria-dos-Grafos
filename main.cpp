@@ -4,6 +4,7 @@
 #include "Grafo.h"
 #include "No.h"
 #include "Adjacencia.h"
+#include "Test.h"
 
 
 int main(int argc, const char *argv[])
@@ -37,6 +38,7 @@ int main(int argc, const char *argv[])
         std::cout<<"Para descobrir em qual n" << char(162) << " o seu dado est" << char(160) <<" armazenado, use a fun" << char(135) << char(198) << "o de imprimir grafo em @->2"<<std::endl;
         std::cout<<"Todos os n" << char(162) << "s s" << char(198) << "o aqui referenciados pelos seus ids"<<std::endl;
 
+        std::cout << "# - Testes" << std::endl;
         std::cout << "@ - Opera" << char(135) << char(228) << "es extras" << std::endl;
         std::cout << "A - Leitura e escrita" << std::endl;
         std::cout << "B - Criar e remover n" << char(162) << "s e adjac" << char(136) << "ncias" << std::endl;
@@ -71,6 +73,35 @@ int main(int argc, const char *argv[])
             break;
 
         switch (operacao) {
+            case '#': {
+                std::cout << "1 - Gerar arquivo de resultados deste grafo" << std::endl;
+                std::cout << "2 - Comparar arquivos de resultados" << std::endl;
+                std::cout << "Escolha uma sub opera" << char(135) << char(198) << "o: ";
+                std::cin >> subOperacao;
+
+                switch (subOperacao) {
+                    case '1': {
+                        std::string nome;
+                        std::cout << "Nome do arquivo: ";
+                        std::cin >> nome;
+                        geraResultado(nome.c_str(), grafo);
+                        break;
+                    }
+                    case '2': {
+                        std::string nome1, nome2;
+                        std::cout << "Nome do arquivo 1: ";
+                        std::cin >> nome1;
+                        std::cout << "Nome do arquivo 2: ";
+                        std::cin >> nome2;
+                        if (!comparaResultado(nome1.c_str(), nome2.c_str()))
+                            std::cout << "Resultados diferentes entre os arquivos!" << std::endl;
+                        else
+                            std::cout << "Resultados iguais entre os arquivos!" << std::endl;
+                        break;
+                    }
+                }
+                break;
+            }
             case '@': {
                 std::cout << "----------------------------" << std::endl;
                 std::cout << "1 - Remover todas as adjac" << char(136) << "ncias" << std::endl;

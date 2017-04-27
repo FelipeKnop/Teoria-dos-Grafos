@@ -37,10 +37,12 @@
 		<Unit filename="include/Adjacencia.h" />
 		<Unit filename="include/Grafo.h" />
 		<Unit filename="include/No.h" />
+		<Unit filename="include/Test.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="src/Adjacencia.cpp" />
 		<Unit filename="src/Grafo.cpp" />
 		<Unit filename="src/No.cpp" />
+		<Unit filename="src/Test.cpp" />
 		<Extensions>
 			<code_completion />
 			<envvars />

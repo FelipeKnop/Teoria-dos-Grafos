@@ -76,3 +76,6 @@ O grauEntrada deve então permanecer 0 nos grafos não direcionados para a funç
 No::removerAdj()
 - [x] Precisa receber peso como parametro? -> precisa para identificar a adjacencia em multigrafos
     - [x] O mesmo vale para Grafo::removerAdj()
+
+Teste
+- [ ] Implementar teste da letra R
