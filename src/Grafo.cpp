@@ -473,7 +473,7 @@ std::vector<int> obtemCaminhoFloyd(int idOrigem, int idDestino, std::vector< std
 //! entre os dois nós e seu custo
 void Grafo::imprimeResultadoFloyd(int idOrigem, int idDestino) {
     std::pair<std::vector< std::vector<double> >,
-    std::vector< std::vector<int> > > matrizes = geraMatrizesFloyd();
+    std::vector< std::vector<int> > > matrizes = geraMatrizesFloyd(false);
 
     std::vector< std::vector<double> > distancias = matrizes.first;
     std::vector< std::vector<int> > next = matrizes.second;
@@ -498,7 +498,7 @@ void Grafo::imprimeResultadoFloyd(int idOrigem, int idDestino) {
 
 //! Utiliza o algoritmo de Floyd para gerar a matriz de distâncias e a que indica os caminhos
 std::pair< std::vector< std::vector<double> >,
-std::vector< std::vector<int> > > Grafo::geraMatrizesFloyd() {
+std::vector< std::vector<int> > > Grafo::geraMatrizesFloyd(bool ponderado) {
     int i, j, k, n = getOrdem();
 
     std::vector< std::vector<double> > distancias(n, std::vector<double>(n, std::numeric_limits<double>::infinity()));
@@ -509,7 +509,7 @@ std::vector< std::vector<int> > > Grafo::geraMatrizesFloyd() {
         while (adj != NULL) {
             int id1 = adj->getNoInicio()->getId();
             int id2 = adj->getNoFim()->getId();
-            distancias[id1 - 1][id2 - 1] = adj->getPeso();
+            distancias[id1 - 1][id2 - 1] = ponderado ? 1 : adj->getPeso();
             adj = adj->getProx();
         }
         aux = aux->getProx();
@@ -760,14 +760,13 @@ void Grafo::arestaPonte(){
     int numComponentes = numComponentesConexas();
     aux = noRaiz;
     int peso;
-    bool volta;
     while(aux!=NULL){
         adj = aux->getAdjRaiz();
         while(adj!=NULL){
             adjs.push_back(adj);
             adj = adj->getProx();
         }
-        for(int i=0;i<adjs.size();i++){
+        for(int i=0;i<static_cast<int>(adjs.size());i++){
             fim = adjs.at(i)->getNoFim();
             peso = adjs.at(i)->getPeso();
             aux->removerAdj(fim, peso);
@@ -790,7 +789,7 @@ void Grafo::imprimeRaioDiaCentPerif() {
     int i, j, n = getOrdem();
 
     std::pair< std::vector< std::vector<double> >,
-    std::vector< std::vector<int> > > matrizes = geraMatrizesFloyd();
+    std::vector< std::vector<int> > > matrizes = geraMatrizesFloyd(false);
 
     std::vector< std::vector<double> > distancias = matrizes.first;
     std::vector< std::vector<int> > next = matrizes.second;
@@ -838,12 +837,16 @@ void Grafo::imprimeRaioDiaCentPerif() {
 
     std::cout << "Raio: " << raio << std::endl;
     std::cout << "Di" << char(131) << "metro: " << diametro << std::endl;
+
     std::cout << "Centro: " << std::endl;
-    Grafo* sub1 = subInduzido(static_cast<int>(nosCentrais.size()), nosCentrais);
-    sub1->imprimeGrafo();
+    std::cout << "Id: " << nosCentrais.front() << std::endl;
+    for (std::vector<int>::iterator it = nosCentrais.begin() + 1; it != nosCentrais.end(); it++)
+        std::cout << ", Id: " << *it << std::endl;
+
     std::cout << "Periferia: " << std::endl;
-    Grafo* sub2 = subInduzido(static_cast<int>(nosPerifericos.size()), nosPerifericos);
-    sub2->imprimeGrafo();
+    std::cout << "Id: " << nosPerifericos.front() << std::endl;
+    for (std::vector<int>::iterator it = nosPerifericos.begin() + 1; it != nosPerifericos.end(); it++)
+        std::cout << ", Id: " << *it << std::endl;
 }
 
 //!y
@@ -867,11 +870,11 @@ Grafo* Grafo::AGM(){
     restantes.erase(restantes.begin());
     while(restantes.size()>0){
         minimo = 9999;
-        for(int i = 0;i<visitados.size();i++){
+        for(int i = 0;i<static_cast<int>(visitados.size());i++){
             aux = visitados.at(i);
             adj = aux->getAdjRaiz();
             while(adj!=NULL){
-                for(int j=0;j<restantes.size();j++){
+                for(int j=0;j<static_cast<int>(restantes.size());j++){
                     if(adj->getNoFim()==restantes.at(j)){
                         if(adj->getPeso()<minimo){
                             minimo = adj->getPeso();

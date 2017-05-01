@@ -65,7 +65,7 @@ class Grafo
         std::pair< std::vector<double>, std::vector<int> > menorCaminhoDijkstra(int idOrigem, int idDestino);
         void imprimeResultadoFloyd(int idOrigem, int idDestino);
         std::pair< std::vector< std::vector<double> >,
-            std::vector< std::vector<int> > > geraMatrizesFloyd();
+            std::vector< std::vector<int> > > geraMatrizesFloyd(bool ponderado);
         //n
         int calculaGrau();
         //o
