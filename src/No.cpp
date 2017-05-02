@@ -43,7 +43,9 @@ void No::adicionarAdj(No* destino, int peso){
 void No::removerAdj(No* destino, int peso){
     Adjacencia* aux = adjRaiz;
     if(aux == NULL) return;
+
     if(aux->getNoFim() == destino && aux->getPeso() == peso){
+        if(aux==ultimaAdj) ultimaAdj = aux->getProx();
         adjRaiz = aux->getProx();
         delete aux;
         grau--;
@@ -51,6 +53,7 @@ void No::removerAdj(No* destino, int peso){
         while(aux->getProx()!=NULL && aux->getProx()->getNoFim() != destino && aux->getProx()->getPeso() != peso)
             aux = aux->getProx();
         if(aux->getProx()!=NULL){
+            if(aux->getProx() == ultimaAdj) ultimaAdj = aux;
             Adjacencia* lixo = aux->getProx();
             aux->setProx(lixo->getProx());
             delete lixo;
@@ -66,6 +69,7 @@ void No::removerAdjs(No* destino){
     Adjacencia* aux = adjRaiz;
     if(aux == NULL) return;
     if(aux->getNoFim() == destino){
+        if(aux==ultimaAdj) ultimaAdj = aux->getProx();
         adjRaiz = aux->getProx();
         delete aux;
         grau--;
@@ -73,6 +77,7 @@ void No::removerAdjs(No* destino){
         while(aux->getProx()!=NULL && aux->getProx()->getNoFim() != destino)
             aux = aux->getProx();
         if(aux->getProx()!=NULL){
+            if(aux->getProx() == ultimaAdj) ultimaAdj = aux;
             Adjacencia* lixo = aux->getProx();
             aux->setProx(lixo->getProx());
             delete lixo;
