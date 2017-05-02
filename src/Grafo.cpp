@@ -16,7 +16,7 @@ Grafo::~Grafo()
 
 //! Ler um arquivo
 //! Função que lê o grafo de um arquivo
-bool Grafo::lerArquivo(const char *caminho)
+bool Grafo::lerArquivo(const char *caminho,int ponderado)
 {
     std::ifstream file(caminho);
 
@@ -33,8 +33,13 @@ bool Grafo::lerArquivo(const char *caminho)
     for (int i = 1; i <= ordem; i++)
         criarNo(i, i);
 
-    while (file >> noInicio >> noFim >> peso)
-        criarAdj(noInicio, noFim, peso);
+    if(ponderado==1){
+        while (file >> noInicio >> noFim >> peso)
+            criarAdj(noInicio, noFim, peso);
+    }else{
+        while (file >> noInicio >> noFim)
+            criarAdj(noInicio, noFim, 1);
+    }
 
     return true;
 }
@@ -42,19 +47,44 @@ bool Grafo::lerArquivo(const char *caminho)
 
 //! Salvar um arquivo
 //! Função que imprime o grafo em um arquivo
-void Grafo::salvarArquivo(const char *caminho)
+void Grafo::salvarArquivo(const char *caminho,int ponderado)
 {
     std::ofstream saida(caminho);
     saida << ordem << std::endl;
-
     No *aux = noRaiz;
-    while (aux != NULL) {
-        Adjacencia *aux2 = aux->getAdjRaiz();
-        while (aux2 != NULL) {
-            saida << aux->getId() << " " << aux2->getNoFim()->getId() << " " << aux2->getPeso() << std::endl;
-            aux2 = aux2->getProx();
+    Grafo* grafAux;
+    if(!direcionado){
+        grafAux = this->grafoReverso(); //Não vai fazer diferença, só quero uma cópia do grafo
+        aux = grafAux->getNo(1);
+    }
+    if(ponderado==1){
+        while (aux != NULL) {
+            Adjacencia *aux2 = aux->getAdjRaiz();
+            while (aux2 != NULL) {
+                saida << aux->getDado() << " " << aux2->getNoFim()->getDado() << " " << aux2->getPeso() << std::endl;
+                aux2 = aux2->getProx();
+            }
+            if(!direcionado){
+                int idLixo = aux->getId();
+                aux = aux->getProx();
+                grafAux->removerNo(idLixo);
+            }else
+                aux = aux->getProx();
         }
-        aux = aux->getProx();
+    }else{
+        while (aux != NULL) {
+            Adjacencia *aux2 = aux->getAdjRaiz();
+            while (aux2 != NULL) {
+                saida << aux->getDado() << " " << aux2->getNoFim()->getDado() << std::endl;
+                aux2 = aux2->getProx();
+            }
+            if(!direcionado){
+                int idLixo = aux->getId();
+                aux = aux->getProx();
+                grafAux->removerNo(idLixo);
+            }else
+                aux = aux->getProx();
+        }
     }
 }
 
@@ -858,7 +888,7 @@ Grafo* Grafo::AGM(){
     Grafo* subjacente = this->obterSubjacente();
     No* aux = subjacente->noRaiz;
     Adjacencia* adj;
-    Grafo* arvore = new Grafo(false);
+    Grafo* arvore = new Grafo(true);
     int minimo, noIniId, noDestId, noDestDado, noDestIndex;
     while(aux!=NULL){
         restantes.push_back(aux);

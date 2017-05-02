@@ -15,6 +15,12 @@ int main(int argc, const char *argv[])
     std::cout<< "2 - Grafo direcionado"<<std::endl;
     std::cin>>tipo;
 
+    int ponderado;
+    std::cout<<"Favor escolher o tipo do grafo:"<<std::endl;
+    std::cout<< "1 - Grafo ponderado"<<std::endl;
+    std::cout<< "2 - Grafo sem pesos nas arestas"<<std::endl;
+    std::cin>>ponderado;
+
     Grafo *grafo = new Grafo((tipo==1)?false:true);
 
     const char *arquivoEntrada = "grafo.txt";
@@ -27,7 +33,7 @@ int main(int argc, const char *argv[])
         arquivoSaida = argv[2];
     }
 
-    if (!grafo->lerArquivo(arquivoEntrada)) {
+    if (!grafo->lerArquivo(arquivoEntrada,ponderado)) {
         std::cout << "Arquivo n" << char(198) << "o encontrado!";
         return 0;
     }
@@ -134,11 +140,11 @@ int main(int argc, const char *argv[])
 
                 switch (subOperacao) {
                     case '1': {
-                        grafo->lerArquivo(arquivoEntrada);
+                        grafo->lerArquivo(arquivoEntrada,ponderado);
                         break;
                     }
                     case '2': {
-                        grafo->salvarArquivo(arquivoSaida);
+                        grafo->salvarArquivo(arquivoSaida,ponderado);
                         break;
                     }
                 }
@@ -476,7 +482,7 @@ int main(int argc, const char *argv[])
     //grafo->removerNo(1);
 
     //!Escrita
-    grafo->salvarArquivo(arquivoSaida);
+    grafo->salvarArquivo(arquivoSaida,ponderado);
 
     //!Informações
     grafo->informaOrdem();
