@@ -46,47 +46,6 @@ void geraResultado(const char *nome, Grafo* grafo) {
 
     int i, j, ordem = grafo->getOrdem();
 
-    for (i = 1; i <= ordem; i++) {
-        //c
-        grafo->informaGrauNo(i);
-
-        //d
-        if (grafo->verificaRegularidade(i))
-            std::cout << "Esse grafo " << char(130) << " " << i << "-regular" << std::endl;
-        else
-            std::cout <<"Esse grafo n" << char(198) << "o " << char(130) << " " << i << "-regular" << std::endl;
-
-        //h
-        Grafo *vizinhancaAberta = grafo->vizinhancaAberta(i);
-        vizinhancaAberta->imprimeGrafo();
-
-        //i
-        Grafo* vizinhancaFechada = grafo->vizinhancaFechada(i);
-        vizinhancaFechada->imprimeGrafo();
-
-        //o
-        std::vector<int> ftd = grafo->fechoTransitivoDireto(i);
-        for(j = 0; j < static_cast<int>(ftd.size()); j++){
-            std::cout<<ftd.at(j)<<" ";
-        }
-        std::cout<<std::endl;
-
-        //p
-        std::vector<int> fti = grafo->fechoTransitivoIndireto(i);
-        for(j = 0; j < static_cast<int>(fti.size()); j++){
-            std::cout<<fti.at(j)<<" ";
-        }
-        std::cout<<std::endl;
-
-        //m
-        for (j = 1; j <= ordem; j++) {
-            grafo->imprimeResultadoDijkstra(i, j);
-            grafo->imprimeResultadoFloyd(i, j);
-        }
-
-        //TODO: letra R
-    }
-
     //e
     std::cout << "Ordem do grafo: " << grafo->getOrdem() << std::endl;
 
@@ -173,6 +132,47 @@ void geraResultado(const char *nome, Grafo* grafo) {
             arvore2->criarAdj(nos2[i].pai, i+1, 1);
     }
     arvore2->imprimeGrafo();
+
+    for (i = 1; i <= ordem; i++) {
+        //c
+        grafo->informaGrauNo(i);
+
+        //d
+        if (grafo->verificaRegularidade(i))
+            std::cout << "Esse grafo " << char(130) << " " << i << "-regular" << std::endl;
+        else
+            std::cout <<"Esse grafo n" << char(198) << "o " << char(130) << " " << i << "-regular" << std::endl;
+
+        //h
+        Grafo *vizinhancaAberta = grafo->vizinhancaAberta(i);
+        vizinhancaAberta->imprimeGrafo();
+
+        //i
+        Grafo* vizinhancaFechada = grafo->vizinhancaFechada(i);
+        vizinhancaFechada->imprimeGrafo();
+
+        //o
+        std::vector<int> ftd = grafo->fechoTransitivoDireto(i);
+        for(j = 0; j < static_cast<int>(ftd.size()); j++){
+            std::cout<<ftd.at(j)<<" ";
+        }
+        std::cout<<std::endl;
+
+        //p
+        std::vector<int> fti = grafo->fechoTransitivoIndireto(i);
+        for(j = 0; j < static_cast<int>(fti.size()); j++){
+            std::cout<<fti.at(j)<<" ";
+        }
+        std::cout<<std::endl;
+
+        //m
+        for (j = 1; j <= ordem; j++) {
+            grafo->imprimeResultadoDijkstra(i, j);
+            grafo->imprimeResultadoFloyd(i, j);
+        }
+
+        //TODO: letra R
+    }
 
     freopen("CON", "w", stdout);
 }
