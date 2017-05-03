@@ -32,8 +32,8 @@ class Grafo
         Grafo(bool direcionado);
         ~Grafo();
         //a
-        bool lerArquivo(const char *caminho);
-        void salvarArquivo(const char *caminho);
+        bool lerArquivo(const char *caminho,int ponderado);
+        void salvarArquivo(const char *caminho,int ponderado);
         //b
         void criarNo(int dado);
         void criarNo(int id, int dado);
