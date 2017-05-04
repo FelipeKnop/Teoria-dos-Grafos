@@ -1252,7 +1252,7 @@ void Grafo::imprimeGrafo()
         std::cout << "Id " << aux->getId() << ", Label " << aux->getLabel() << ", Dado " << aux->getDado() << std::endl;
         Adjacencia* aux2 = aux->getAdjRaiz();
         while(aux2!=NULL){
-            std::cout<<"  |- Destino: " <<aux2->getNoFim()->getId()<<", Peso: "<<aux2->getPeso()<<std::endl;
+            std::cout<<"  |- Destino: " <<aux2->getNoFim()->getLabel()<<", Peso: "<<aux2->getPeso()<<std::endl;
             aux2 = aux2->getProx();
         }
         aux = aux->getProx();
