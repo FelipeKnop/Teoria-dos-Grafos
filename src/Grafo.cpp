@@ -70,7 +70,7 @@ void Grafo::salvarArquivo(const char *caminho)
         while (aux != NULL) {
             Adjacencia *aux2 = aux->getAdjRaiz();
             while (aux2 != NULL) {
-                saida << aux->getDado() << " " << aux2->getNoFim()->getDado() << " " << aux2->getPeso() << std::endl;
+                saida << aux->getLabel() << " " << aux2->getNoFim()->getLabel() << " " << aux2->getPeso() << std::endl;
                 aux2 = aux2->getProx();
             }
             if(!direcionado){
@@ -84,7 +84,7 @@ void Grafo::salvarArquivo(const char *caminho)
         while (aux != NULL) {
             Adjacencia *aux2 = aux->getAdjRaiz();
             while (aux2 != NULL) {
-                saida << aux->getDado() << " " << aux2->getNoFim()->getDado() << std::endl;
+                saida << aux->getLabel() << " " << aux2->getNoFim()->getLabel() << std::endl;
                 aux2 = aux2->getProx();
             }
             if(!direcionado){
