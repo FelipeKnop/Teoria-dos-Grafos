@@ -1280,7 +1280,19 @@ No* Grafo::getNo(int id)
     return auxGetNo(noRaiz,id);
 }
 
+int Grafo::idToDado(int id) {
+    No* aux = noRaiz;
+    while (aux != NULL)
+        if (aux->getId() == id)
+            return aux->getDado();
+}
 
+int Grafo::dadoToId(int dado) {
+    No* aux = noRaiz;
+    while (aux != NULL)
+        if (aux->getDado() == dado)
+            return aux->getId();
+}
 
 //! Gets e seters
 

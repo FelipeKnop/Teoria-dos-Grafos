@@ -111,6 +111,8 @@ class Grafo
         bool verificarSimples();
         bool verificarSelfLoop();
         No* getNo(int id);
+        int idToDado(int id);
+        int dadoToId(int dado);
         int getOrdem();
 
     private:
