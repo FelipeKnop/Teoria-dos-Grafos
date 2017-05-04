@@ -47,52 +47,64 @@ void geraResultado(const char *nome, Grafo* grafo) {
     int i, j, ordem = grafo->getOrdem();
 
     //e
+    std::cout << std::endl << "Executando letra E" << std::endl;
     std::cout << "Ordem do grafo: " << grafo->getOrdem() << std::endl;
 
     //f
+    std::cout << std::endl << "Executando letra F" << std::endl;
     grafo->informaTrivial();
 
     //g
+    std::cout << std::endl << "Executando letra G" << std::endl;
     grafo->informaNulo();
 
     //j
+    std::cout << std::endl << "Executando letra J" << std::endl;
     if (grafo->verificarMultigrafo())
         std::cout << "O grafo " << char(130) << " multigrafo" << std::endl;
     else
         std::cout << "O grafo n" << char(198) << "o " << char(130) << " multigrafo" << std::endl;
 
     //k
+    std::cout << std::endl << "Executando letra K" << std::endl;
     if (grafo->verificarCompleto())
         std::cout <<"Esse grafo " << char(130) << " " << "completo" << std::endl;
     else
         std::cout <<"Esse grafo n" << char(198) << "o " << char(130) << " " << "completo" << std::endl;
 
     //l
+    std::cout << std::endl << "Executando letra L" << std::endl;
     if (grafo->verificarBipartido())
         std::cout <<"Esse grafo " << char(130) << " " << "bipartido" << std::endl;
     else
         std::cout <<"Esse grafo n" << char(198) << "o " << char(130) << " " << "bipartido" << std::endl;
 
     //n
+    std::cout << std::endl << "Executando letra N" << std::endl;
     std::cout << "Grau do grafo: " << grafo->calculaGrau() << std::endl;
 
     //q
+    std::cout << std::endl << "Executando letra Q" << std::endl;
     grafo->apresentaSequenciaGraus();
 
     //s
+    std::cout << std::endl << "Executando letra S" << std::endl;
     Grafo* comp = grafo->obterComplementar();
     comp->imprimeGrafo();
 
     //t
+    std::cout << std::endl << "Executando letra T" << std::endl;
     grafo->componentesFortementeConexas(true);
 
     //u
+    std::cout << std::endl << "Executando letra U" << std::endl;
     if (grafo->verificarEuleriano())
         std::cout <<"Esse grafo " << char(130) << " " << "euleriano" << std::endl;
     else
         std::cout <<"Esse grafo n" << char(198) << "o " << char(130) << " " << "euleriano" << std::endl;
 
     //v
+    std::cout << std::endl << "Executando letra V" << std::endl;
     std::vector<int> articulacao = grafo->nosArticulacao();
 
     std::cout << "N" << char(162) << "s de articula" << char(135) << char(198) << "o: ";
@@ -101,16 +113,20 @@ void geraResultado(const char *nome, Grafo* grafo) {
     std::cout << std::endl;
 
     //w
+    std::cout << std::endl << "Executando letra W" << std::endl;
     grafo->arestaPonte();
 
     //x
+    std::cout << std::endl << "Executando letra X" << std::endl;
     grafo->imprimeRaioDiaCentPerif();
 
     //y
+    std::cout << std::endl << "Executando letra Y" << std::endl;
     Grafo* AGM = grafo->AGM();
     AGM->imprimeGrafo();
 
     //z
+    std::cout << std::endl << "Executando letra Z" << std::endl;
     dfs *nos = grafo->buscaProfundidade();
 
     Grafo *arvore = new Grafo(true, false);
@@ -141,23 +157,28 @@ void geraResultado(const char *nome, Grafo* grafo) {
 
     for (i = 1; i <= ordem; i++) {
         //c
+        std::cout << std::endl << "Executando letra C" << std::endl;
         grafo->informaGrauNo(i);
 
         //d
+        std::cout << std::endl << "Executando letra D" << std::endl;
         if (grafo->verificaRegularidade(i))
             std::cout << "Esse grafo " << char(130) << " " << i << "-regular" << std::endl;
         else
             std::cout <<"Esse grafo n" << char(198) << "o " << char(130) << " " << i << "-regular" << std::endl;
 
         //h
+        std::cout << std::endl << "Executando letra H" << std::endl;
         Grafo *vizinhancaAberta = grafo->vizinhancaAberta(i);
         vizinhancaAberta->imprimeGrafo();
 
         //i
+        std::cout << std::endl << "Executando letra I" << std::endl;
         Grafo* vizinhancaFechada = grafo->vizinhancaFechada(i);
         vizinhancaFechada->imprimeGrafo();
 
         //o
+        std::cout << std::endl << "Executando letra O" << std::endl;
         std::vector<int> ftd = grafo->fechoTransitivoDireto(i);
         for(j = 0; j < static_cast<int>(ftd.size()); j++){
             std::cout<<ftd.at(j)<<" ";
@@ -165,6 +186,7 @@ void geraResultado(const char *nome, Grafo* grafo) {
         std::cout<<std::endl;
 
         //p
+        std::cout << std::endl << "Executando letra P" << std::endl;
         std::vector<int> fti = grafo->fechoTransitivoIndireto(i);
         for(j = 0; j < static_cast<int>(fti.size()); j++){
             std::cout<<fti.at(j)<<" ";
@@ -172,6 +194,7 @@ void geraResultado(const char *nome, Grafo* grafo) {
         std::cout<<std::endl;
 
         //m
+        std::cout << std::endl << "Executando letra M" << std::endl;
         for (j = 1; j <= ordem; j++) {
             grafo->imprimeResultadoDijkstra(i, j);
             grafo->imprimeResultadoFloyd(i, j);
