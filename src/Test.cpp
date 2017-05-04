@@ -148,8 +148,8 @@ void geraResultado(const char *nome, Grafo* grafo) {
         arvore2->criarNo(nos2[i].label, nos2[i].distancia);
     for (i = 0; i < ordem; ++i) {
         if (nos2[i].pai != 0) {
-            No *noInicio = arvore->getNoPorLabel(nos2[i].pai);
-            No *noFim = arvore->getNoPorLabel(i+1);
+            No *noInicio = arvore2->getNoPorLabel(nos2[i].pai);
+            No *noFim = arvore2->getNoPorLabel(i+1);
             arvore2->criarAdj(noInicio, noFim, 1);
         }
     }
