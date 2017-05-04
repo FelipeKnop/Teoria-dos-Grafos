@@ -34,7 +34,7 @@ bool comparaResultado(const char *caminho1, const char *caminho2) {
 
     for (it1 = lines1.begin(), it2 = lines2.begin(); it1 != lines1.end() && it2 != lines2.end(); it1++, it2++)
         if (*it1 != *it2) {
-            std::cout << "Alguma linha dos arquivos é diferente" << std::endl;
+            std::cout << "Alguma linha dos arquivos ï¿½ diferente" << std::endl;
             return false;
         }
 
@@ -113,23 +113,29 @@ void geraResultado(const char *nome, Grafo* grafo) {
     //z
     dfs *nos = grafo->buscaProfundidade();
 
-    Grafo *arvore = new Grafo(true);
+    Grafo *arvore = new Grafo(true, false);
     for (i = 0; i < ordem; ++i)
-        arvore->criarNo(i+1, nos[i].menor);
+        arvore->criarNo(nos[i].label, nos[i].menor);
     for (i = 0; i < ordem; ++i) {
-        if (nos[i].pai != 0)
-            arvore->criarAdj(nos[i].pai, i+1, 1);
+        if (nos[i].pai != 0) {
+            No *noInicio = arvore->getNoPorLabel(nos[i].pai);
+            No *noFim = arvore->getNoPorLabel(i+1);
+            arvore->criarAdj(noInicio, noFim, 1);
+        }
     }
     arvore->imprimeGrafo();
 
     bfs *nos2 = grafo->buscaLargura();
 
-    Grafo *arvore2 = new Grafo(true);
+    Grafo *arvore2 = new Grafo(true, false);
     for (i = 0; i < ordem; ++i)
-        arvore2->criarNo(i+1, nos2[i].distancia);
+        arvore2->criarNo(nos2[i].label, nos2[i].distancia);
     for (i = 0; i < ordem; ++i) {
-        if (nos2[i].pai != 0)
-            arvore2->criarAdj(nos2[i].pai, i+1, 1);
+        if (nos2[i].pai != 0) {
+            No *noInicio = arvore->getNoPorLabel(nos2[i].pai);
+            No *noFim = arvore->getNoPorLabel(i+1);
+            arvore2->criarAdj(noInicio, noFim, 1);
+        }
     }
     arvore2->imprimeGrafo();
 

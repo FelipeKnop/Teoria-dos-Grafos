@@ -1,11 +1,12 @@
 #include "Grafo.h"
 
-Grafo::Grafo(bool direcionado)
+Grafo::Grafo(bool direcionado, bool ponderado)
 {
     noRaiz = NULL;
     ultimo = NULL;
     ordem = 0;
     this->direcionado = direcionado;
+    this->ponderado = ponderado;
 }
 
 Grafo::~Grafo()
@@ -15,8 +16,9 @@ Grafo::~Grafo()
 //!a
 
 //! Ler um arquivo
-//! Função que lê o grafo de um arquivo
-bool Grafo::lerArquivo(const char *caminho,int ponderado)
+//! Função que lê o grafo de um arquivo. Recebe o caminho do arquivo a ser lido
+//! e se o grafo é ponderado ou não.
+bool Grafo::lerArquivo(const char *caminho)
 {
     std::ifstream file(caminho);
 
@@ -27,18 +29,24 @@ bool Grafo::lerArquivo(const char *caminho,int ponderado)
     if(noRaiz!=NULL){
         limparNos();
     }
-    int ordem, noInicio, noFim, peso;
+    int ordem, labelNoInicio, labelNoFim, peso;
     file >> ordem;
 
     for (int i = 1; i <= ordem; i++)
         criarNo(i, i);
 
-    if(ponderado==1){
-        while (file >> noInicio >> noFim >> peso)
+    if (ponderado == 1) {
+        while (file >> labelNoInicio >> labelNoFim >> peso) {
+            No *noInicio = getNoPorLabel(labelNoInicio);
+            No *noFim = getNoPorLabel(labelNoFim);
             criarAdj(noInicio, noFim, peso);
-    }else{
-        while (file >> noInicio >> noFim)
+        }
+    } else {
+        while (file >> labelNoInicio >> labelNoFim) {
+            No *noInicio = getNoPorLabel(labelNoInicio);
+            No *noFim = getNoPorLabel(labelNoFim);
             criarAdj(noInicio, noFim, 1);
+        }
     }
 
     return true;
@@ -46,8 +54,9 @@ bool Grafo::lerArquivo(const char *caminho,int ponderado)
 
 
 //! Salvar um arquivo
-//! Função que imprime o grafo em um arquivo
-void Grafo::salvarArquivo(const char *caminho,int ponderado)
+//! Função que imprime o grafo em um arquivo. Recebe o caminho do arquivo que
+//! será salvo e se o grafo é ponderado ou não.
+void Grafo::salvarArquivo(const char *caminho)
 {
     std::ofstream saida(caminho);
     saida << ordem << std::endl;
@@ -55,7 +64,7 @@ void Grafo::salvarArquivo(const char *caminho,int ponderado)
     Grafo* grafAux;
     if(!direcionado){
         grafAux = this->grafoReverso(); //Não vai fazer diferença, só quero uma cópia do grafo
-        aux = grafAux->getNo(1);
+        aux = grafAux->getNoPorId(1);
     }
     if(ponderado==1){
         while (aux != NULL) {
@@ -65,9 +74,9 @@ void Grafo::salvarArquivo(const char *caminho,int ponderado)
                 aux2 = aux2->getProx();
             }
             if(!direcionado){
-                int idLixo = aux->getId();
+                int labelLixo = aux->getLabel();
                 aux = aux->getProx();
-                grafAux->removerNo(idLixo);
+                grafAux->removerNoPorLabel(labelLixo);
             }else
                 aux = aux->getProx();
         }
@@ -79,9 +88,9 @@ void Grafo::salvarArquivo(const char *caminho,int ponderado)
                 aux2 = aux2->getProx();
             }
             if(!direcionado){
-                int idLixo = aux->getId();
+                int labelLixo = aux->getLabel();
                 aux = aux->getProx();
-                grafAux->removerNo(idLixo);
+                grafAux->removerNoPorLabel(labelLixo);
             }else
                 aux = aux->getProx();
         }
@@ -93,23 +102,23 @@ void Grafo::salvarArquivo(const char *caminho,int ponderado)
 
 //! Criação de nós
 //! Função recebe um id e um dado e adiciona o nó na lista encadeada
-void Grafo::criarNo(int id, int dado)
-{
-    No *no = new No(id, dado);
-    if (noRaiz == NULL) {
-        noRaiz = no;
-        ultimo = no;
-    } else {
-        ultimo->setProx(no);
-        ultimo = no;
-    }
-    ordem++;
-}
+// void Grafo::criarNo(int id, int dado)
+// {
+//     No *no = new No(id, dado);
+//     if (noRaiz == NULL) {
+//         noRaiz = no;
+//         ultimo = no;
+//     } else {
+//         ultimo->setProx(no);
+//         ultimo = no;
+//     }
+//     ordem++;
+// }
 
 //! Função recebe um dado e adiciona o nó na lista encadeada, incrementando o id de acordo com a ordem
-void Grafo::criarNo(int dado)
+void Grafo::criarNo(int label, int dado)
 {
-    No *no = new No(ordem+1, dado);
+    No *no = new No(ordem+1, label, dado);
     if (noRaiz == NULL) {
         noRaiz = no;
         ultimo = no;
@@ -121,21 +130,22 @@ void Grafo::criarNo(int dado)
 }
 
 //! Remoção de nó
-//! Função que recebe um id e remove o nó correpondente
-void Grafo::removerNo(int id)
+//! Função que recebe uma label e remove o nó correpondente
+void Grafo::removerNoPorLabel(int label)
 {
     No *aux = noRaiz;
     if(aux == NULL) return;
 
-    removerTodasAdj(id);
+    No *no = getNoPorLabel(label);
+    removerTodasAdj(no);
 
-    if (aux->getId() == id) {
+    if (aux->getLabel() == label) {
         if(aux == ultimo) ultimo = aux->getProx();
         noRaiz = aux->getProx();
         delete aux;
         ordem--;
     } else {
-        while (aux->getProx() != NULL && aux->getProx()->getId() != id)
+        while (aux->getProx() != NULL && aux->getProx()->getLabel() != label)
             aux = aux->getProx();
 
         if (aux->getProx() != NULL) {
@@ -153,36 +163,33 @@ void Grafo::removerNo(int id)
 
 //! Criação de adjacência
 //! A função recebe dois ids e um peso para a aresta, e adiciona a adjacência em ambos os nós para o grafo não direcionado, ou apenas no primeiro para o direcionado
-bool Grafo::criarAdj(int idNoInicio, int idNoFim, int peso)
+bool Grafo::criarAdj(No *noInicio, No *noFim, int peso)
 {
-    No *no1 = getNo(idNoInicio), *no2 = getNo(idNoFim);
-
-    if (no1 == NULL || no2 == NULL)
+    if (noInicio == NULL || noFim == NULL)
         return false;
 
-    no1->adicionarAdj(no2, peso);
+    noInicio->adicionarAdj(noFim, peso);
     if (!direcionado)
-        no2->adicionarAdj(no1, peso);
+        noFim->adicionarAdj(noInicio, peso);
     else
-        no2->addGrauEntrada(1);
+        noFim->addGrauEntrada(1);
 
-    // std::cout << "Adjac" << char(136) << "ncia " << idNoInicio << "," << idNoFim << " n" << char(198) << "o p" << char(147) << "de ser criada!" << std::endl;
+    // std::cout << "Adjac" << char(136) << "ncia " << labelNoInicio << "," << labelNoFim << " n" << char(198) << "o p" << char(147) << "de ser criada!" << std::endl;
     return true;
 }
 
 
 //! Remoção de adjacencia
 //! A função recebe dois nós e o peso da aresta, e a remove devidamente do grafo, seja direcionado ou não
-void Grafo::removerAdj(int idNo1, int idNo2, int peso)
+void Grafo::removerAdj(No *noInicio, No *noFim, int peso)
 {
-    No *no1 = getNo(idNo1), *no2 = getNo(idNo2);
-    if (no1 != NULL && no2 != NULL)
+    if (noInicio != NULL && noFim != NULL)
     {
-        no1->removerAdj(no2, peso);
+        noInicio->removerAdj(noFim, peso);
         if (!direcionado)
-            no2->removerAdj(no1, peso);
+            noFim->removerAdj(noInicio, peso);
         else
-            no2->addGrauEntrada(-1);
+            noFim->addGrauEntrada(-1);
     }
 }
 
@@ -191,14 +198,14 @@ void Grafo::removerAdj(int idNo1, int idNo2, int peso)
 
 //! Informar grau de nó
 //! Função informa o grau de um nó em um grafo não direcionado, ou o grau de saída e entrada de um nó em um digrafo
-void Grafo::informaGrauNo(int idNo)
+void Grafo::informaGrauNo(int labelNo)
 {
-    No *no = getNo(idNo);
+    No *no = getNoPorLabel(labelNo);
     if (no != NULL) {
         if (!direcionado)
-            std::cout << "Grau do n" << char(162) << " " << idNo << ": " << no->getGrau() << std::endl;
+            std::cout << "Grau do n" << char(162) << " " << labelNo << ": " << no->getGrau() << std::endl;
         else
-            std::cout << "Grau de entrada do n" << char(162) << " " << idNo << ": " << no->getGrauEntrada() << ", grau de sa" << char(161) << "da: " << no->getGrau() << std::endl;
+            std::cout << "Grau de entrada do n" << char(162) << " " << labelNo << ": " << no->getGrauEntrada() << ", grau de sa" << char(161) << "da: " << no->getGrau() << std::endl;
     } else {
         std::cout << "N" << char(162) << " n" << char(198) << "o encontrado!" << std::endl;
     }
@@ -208,7 +215,8 @@ void Grafo::informaGrauNo(int idNo)
 //!d
 
 //! Verifica se o grafo é k-regular
-//! Percorre a lista encadeada buscando nós com grau diferente de k
+//! Percorre a lista encadeada buscando nós com grau diferente de k. Retorna
+//! true caso o grafo seja k-regular ou false caso contrário.
 bool Grafo::verificaRegularidade(int k)
 {
     No *aux = noRaiz;
@@ -267,9 +275,10 @@ void Grafo::informaNulo()
 //!h
 
 //! Gera a vizinhanca aberta de um nó
-Grafo* Grafo::vizinhancaAberta(int id)
+//! Recebe como parametro
+Grafo* Grafo::vizinhancaAberta(int label)
 {
-    No *aux = getNo(id);
+    No *aux = getNoPorId(label);
     Adjacencia *adj = aux->getAdjRaiz();
     std::vector<int> nos;
     int i = 0;
@@ -286,14 +295,14 @@ Grafo* Grafo::vizinhancaAberta(int id)
 
 
 //! Gera a vizinhanca fechada de um nó
-Grafo* Grafo::vizinhancaFechada(int id)
+Grafo* Grafo::vizinhancaFechada(int label)
 {
-    No *aux = getNo(id);
+    No *aux = getNoPorId(label);
     Adjacencia *adj = aux->getAdjRaiz();
     std::vector<int> nos;
     int i = 1;
     nos.reserve(i);
-    nos.push_back(id);
+    nos.push_back(aux->getId());
     while(adj != NULL) {
         i++;
         nos.resize(i);
@@ -455,7 +464,7 @@ std::pair< std::vector<double>, std::vector<int> > Grafo::menorCaminhoDijkstra(i
     std::vector<bool> sBarra(n,true);
     distancias[idOrigem - 1] = 0;
     sBarra[idOrigem - 1] = false;
-    No* aux = getNo(idOrigem);
+    No* aux = getNoPorId(idOrigem);
 
     std::vector< int > anterior(n,0);
     for (int i = 0; i<n;i++)
@@ -477,7 +486,7 @@ std::pair< std::vector<double>, std::vector<int> > Grafo::menorCaminhoDijkstra(i
         }
 
         int idMenor = noMenorDistancia(&distancias, n,&sBarra);
-        aux = getNo(idMenor);
+        aux = getNoPorId(idMenor);
 
     }
 
@@ -641,16 +650,16 @@ void Grafo::apresentaSequenciaGraus()
 //! Gera o subgrafo Induzido pelos nós informados
 Grafo* Grafo::subInduzido(int total, std::vector<int> &n){
     No *aux;
-    Grafo *grafo = new Grafo(true);
+    Grafo *grafo = new Grafo(true, true);
     Adjacencia *adj;
     int noId;
     for (int i = 0; i < total; i++) {
-        aux = getNo(n.at(i));
+        aux = getNoPorId(n.at(i));
         if (aux != NULL)
             grafo->criarNo(n.at(i), aux->getDado());
     }
     for (int i = 0; i < total; i++) {
-        aux = getNo(n.at(i));
+        aux = getNoPorId(n.at(i));
         if (aux != NULL)
         {
             adj = aux->getAdjRaiz();
@@ -658,7 +667,9 @@ Grafo* Grafo::subInduzido(int total, std::vector<int> &n){
                 noId = adj->getNoFim()->getId();
                 for (int k = 0; k < total; k++) {
                     if (noId == n.at(k)) {
-                        grafo->criarAdj(n.at(i), n.at(k), adj->getPeso());
+                        No *noInicio = grafo->getNoPorLabel(n.at(i));
+                        No *noFim = grafo->getNoPorLabel(n.at(k));
+                        grafo->criarAdj(noInicio, noFim, adj->getPeso());
                         break;
                     }
                 }
@@ -675,17 +686,20 @@ Grafo* Grafo::subInduzido(int total, std::vector<int> &n){
 //! Obter complementar
 //! Função retorna o complementar de um grafo
 Grafo* Grafo::obterComplementar(){
-    Grafo* comp = new Grafo(direcionado);
+    Grafo* comp = new Grafo(direcionado, ponderado);
     int n = getMaiorId();
-    for(int i=1;i<=n;i++){
-        if(getNo(i)!=NULL)
-            comp->criarNo(i,getNo(i)->getDado());
+    for (int i = 1 ; i <= n; i++) {
+        if(getNoPorId(i) != NULL)
+            comp->criarNo(i, getNoPorId(i)->getDado());
     }
     No* aux = noRaiz;
-    while(aux!=NULL){
-        for(int i = 1;i<=n;i++){
-            if(!aux->existeAdj(i))
-                comp->criarAdj(aux->getId(),i,0);
+    while(aux != NULL) {
+        for(int i = 1; i <= n; i++) {
+            if(!aux->existeAdj(i)) {
+                No *noInicio = comp->getNoPorLabel(aux->getId());
+                No *noFim = comp->getNoPorLabel(i);
+                comp->criarAdj(noInicio, noFim, 0);
+            }
         }
         aux = aux->getProx();
     }
@@ -780,7 +794,7 @@ std::vector<int> Grafo::nosArticulacao()
 }
 
 //!w
-//!Encontra as arestas ponte checando a remoção de quais arestas causaria um acréscimo no némero de componentes conexas,
+//!Encontra as arestas ponte checando a remoção de quais arestas causaria um acréscimo no número de componentes conexas,
 //!imprimindo os nós ligados pela aresta assim como seu peso
 void Grafo::arestaPonte(){
     No* aux;
@@ -804,8 +818,7 @@ void Grafo::arestaPonte(){
             {
                 std::cout << "ID1: "<<aux->getId() << "\tID2: "<<fim->getId() << "\tPeso: " << peso << std::endl;
             }
-            criarAdj(aux->getId(), fim->getId(), peso);
-
+            criarAdj(aux, fim, peso);
         }
         aux = aux->getProx();
         adjs.erase(adjs.begin(), adjs.end());
@@ -885,12 +898,12 @@ void Grafo::imprimeRaioDiaCentPerif() {
 
 Grafo* Grafo::AGM(){
     std::vector<No*> visitados, restantes;
-    Grafo* subjacente = this->obterSubjacente();
-    No* aux = subjacente->noRaiz;
-    Adjacencia* adj;
-    Grafo* arvore = new Grafo(true);
-    int minimo, noIniId, noDestId, noDestDado, noDestIndex;
-    while(aux!=NULL){
+    Grafo *subjacente = this->obterSubjacente();
+    No *aux = subjacente->noRaiz;
+    Adjacencia *adj;
+    Grafo *arvore = new Grafo(true, true);
+    int minimo, noIniLabel, noDestLabel, noDestDado, noDestIndex;
+    while (aux != NULL) {
         restantes.push_back(aux);
         aux = aux->getProx();
     }
@@ -898,18 +911,18 @@ Grafo* Grafo::AGM(){
     arvore->criarNo(aux->getId(), aux->getDado());
     visitados.push_back(restantes.at(0));
     restantes.erase(restantes.begin());
-    while(restantes.size()>0){
+    while (restantes.size() > 0) {
         minimo = 9999;
-        for(int i = 0;i<static_cast<int>(visitados.size());i++){
+        for (int i = 0; i < static_cast<int>(visitados.size()); i++) {
             aux = visitados.at(i);
             adj = aux->getAdjRaiz();
-            while(adj!=NULL){
-                for(int j=0;j<static_cast<int>(restantes.size());j++){
-                    if(adj->getNoFim()==restantes.at(j)){
-                        if(adj->getPeso()<minimo){
+            while (adj != NULL) {
+                for (int j = 0; j < static_cast<int>(restantes.size()); j++) {
+                    if (adj->getNoFim() == restantes.at(j)) {
+                        if (adj->getPeso() < minimo) {
                             minimo = adj->getPeso();
-                            noIniId = visitados.at(i)->getId();
-                            noDestId = restantes.at(j)->getId();
+                            noIniLabel = visitados.at(i)->getLabel();
+                            noDestLabel = restantes.at(j)->getLabel();
                             noDestDado = restantes.at(j)->getDado();
                             noDestIndex = j;
                         }
@@ -918,12 +931,16 @@ Grafo* Grafo::AGM(){
                 adj = adj->getProx();
             }
         }
-        if(minimo!=9999){
-            arvore->criarNo(noDestId, noDestDado);
-            arvore->criarAdj(noIniId, noDestId, minimo);
+        if(minimo != 9999) {
+            arvore->criarNo(noDestLabel, noDestDado);
+
+            No *noInicio = arvore->getNoPorLabel(noIniLabel);
+            No *noFim = arvore->getNoPorLabel(noDestLabel);
+            arvore->criarAdj(noInicio, noFim, minimo);
+
             visitados.push_back(restantes.at(noDestIndex));
             restantes.erase(restantes.begin()+noDestIndex);
-        }else{
+        } else {
             arvore->criarNo(restantes.at(0)->getId(), restantes.at(0)->getDado());
             visitados.push_back(restantes.at(0));
             restantes.erase(restantes.begin());
@@ -948,6 +965,7 @@ dfs* Grafo::buscaProfundidade()
 
     for (int i = 0; i < ordem; ++i) {
         visitados[i] = false;
+        nos[i].label = 0;
         nos[i].pai = 0;
         nos[i].descoberto = 0;
         nos[i].menor = 0;
@@ -959,22 +977,27 @@ dfs* Grafo::buscaProfundidade()
             buscaProfundidade(i+1, visitados, nos, &tempo);
     }
 
+    delete visitados;
+
     return nos;
 }
 
 //! Metódo auxilar para a recursão da busca em profundidade
 void Grafo::buscaProfundidade(int id, bool *visitados, dfs *nos, int *tempo)
 {
+    No *no = getNoPorId(id);
+
+    nos[id-1].label = no->getLabel();
     nos[id-1].descoberto = nos[id-1].menor = ++(*tempo);
     visitados[id-1] = true;
     int numFilhos = 0;
 
-    Adjacencia* aux = getNo(id)->getAdjRaiz();
+    Adjacencia* aux = no->getAdjRaiz();
     while (aux != NULL) {
         int idAux = aux->getNoFim()->getId();
 
         if (!visitados[idAux-1]) {
-            nos[idAux-1].pai = id;
+            nos[idAux-1].pai = nos[id-1].label;
             buscaProfundidade(idAux, visitados, nos, tempo);
 
             numFilhos++;
@@ -985,7 +1008,7 @@ void Grafo::buscaProfundidade(int id, bool *visitados, dfs *nos, int *tempo)
 
             if (nos[id-1].pai != 0 && nos[idAux-1].menor >= nos[id-1].descoberto)
                 nos[id-1].articulacao = true;
-        } else if (idAux != nos[id-1].pai) {
+        } else if (nos[idAux-1].label != nos[id-1].pai) {
             nos[id-1].menor = std::min(nos[id-1].menor, nos[idAux-1].descoberto);
         }
 
@@ -1008,6 +1031,7 @@ bfs* Grafo::buscaLargura()
 
     for (int i = 0; i < ordem; ++i) {
         visitados[i] = false;
+        nos[i].label = 0;
         nos[i].pai = 0;
         nos[i].descoberto = 0;
         nos[i].distancia = 0;
@@ -1021,14 +1045,17 @@ bfs* Grafo::buscaLargura()
         while (!fila.empty()) {
             int id = fila.front();
             fila.pop();
+
+            No *no = getNoPorId(id);
+            nos[id-1].label = no->getLabel();
             nos[id-1].descoberto = ++tempo;
 
-            Adjacencia* aux = getNo(id)->getAdjRaiz();
+            Adjacencia* aux = no->getAdjRaiz();
             while (aux != NULL) {
                 int idAux = aux->getNoFim()->getId();
 
                 if (!visitados[idAux-1]) {
-                    nos[idAux-1].pai = id;
+                    nos[idAux-1].pai = nos[id-1].label;
                     nos[idAux-1].distancia = nos[id-1].distancia + 1;
                     visitados[idAux-1] = true;
                     fila.push(idAux);
@@ -1048,7 +1075,7 @@ bfs* Grafo::buscaLargura()
 //!Remove os nós de um grafo, auxiliar para a releitura de arquivos
 void Grafo::limparNos(){
     while(noRaiz!=NULL){
-        removerNo(1);
+        removerNoPorLabel(noRaiz->getLabel());
     }
 }
 
@@ -1058,7 +1085,7 @@ void Grafo::ordenacaoTopologica(int v, bool visitados[], std::vector<int>& pilha
     // marca o vértice atual como visitado
     visitados[v-1] = true;
 
-    Adjacencia* aux = getNo(v)->getAdjRaiz();
+    Adjacencia* aux = getNoPorId(v)->getAdjRaiz();
     while(aux!=NULL){
         int destId = aux->getNoFim()->getId();
         if(visitados[destId-1] == false){
@@ -1077,10 +1104,10 @@ void Grafo::buscaProfundidadeImprimindo(int v, bool visitados[])
     visitados[v-1] = true;
 
     // imprime o vértice
-    std::cout<< std::endl<<"   | Id: "<<v<<", Dado: "<<getNo(v)->getDado();
+    std::cout<< std::endl<<"   | Id: "<<v<<", Dado: "<<getNoPorId(v)->getDado();
 
     // percorre os adjacentes de v
-    Adjacencia* aux = getNo(v)->getAdjRaiz();
+    Adjacencia* aux = getNoPorId(v)->getAdjRaiz();
     while(aux!=NULL){
         int destId = aux->getNoFim()->getId();
         if(visitados[destId-1] == false){
@@ -1105,17 +1132,19 @@ void Grafo::reordenaIds() {
 //! Função para obter subjacente do grafo
 Grafo* Grafo::obterSubjacente(){
     if(!direcionado) return this;
-    Grafo* subjacente = new Grafo(false);
+    Grafo* subjacente = new Grafo(false, true);
     int n = getMaiorId();
-    for(int i=1;i<=n;i++){
-        if(getNo(i)!=NULL)
-            subjacente->criarNo(i,getNo(i)->getDado());
+    for (int i = 1; i <= n; i++) {
+        if (getNoPorId(i) != NULL)
+            subjacente->criarNo(i, getNoPorId(i)->getDado());
     }
     No* aux = noRaiz;
     while(aux!=NULL){
         Adjacencia* aux2 = aux->getAdjRaiz();
         while(aux2!=NULL){
-            subjacente->criarAdj(aux->getId(),aux2->getNoFim()->getId(),aux2->getPeso());
+            No *noInicio = subjacente->getNoPorLabel(aux->getId());
+            No *noFim = subjacente->getNoPorLabel(aux2->getNoFim()->getId());
+            subjacente->criarAdj(noInicio, noFim, aux2->getPeso());
             aux2 = aux2->getProx();
         }
         aux = aux->getProx();
@@ -1125,17 +1154,19 @@ Grafo* Grafo::obterSubjacente(){
 }
 
 Grafo* Grafo::grafoReverso(){
-    Grafo* reverso = new Grafo(true);
+    Grafo* reverso = new Grafo(true, true);
     int n = getOrdem();
-    for(int i=1;i<=n;i++){
-        if(getNo(i)!=NULL)
-            reverso->criarNo(i,getNo(i)->getDado());
+    for (int i = 1; i <= n; i++) {
+        if (getNoPorId(i) != NULL)
+            reverso->criarNo(i, getNoPorId(i)->getDado());
     }
     No* aux = noRaiz;
-    while(aux!=NULL){
+    while(aux != NULL) {
         Adjacencia* aux2 = aux->getAdjRaiz();
-        while(aux2!=NULL){
-            reverso->criarAdj(aux2->getNoFim()->getId(),aux->getId(),aux2->getPeso());
+        while(aux2 != NULL) {
+            No *noInicio = reverso->getNoPorLabel(aux2->getNoFim()->getId());
+            No *noFim = reverso->getNoPorLabel(aux->getId());
+            reverso->criarAdj(noInicio, noFim, aux2->getPeso());
             aux2 = aux2->getProx();
         }
         aux = aux->getProx();
@@ -1174,7 +1205,7 @@ void Grafo::buscaProfundidade(int id, bool* visitados){
     }else{
         return;
     }
-    Adjacencia* aux = getNo(id)->getAdjRaiz();
+    Adjacencia* aux = getNoPorId(id)->getAdjRaiz();
     while(aux!=NULL){
         buscaProfundidade(aux->getNoFim()->getId(),visitados);
         aux = aux->getProx();
@@ -1196,10 +1227,9 @@ int Grafo::getMaiorId(){
 }
 
 
-//! Função que remove todas as adjacências com um determinado id. Complementa a remoção do nó.
-void Grafo::removerTodasAdj(int id)
+//! Função que remove todas as adjacências de um determinado nó. Complementa a remoção do nó.
+void Grafo::removerTodasAdj(No *remover)
 {
-    No *remover = getNo(id);
     if (remover == NULL) return;
 
     No* aux = noRaiz;
@@ -1217,9 +1247,9 @@ void Grafo::removerTodasAdj(int id)
 
 void Grafo::imprimeGrafo()
 {
-    No* aux = noRaiz;
-    while(aux!=NULL){
-        std::cout<<"Id " <<aux->getId()<<", Dado "<<aux->getDado()<<std::endl;
+    No *aux = noRaiz;
+    while (aux != NULL) {
+        std::cout << "Id " << aux->getId() << ", Label " << aux->getLabel() << ", Dado " << aux->getDado() << std::endl;
         Adjacencia* aux2 = aux->getAdjRaiz();
         while(aux2!=NULL){
             std::cout<<"  |- Destino: " <<aux2->getNoFim()->getId()<<", Peso: "<<aux2->getPeso()<<std::endl;
@@ -1267,31 +1297,32 @@ bool Grafo::verificarSelfLoop() {
 
 //! Obter Nó
 //! A função recebe um id e retorna um ponteiro para o nó correspondente.
-No* auxGetNo(No* no, int id)
+No* auxGetNoPorId(No* no, int id)
 {
     if(no == NULL) return NULL;
 
     if (no->getId() == id) return no;
-    else return auxGetNo(no->getProx(),id);
+    else return auxGetNoPorId(no->getProx(), id);
 }
 
-No* Grafo::getNo(int id)
+No* Grafo::getNoPorId(int id)
 {
-    return auxGetNo(noRaiz,id);
+    return auxGetNoPorId(noRaiz, id);
 }
 
-int Grafo::idToDado(int id) {
-    No* aux = noRaiz;
-    while (aux != NULL)
-        if (aux->getId() == id)
-            return aux->getDado();
+//! Obter Nó
+//! A função recebe uma label e retorna um ponteiro para o nó correspondente.
+No* auxGetNoPorLabel(No* no, int label)
+{
+    if(no == NULL) return NULL;
+
+    if (no->getLabel() == label) return no;
+    else return auxGetNoPorLabel(no->getProx(), label);
 }
 
-int Grafo::dadoToId(int dado) {
-    No* aux = noRaiz;
-    while (aux != NULL)
-        if (aux->getDado() == dado)
-            return aux->getId();
+No* Grafo::getNoPorLabel(int label)
+{
+    return auxGetNoPorLabel(noRaiz, label);
 }
 
 //! Gets e seters

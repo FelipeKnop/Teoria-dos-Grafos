@@ -1,5 +1,7 @@
+GrafosGrupo2.exe
+saida.txt
+
 bin
-GrafosGrupo3.exe
 *.o
 Grafos.layout
 *.depend

@@ -5,7 +5,7 @@
 class No
 {
     public:
-        No(int id, int dado);
+        No(int id, int label, int dado);
         ~No();
 
         void adicionarAdj(No* destino, int peso);
@@ -18,6 +18,7 @@ class No
         int getId();
         void setId(int id);
         int getDado();
+        int getLabel();
         No* getProx();
         void setProx(No* no);
         int getGrau();
@@ -34,6 +35,7 @@ class No
         Adjacencia* ultimaAdj;
         int id;
         int dado;
+        int label;
         No* prox;
 
         //descritores:

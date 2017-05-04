@@ -1,9 +1,10 @@
 #include "No.h"
 
-No::No(int id, int dado)
+No::No(int id, int label, int dado)
 {
     this->id = id;
     this->dado = dado;
+    this->label = label;
     prox = NULL;
     adjRaiz = NULL;
     ultimaAdj = NULL;
@@ -158,9 +159,14 @@ int No::getDado(){
     return dado;
 }
 
+int No::getLabel(){
+    return label;
+}
+
 No* No::getProx(){
     return prox;
 }
+
 void No::setProx(No* no){
     prox = no;
 }

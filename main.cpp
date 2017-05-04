@@ -21,7 +21,7 @@ int main(int argc, const char *argv[])
     std::cout<< "2 - Grafo sem pesos nas arestas"<<std::endl;
     std::cin>>ponderado;
 
-    Grafo *grafo = new Grafo((tipo==1)?false:true);
+    Grafo *grafo = new Grafo((tipo==1)?false:true, (ponderado==1)?true:false);
 
     const char *arquivoEntrada = "grafo.txt";
     const char *arquivoSaida = "saida.txt";
@@ -33,16 +33,13 @@ int main(int argc, const char *argv[])
         arquivoSaida = argv[2];
     }
 
-    if (!grafo->lerArquivo(arquivoEntrada,ponderado)) {
+    if (!grafo->lerArquivo(arquivoEntrada)) {
         std::cout << "Arquivo n" << char(198) << "o encontrado!";
         return 0;
     }
 
     for (;;) {
         char operacao, subOperacao;
-        std::cout<<"ATEN" << char(128) << char(199) << "O: Os ids de um n" << char(162) << " s" << char(198) << "o incrementados e regulados automaticamente (estando sempre entre 1 e a ordem do grafo)."<<std::endl;
-        std::cout<<"Para descobrir em qual n" << char(162) << " o seu dado est" << char(160) <<" armazenado, use a fun" << char(135) << char(198) << "o de imprimir grafo em @->2"<<std::endl;
-        std::cout<<"Todos os n" << char(162) << "s s" << char(198) << "o aqui referenciados pelos seus ids"<<std::endl;
 
         std::cout << "# - Testes" << std::endl;
         std::cout << "@ - Opera" << char(135) << char(228) << "es extras" << std::endl;
@@ -117,10 +114,11 @@ int main(int argc, const char *argv[])
 
                 switch (subOperacao) {
                     case '1': {
-                        int id;
-                        std::cout << "[id]: ";
-                        std::cin >> id;
-                        grafo->removerTodasAdj(id);
+                        int label;
+                        std::cout << "[label]: ";
+                        std::cin >> label;
+                        No *no = grafo->getNoPorLabel(label);
+                        grafo->removerTodasAdj(no);
                         break;
                     }
                     case '2': {
@@ -140,11 +138,11 @@ int main(int argc, const char *argv[])
 
                 switch (subOperacao) {
                     case '1': {
-                        grafo->lerArquivo(arquivoEntrada,ponderado);
+                        grafo->lerArquivo(arquivoEntrada);
                         break;
                     }
                     case '2': {
-                        grafo->salvarArquivo(arquivoSaida,ponderado);
+                        grafo->salvarArquivo(arquivoSaida);
                         break;
                     }
                 }
@@ -163,31 +161,37 @@ int main(int argc, const char *argv[])
 
                 switch (subOperacao) {
                     case '1': {
-                        int dado;
-                        std::cout << "[dado numerico a ser armazenado]: ";
-                        std::cin >> dado;
-                        grafo->criarNo(dado);
+                        int label, dado;
+                        std::cout << "[label, dado numerico a ser armazenado]: ";
+                        std::cin >> label >> dado;
+                        grafo->criarNo(label, dado);
                         break;
                     }
                     case '2': {
-                        int idNoInicio, idNoFim, peso;
-                        std::cout << "[idNoInicio, idNoFim, peso]: ";
-                        std::cin >> idNoInicio >> idNoFim >> peso;
-                        grafo->criarAdj(idNoInicio, idNoFim, peso);
+                        int labelNoInicio, labelNoFim, peso;
+                        std::cout << "[labelNoInicio, labelNoFim, peso]: ";
+                        std::cin >> labelNoInicio >> labelNoFim >> peso;
+
+                        No *noInicio = grafo->getNoPorLabel(labelNoInicio);
+                        No *noFim = grafo->getNoPorLabel(labelNoFim);
+                        grafo->criarAdj(noInicio, noFim, peso);
                         break;
                     }
                     case '3': {
-                        int id;
-                        std::cout << "[id]: ";
-                        std::cin >> id;
-                        grafo->removerNo(id);
+                        int label;
+                        std::cout << "[label]: ";
+                        std::cin >> label;
+                        grafo->removerNoPorLabel(label);
                         break;
                     }
                     case '4': {
-                        int idNoInicio, idNoFim, peso;
-                        std::cout << "[idNoInicio, idNoFim, peso]: ";
-                        std::cin >> idNoInicio >> idNoFim >> peso;
-                        grafo->removerAdj(idNoInicio, idNoFim, peso);
+                        int labelNoInicio, labelNoFim, peso;
+                        std::cout << "[labelNoInicio, labelNoFim, peso]: ";
+                        std::cin >> labelNoInicio >> labelNoFim >> peso;
+
+                        No *noInicio = grafo->getNoPorLabel(labelNoInicio);
+                        No *noFim = grafo->getNoPorLabel(labelNoFim);
+                        grafo->removerAdj(noInicio, noFim, peso);
                         break;
                     }
                 }
@@ -197,10 +201,10 @@ int main(int argc, const char *argv[])
             case 'c':
             case 'C': {
                 std::cout << "----------------------------" << std::endl;
-                int id;
-                std::cout << "[id]: ";
-                std::cin >> id;
-                grafo->informaGrauNo(id);
+                int label;
+                std::cout << "[label]: ";
+                std::cin >> label;
+                grafo->informaGrauNo(label);
                 break;
             }
             case 'd':
@@ -236,20 +240,20 @@ int main(int argc, const char *argv[])
             case 'h':
             case 'H': {
                 std::cout << "----------------------------" << std::endl;
-                int id;
-                std::cout << "[id]: ";
-                std::cin >> id;
-                Grafo *vizinhancaAberta = grafo->vizinhancaAberta(id);
+                int label;
+                std::cout << "[label]: ";
+                std::cin >> label;
+                Grafo *vizinhancaAberta = grafo->vizinhancaAberta(label);
                 vizinhancaAberta->imprimeGrafo();
                 break;
             }
             case 'i':
             case 'I': {
                 std::cout << "----------------------------" << std::endl;
-                int id;
-                std::cout << "[id]: ";
-                std::cin >> id;
-                Grafo* vizinhancaFechada = grafo->vizinhancaFechada(id);
+                int label;
+                std::cout << "[label]: ";
+                std::cin >> label;
+                Grafo* vizinhancaFechada = grafo->vizinhancaFechada(label);
                 vizinhancaFechada->imprimeGrafo();
                 break;
             }
@@ -283,19 +287,19 @@ int main(int argc, const char *argv[])
             case 'm':
             case 'M': {
                 std::cout << "----------------------------" << std::endl;
-                int idOrigem, idDestino;
-                std::cout << "[idOrigem]: ";
-                std::cin >> idOrigem;
-                std::cout << "[idDestino]: ";
-                std::cin >> idDestino;
+                int labelOrigem, labelDestino;
+                std::cout << "[labelOrigem]: ";
+                std::cin >> labelOrigem;
+                std::cout << "[labelDestino]: ";
+                std::cin >> labelDestino;
 
-                if (idOrigem == idDestino) {
-                    std::cout << "Digite ids diferentes" << std::endl;
+                if (labelOrigem == labelDestino) {
+                    std::cout << "Digite labels diferentes" << std::endl;
                     break;
                 }
 
-                if (grafo->getNo(idOrigem) == NULL || grafo->getNo(idDestino) == NULL) {
-                    std::cout << "Digite somente o id de n" << char(162) << "s que existem" << std::endl;
+                if (grafo->getNoPorId(labelOrigem) == NULL || grafo->getNoPorId(labelDestino) == NULL) {
+                    std::cout << "Digite somente o label de n" << char(162) << "s que existem" << std::endl;
                     break;
                 }
 
@@ -304,6 +308,8 @@ int main(int argc, const char *argv[])
                 std::cout << "Escolha uma sub opera" << char(135) << char(198) << "o: ";
                 std::cin >> subOperacao;
 
+                int idOrigem = grafo->getNoPorLabel(labelOrigem)->getId();
+                int idDestino = grafo->getNoPorLabel(labelDestino)->getId();
                 switch (subOperacao) {
                     case '1': {
                         grafo->imprimeResultadoDijkstra(idOrigem, idDestino);
@@ -325,10 +331,12 @@ int main(int argc, const char *argv[])
             case 'o':
             case 'O': {
                 std::cout << "----------------------------" << std::endl;
-                int id;
-                std::cout << "[id]: ";
-                std::cin >> id;
+                int label;
+                std::cout << "[label]: ";
+                std::cin >> label;
                 std::cout<<std::endl;
+
+                int id = grafo->getNoPorLabel(label)->getId();
                 std::vector<int> ftd = grafo->fechoTransitivoDireto(id);
                 for(int i = 0; i < static_cast<int>(ftd.size()); i++){
                     std::cout<<ftd.at(i)<<" ";
@@ -339,10 +347,12 @@ int main(int argc, const char *argv[])
             case 'p':
             case 'P': {
                 std::cout << "----------------------------" << std::endl;
-                int id;
-                std::cout << "[id]: ";
-                std::cin >> id;
+                int label;
+                std::cout << "[label]: ";
+                std::cin >> label;
                 std::cout<<std::endl;
+
+                int id = grafo->getNoPorLabel(label)->getId();
                 std::vector<int> fti = grafo->fechoTransitivoIndireto(id);
                 for(int i = 0; i < static_cast<int>(fti.size()); i++){
                     std::cout<<fti.at(i)<<" ";
@@ -365,7 +375,7 @@ int main(int argc, const char *argv[])
 
                 int nos[numeroNos];
                 for (int i = 0; i < numeroNos; i++) {
-                    std::cout << "[id(" << i << ")]: ";
+                    std::cout << "[label(" << i << ")]: ";
                     std::cin >> nos[i];
                 }
 
@@ -440,13 +450,16 @@ int main(int argc, const char *argv[])
                     case '1': {
                         dfs *nos = grafo->buscaProfundidade();
 
-                        Grafo *arvore = new Grafo(true);
+                        Grafo *arvore = new Grafo(true, false);
                         for (int i = 0; i < ordem; ++i)
-                            arvore->criarNo(i+1, nos[i].menor);
+                            arvore->criarNo(nos[i].label, nos[i].menor);
                         for (int i = 0; i < ordem; ++i)
                         {
-                            if (nos[i].pai != 0)
-                                arvore->criarAdj(nos[i].pai, i+1, 1);
+                            if (nos[i].pai != 0) {
+                                No *noInicio = arvore->getNoPorLabel(nos[i].pai);
+                                No *noFim = arvore->getNoPorLabel(i+1);
+                                arvore->criarAdj(noInicio, noFim, 1);
+                            }
                         }
                         arvore->imprimeGrafo();
                         break;
@@ -454,13 +467,16 @@ int main(int argc, const char *argv[])
                     case '2': {
                         bfs *nos = grafo->buscaLargura();
 
-                        Grafo *arvore = new Grafo(true);
+                        Grafo *arvore = new Grafo(true, false);
                         for (int i = 0; i < ordem; ++i)
-                            arvore->criarNo(i+1, nos[i].distancia);
+                            arvore->criarNo(nos[i].label, nos[i].distancia);
                         for (int i = 0; i < ordem; ++i)
                         {
-                            if (nos[i].pai != 0)
-                                arvore->criarAdj(nos[i].pai, i+1, 1);
+                            if (nos[i].pai != 0) {
+                                No *noInicio = arvore->getNoPorLabel(nos[i].pai);
+                                No *noFim = arvore->getNoPorLabel(i+1);
+                                arvore->criarAdj(noInicio, noFim, 1);
+                            }
                         }
                         arvore->imprimeGrafo();
                         break;
@@ -482,7 +498,7 @@ int main(int argc, const char *argv[])
     //grafo->removerNo(1);
 
     //!Escrita
-    grafo->salvarArquivo(arquivoSaida,ponderado);
+    grafo->salvarArquivo(arquivoSaida);
 
     //!Informações
     grafo->informaOrdem();

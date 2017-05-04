@@ -1,18 +1,17 @@
-make.bat:
-- [x] Alterar nome do executável para 'grafosGrupoX' (X é numero do grupo)
-
-Grafo
-- [x] Alterar a ordem das funções para ficar igual entre '.h' e '.cpp'
+main
+- [ ] Criar função para gerar um grafo a partir de uma dfs/bfs (Usar na opção Z)
 
 Nó/Grafo
 - [ ] Tratar o dado do nó como o novo id (usamos o dado quando quisermos fazer referẽncia a um nó agora)
 Obs: Não alterar gets e sets atuais (não sabemos como isso pode influenciar no comportamento interno de algumas funções), criar novas funções auxiliares para obter Nó por dado, e só adaptar a entrada e saída das demais funções do grafo para se referir ao nó pelo dado.
 
-
 Grafo::lerArquivo()
 - [x] Limpar o grafo antes de inserir os novos nós
 - [ ] Permitir que a leitura crie um grafo não direcionado
     - [ ] Oferecer opção no menu para ser um grafo não direcionado
+
+Grafo::salvarArquivo()
+- [ ] 'grafAux' não possui valor caso o grafo seja direcionado
 
 Grafo::criarNo()
 - [x] ID do nó deve ser gerado automaticamente com base em quantos nós o grafo já possui
@@ -27,7 +26,7 @@ Grafo::informaGrauNo()
 Grafo::imprimeNos() -> imprimeGrafo()
 - [x] Não precisa usar recursividade
 
-Grafo::getNo()
+Grafo::getNoPorId()
 - [ ] Não precisa usar recursividade
 
 Grafo::informaOrdem()
@@ -62,7 +61,7 @@ Grafo::imprimeSubInduzido()
 
 Grafo::vizinhancaAberta()
 - [x] Gerar um outro grafo ao inves de imprimir
-- [x] É necessario usar std::vector? 
+- [x] É necessario usar std::vector?
 
 Grafo::vizinhancaFechada()
 - [x] Gerar um outro grafo ao inves de imprimir

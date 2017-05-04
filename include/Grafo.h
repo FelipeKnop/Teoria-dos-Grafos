@@ -13,6 +13,7 @@
 
 struct dfs
 {
+    int label;
     int pai;
     int descoberto;
     int menor;
@@ -21,6 +22,7 @@ struct dfs
 
 struct bfs
 {
+    int label;
     int pai;
     int descoberto;
     int distancia;
@@ -29,17 +31,17 @@ struct bfs
 class Grafo
 {
     public:
-        Grafo(bool direcionado);
+        Grafo(bool direcionado, bool ponderado);
         ~Grafo();
         //a
-        bool lerArquivo(const char *caminho,int ponderado);
-        void salvarArquivo(const char *caminho,int ponderado);
+        bool lerArquivo(const char *caminho);
+        void salvarArquivo(const char *caminho);
         //b
-        void criarNo(int dado);
-        void criarNo(int id, int dado);
-        void removerNo(int id);
-        bool criarAdj(int idNo1, int idNo2, int peso);
-        void removerAdj(int idNo1,int idNo2,int peso);
+        void criarNo(int label, int dado);
+        void removerNo(No *no);
+        void removerNoPorLabel(int label);
+        bool criarAdj(No *noInicio, No *noFim, int peso);
+        void removerAdj(No *noInicio, No *noFim, int peso);
         //c
         void informaGrauNo(int idNo);
         //d
@@ -105,18 +107,18 @@ class Grafo
         int numComponentesConexas();
         void buscaProfundidade(int id, bool* visitados);
         int getMaiorId();
-        void removerTodasAdj(int id);
+        void removerTodasAdj(No *no);
         void imprimeGrafo();
         void ordenaVetor(int *vet, int n);
         bool verificarSimples();
         bool verificarSelfLoop();
-        No* getNo(int id);
-        int idToDado(int id);
-        int dadoToId(int dado);
+        No* getNoPorId(int id);
+        No* getNoPorLabel(int label);
         int getOrdem();
 
     private:
         bool direcionado;
+        bool ponderado;
         No* noRaiz;
         No* ultimo;
         //descritores
