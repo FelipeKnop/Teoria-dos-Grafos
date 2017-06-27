@@ -10,6 +10,7 @@ No::No(int id, int label, int dado)
     ultimaAdj = NULL;
     grau = 0;
     grauEntrada = 0;
+    frequencia = -1;
     //ctor
 }
 
@@ -153,6 +154,15 @@ int No::getId(){
 
 void No::setId(int id) {
     this->id = id;
+}
+
+int No::getFrequencia()
+{
+    return frequencia;
+}
+
+void No::setFrequencia(int freq){
+    frequencia = freq;
 }
 
 int No::getDado(){

@@ -28,6 +28,13 @@ struct bfs
     int distancia;
 };
 
+typedef struct strNo{
+    int id;
+    int grau;
+    int label;
+    bool operator < (const strNo& s) const{ return grau<s.grau; } //define operador de comparacao
+}structNo;
+
 class Grafo
 {
     public:
@@ -52,6 +59,7 @@ class Grafo
         void informaTrivial();
         //g
         void informaNulo();
+        bool ehNulo();
         //h
         Grafo* vizinhancaAberta(int id);
         //i
@@ -96,6 +104,11 @@ class Grafo
         dfs* buscaProfundidade();
         void buscaProfundidade(int id, bool *visitados, dfs *nos, int *tempo);
         bfs* buscaLargura();
+        //Guloso final
+        void gulosoFrequencias();
+        void atualizaLC(std::vector<structNo> &LC, int i);
+        void defineFrequencia(int label, Grafo* subjacente);
+        std::vector<structNo> retornaNos();
 
         //Auxiliares
         void limparNos();

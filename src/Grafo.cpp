@@ -1,5 +1,5 @@
 #include "Grafo.h"
-
+#include<vector>
 Grafo::Grafo(bool direcionado, bool ponderado)
 {
     noRaiz = NULL;
@@ -268,6 +268,15 @@ void Grafo::informaNulo()
         std::cout << "O grafo " << char(130) << " nulo" << std::endl;
     } else {
         std::cout << "O grafo n" << char(198) << "o " << char(130) << " nulo" << std::endl;
+    }
+}
+//!Parecido mas com retorno bool
+bool Grafo::ehNulo()
+{
+    if (getOrdem() == 0 && calculaGrau() == 0) {
+        return true;
+    } else {
+        return false;
     }
 }
 
@@ -982,6 +991,78 @@ dfs* Grafo::buscaProfundidade()
     return nos;
 }
 
+//!Gulosos
+//!Note que a struct está definida em Grafo.h
+void Grafo::gulosoFrequencias(){
+    Grafo *subjacente = obterSubjacente(); //Para fazer o algoritmo sem considerar direções
+    std::vector<structNo> LC = subjacente->retornaNos(); //Retorna um vector da estrutura definida em Grafo.h
+    while(!LC.empty()){
+        std::sort(LC.begin(),LC.end()); //Usa o operador definido (na struct) para ordenar na ordem crescente por grau
+        std::reverse(LC.begin(), LC.end()); //Inverte a ordem
+        defineFrequencia(LC.at(0).label,subjacente); //Definir melhor essa função
+        subjacente->atualizaLC(LC,0); //remove o cara do indice i e atualiza o grau dos adjacentes
+    }
+}
+
+//Auxiliares para os gulosos:
+
+void Grafo::atualizaLC(std::vector<structNo> &LC,int i)
+{
+    No *no = getNoPorLabel(LC.at(i).label);
+    LC.erase(LC.begin()+i-1);
+    for(int j= 0;j<LC.size();j++){  //quem quiser pode colocar iterator aqui :P
+        int label = LC.at(j).label;
+        No* no2 = getNoPorLabel(label);
+        if(no2->existeAdj(no->getId())){
+            LC.at(j).grau--;
+        }
+    }
+}
+
+void Grafo::defineFrequencia(int label, Grafo* subjacente){
+    No* noReal;
+    if(direcionado) //subjacente != grafo
+        noReal = getNoPorLabel(label);
+
+    No* no = subjacente->getNoPorLabel(label);
+    Adjacencia* aux = no->getAdjRaiz();
+    int freq = 1;
+    while(aux!=NULL){
+        if(aux->getNoFim()->getFrequencia() == freq){
+            freq+=1; //Coloracao normal
+            aux = no->getAdjRaiz();
+        }
+        aux= aux->getProx();
+    }
+    no->setFrequencia(freq);
+
+    if(direcionado)
+        noReal->setFrequencia(freq);
+}
+
+
+std::vector<structNo> Grafo::retornaNos()
+{
+    std::vector<structNo> LC;
+    No* aux = noRaiz;
+    while(aux!=NULL){
+        structNo no;
+        no.grau = aux->getGrau();
+        no.id = aux->getId();
+        no.label = aux->getLabel();
+        LC.push_back(no);
+        aux = aux->getProx();
+    }
+    return LC;
+
+}
+
+
+
+
+
+
+
 //! Metódo auxilar para a recursão da busca em profundidade
 void Grafo::buscaProfundidade(int id, bool *visitados, dfs *nos, int *tempo)
 {
@@ -1136,14 +1217,14 @@ Grafo* Grafo::obterSubjacente(){
     int n = getMaiorId();
     for (int i = 1; i <= n; i++) {
         if (getNoPorId(i) != NULL)
-            subjacente->criarNo(i, getNoPorId(i)->getDado());
+            subjacente->criarNo(getNoPorId(i)->getLabel(), getNoPorId(i)->getDado());
     }
     No* aux = noRaiz;
     while(aux!=NULL){
         Adjacencia* aux2 = aux->getAdjRaiz();
         while(aux2!=NULL){
-            No *noInicio = subjacente->getNoPorLabel(aux->getId());
-            No *noFim = subjacente->getNoPorLabel(aux2->getNoFim()->getId());
+            No *noInicio = subjacente->getNoPorLabel(aux->getLabel());
+            No *noFim = subjacente->getNoPorLabel(aux2->getNoFim()->getLabel());
             subjacente->criarAdj(noInicio, noFim, aux2->getPeso());
             aux2 = aux2->getProx();
         }
@@ -1249,7 +1330,7 @@ void Grafo::imprimeGrafo()
 {
     No *aux = noRaiz;
     while (aux != NULL) {
-        std::cout << "Id " << aux->getId() << ", Label " << aux->getLabel() << ", Dado " << aux->getDado() << std::endl;
+        std::cout << "Id " << aux->getId() << ", Label " << aux->getLabel() << ", Dado " << aux->getDado() <<", Frequencia: "<<aux->getFrequencia()<< std::endl;
         Adjacencia* aux2 = aux->getAdjRaiz();
         while(aux2!=NULL){
             std::cout<<"  |- Destino: " <<aux2->getNoFim()->getLabel()<<", Peso: "<<aux2->getPeso()<<std::endl;

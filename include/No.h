@@ -17,6 +17,8 @@ class No
 
         int getId();
         void setId(int id);
+        int getFrequencia();
+        void setFrequencia(int freq);
         int getDado();
         int getLabel();
         No* getProx();
@@ -36,6 +38,7 @@ class No
         int id;
         int dado;
         int label;
+        int frequencia;
         No* prox;
 
         //descritores:

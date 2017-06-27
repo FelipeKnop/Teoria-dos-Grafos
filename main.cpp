@@ -487,6 +487,7 @@ int main(int argc, const char *argv[])
             }
 
             default:
+                grafo->gulosoFrequencias();
                 std::cout << "----------------------------" << std::endl;
                 std::cout << "Op" << char(135) << char(198) << "o inv" << char(160) << "lida!" << std::endl;
         }
