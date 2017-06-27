@@ -104,8 +104,9 @@ class Grafo
         dfs* buscaProfundidade();
         void buscaProfundidade(int id, bool *visitados, dfs *nos, int *tempo);
         bfs* buscaLargura();
-        //Guloso final
+        //!Guloso final
         void gulosoFrequencias();
+        //float calculaInterferenciaTotal()B uscar cada aresta e aplicar uma função de interferencia recebendo a frequencia das duas pontas. Mas qual é essa função de interferencia?
         void atualizaLC(std::vector<structNo> &LC, int i);
         void defineFrequencia(int label, Grafo* subjacente);
         std::vector<structNo> retornaNos();

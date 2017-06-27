@@ -999,6 +999,7 @@ void Grafo::gulosoFrequencias(){
     while(!LC.empty()){
         std::sort(LC.begin(),LC.end()); //Usa o operador definido (na struct) para ordenar na ordem crescente por grau
         std::reverse(LC.begin(), LC.end()); //Inverte a ordem
+        //Estou removendo o elemento no indice 0 aqui. Para o rendomizado é só sortear um indice entre 0 e fatoralpha*LC.size()
         defineFrequencia(LC.at(0).label,subjacente); //Definir melhor essa função
         subjacente->atualizaLC(LC,0); //remove o cara do indice i e atualiza o grau dos adjacentes
     }
@@ -1020,22 +1021,43 @@ void Grafo::atualizaLC(std::vector<structNo> &LC,int i)
 }
 
 void Grafo::defineFrequencia(int label, Grafo* subjacente){
+    //Obtem No:
     No* noReal;
     if(direcionado) //subjacente != grafo
         noReal = getNoPorLabel(label);
-
     No* no = subjacente->getNoPorLabel(label);
+
+    //Calcula frequencia:
     Adjacencia* aux = no->getAdjRaiz();
-    int freq = 1;
+    int freq;
+
+    std::vector<int> frequencias(14,0);//Quantos canais eu tenho?
     while(aux!=NULL){
-        if(aux->getNoFim()->getFrequencia() == freq){
-            freq+=1; //Coloracao normal
-            aux = no->getAdjRaiz();
+        int freqAdj = aux->getNoFim()->getFrequencia();
+        if(freqAdj!=-1){
+            frequencias[freqAdj-1]+=1;
         }
+        //if(aux->getNoFim()->getFrequencia() == freq){
+        //    freq+=1; //Coloracao normal
+        //    aux = no->getAdjRaiz();
+        //}
         aux= aux->getProx();
     }
-    no->setFrequencia(freq);
 
+    if(frequencias[0] == 0){
+        freq = 1;
+    }else if(frequencias[5] == 0){
+        freq = 6;
+    }else if(frequencias[10] == 0){
+        freq = 11;
+    }else{
+        freq =-1;
+        //O que podemos fazer aqui para definir a frequencia tendo em vista que temos um vetor indicando quandos adjacentes tem de cada frequencia?
+
+    }
+
+    //Defina frequencia:
+    no->setFrequencia(freq);
     if(direcionado)
         noReal->setFrequencia(freq);
 }
