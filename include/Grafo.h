@@ -10,6 +10,7 @@
 #include <limits>
 #include <utility>
 #include <algorithm>
+#define NUM_FREQ 14
 
 struct dfs
 {
@@ -38,6 +39,7 @@ typedef struct strNo{
 class Grafo
 {
     public:
+        float interferencias[NUM_FREQ][NUM_FREQ];
         Grafo(bool direcionado, bool ponderado);
         ~Grafo();
         //a
@@ -110,6 +112,8 @@ class Grafo
         void atualizaLC(std::vector<structNo> &LC, int i);
         void defineFrequencia(int label, Grafo* subjacente);
         std::vector<structNo> retornaNos();
+
+        float calcularInterferencia(int freq, int frequencias[14]);
 
         //Auxiliares
         void limparNos();

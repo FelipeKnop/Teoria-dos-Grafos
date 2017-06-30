@@ -1,5 +1,9 @@
 #include "Grafo.h"
 #include<vector>
+#include <cmath>
+#include <math.h>
+
+
 Grafo::Grafo(bool direcionado, bool ponderado)
 {
     noRaiz = NULL;
@@ -7,6 +11,20 @@ Grafo::Grafo(bool direcionado, bool ponderado)
     ordem = 0;
     this->direcionado = direcionado;
     this->ponderado = ponderado;
+    for(int i = 0;i<NUM_FREQ;i++){
+        for(int j = 0;j<NUM_FREQ;j++){
+            if(i==j) interferencias[i][j] = 100;
+            else if(abs(i-j)>4) interferencias[i][j] = 0;
+            else interferencias[i][j] = floor(exp(-abs(i-j))*100);
+        }
+    }
+
+    for(int i = 0;i<NUM_FREQ;i++){
+            std::cout<<std::endl;
+        for(int j =0; j<NUM_FREQ;j++){
+            std::cout<<interferencias[i][j]<<" \t";
+        }
+    }
 }
 
 Grafo::~Grafo()
@@ -1020,6 +1038,14 @@ void Grafo::atualizaLC(std::vector<structNo> &LC,int i)
     }
 }
 
+float Grafo::calcularInterferencia(int freq, int frequencias[14]){
+    float soma = 0;
+    for(int i = 0;i<NUM_FREQ;i++){
+        soma += interferencias[freq-1][i] * frequencias[i];
+    }
+    return soma;
+}
+
 void Grafo::defineFrequencia(int label, Grafo* subjacente){
     //Obtem No:
     No* noReal;
@@ -1031,7 +1057,11 @@ void Grafo::defineFrequencia(int label, Grafo* subjacente){
     Adjacencia* aux = no->getAdjRaiz();
     int freq;
 
-    std::vector<int> frequencias(14,0);//Quantos canais eu tenho?
+    //std::cout<<"Definicao de vetor:";
+    int frequencias[NUM_FREQ];
+    for(int i = 0;i<NUM_FREQ;i++) frequencias[i] = 0;
+    //std::vector<int> frequencias (NUM_FREQ ,0);//Quantos canais eu tenho?
+    //std::cout<<"OK";
     while(aux!=NULL){
         int freqAdj = aux->getNoFim()->getFrequencia();
         if(freqAdj!=-1){
@@ -1043,18 +1073,31 @@ void Grafo::defineFrequencia(int label, Grafo* subjacente){
         //}
         aux= aux->getProx();
     }
-
-    if(frequencias[0] == 0){
-        freq = 1;
-    }else if(frequencias[5] == 0){
-        freq = 6;
-    }else if(frequencias[10] == 0){
-        freq = 11;
-    }else{
+//    if(frequencias[0] == 0){
+//        freq = 1;
+//    }else if(frequencias[5] == 0){
+//        freq = 6;
+//    }else if(frequencias[10] == 0){
+//        freq = 11;
+//    }else{
         freq =-1;
-        //O que podemos fazer aqui para definir a frequencia tendo em vista que temos um vetor indicando quandos adjacentes tem de cada frequencia?
+        float menorFreq=INFINITY;
+        for(int i = 0;i<NUM_FREQ;i++){
+            //std::cout<<"ANTES DE CALCULAR";
+            float atual =calcularInterferencia(i+1,frequencias);
+            //std::cout<<atual<<" FOI CALCULADO -";
+            if(atual == 0){
+                //std::cout<<"cabou"<<i<<"-";
+                freq = i+1;
+                break;
+            }
+            if(atual<menorFreq){
+                freq = i+1;
+                menorFreq = atual;
+            }
+        }
 
-    }
+   // }
 
     //Defina frequencia:
     no->setFrequencia(freq);

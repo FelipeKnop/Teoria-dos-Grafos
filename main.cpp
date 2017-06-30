@@ -23,7 +23,7 @@ int main(int argc, const char *argv[])
 
     Grafo *grafo = new Grafo((tipo==1)?false:true, (ponderado==1)?true:false);
 
-    const char *arquivoEntrada = "grafo.txt";
+    const char *arquivoEntrada = "grafoT.txt";
     const char *arquivoSaida = "saida.txt";
 
     if (argc > 1) {
