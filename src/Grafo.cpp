@@ -1,6 +1,6 @@
 #include "Grafo.h"
-#include<vector>
-#include <cmath>
+#include <vector>
+#include <time.h>
 #include <math.h>
 
 
@@ -1016,6 +1016,25 @@ void Grafo::gulosoFrequencias(){
     }
 }
 
+void Grafo::gulosoRandomizadoFrequencias()
+{
+    Grafo *subjacente = obterSubjacente(); //Para fazer o algoritmo sem considerar direções
+    srand(time(NULL));
+    float alpha = 0.2;
+
+    std::vector<structNo> LC = subjacente->retornaNos(); //Retorna um vector da estrutura definida em Grafo.h
+    while(!LC.empty()) {
+        std::sort(LC.begin(),LC.end()); //Usa o operador definido (na struct) para ordenar na ordem crescente por grau
+        std::reverse(LC.begin(), LC.end()); //Inverte a ordem
+
+        int tamanho = round((LC.size() - 1) * alpha + 1);
+        int indice = round(rand() % tamanho);
+
+        defineFrequencia(LC.at(indice).label,subjacente);
+        subjacente->atualizaLC(LC,indice);
+    }
+}
+
 //Auxiliares para os gulosos:
 
 void Grafo::atualizaLC(std::vector<structNo> &LC,int i)
@@ -1196,9 +1215,10 @@ bfs* Grafo::buscaLargura()
     }
 
     for (int i = 0; i < ordem; ++i) {
-        if (!visitados[i])
+        if (!visitados[i]) {
             visitados[i] = true;
             fila.push(i+1);
+        }
 
         while (!fila.empty()) {
             int id = fila.front();

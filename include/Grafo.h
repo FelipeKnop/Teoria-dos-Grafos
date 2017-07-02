@@ -108,6 +108,7 @@ class Grafo
         bfs* buscaLargura();
         //!Guloso final
         void gulosoFrequencias();
+        void gulosoRandomizadoFrequencias();
         //float calculaInterferenciaTotal()B uscar cada aresta e aplicar uma fun��o de interferencia recebendo a frequencia das duas pontas. Mas qual � essa fun��o de interferencia?
         void atualizaLC(std::vector<structNo> &LC, int i);
         void defineFrequencia(int label, Grafo* subjacente);
