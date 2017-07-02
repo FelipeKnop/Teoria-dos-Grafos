@@ -18,13 +18,6 @@ Grafo::Grafo(bool direcionado, bool ponderado)
             else interferencias[i][j] = floor(exp(-abs(i-j))*100);
         }
     }
-
-    for(int i = 0;i<NUM_FREQ;i++){
-            std::cout<<std::endl;
-        for(int j =0; j<NUM_FREQ;j++){
-            std::cout<<interferencias[i][j]<<" \t";
-        }
-    }
 }
 
 Grafo::~Grafo()
@@ -1028,7 +1021,7 @@ void Grafo::gulosoFrequencias(){
 void Grafo::atualizaLC(std::vector<structNo> &LC,int i)
 {
     No *no = getNoPorLabel(LC.at(i).label);
-    LC.erase(LC.begin()+i-1);
+    LC.erase(LC.begin()+i);
     for(int j= 0;j<LC.size();j++){  //quem quiser pode colocar iterator aqui :P
         int label = LC.at(j).label;
         No* no2 = getNoPorLabel(label);
@@ -1405,6 +1398,15 @@ void Grafo::imprimeGrafo()
     }
 }
 
+void Grafo::imprimeInterferencias()
+{
+    for(int i = 0;i<NUM_FREQ;i++){
+        for(int j =0; j<NUM_FREQ;j++){
+            std::cout<<interferencias[i][j]<<" \t";
+        }
+        std::cout<<std::endl;
+    }
+}
 
 //! InsertionSort
 void Grafo::ordenaVetor(int *vet, int n)

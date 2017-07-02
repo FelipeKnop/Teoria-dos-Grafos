@@ -108,7 +108,7 @@ class Grafo
         bfs* buscaLargura();
         //!Guloso final
         void gulosoFrequencias();
-        //float calculaInterferenciaTotal()B uscar cada aresta e aplicar uma função de interferencia recebendo a frequencia das duas pontas. Mas qual é essa função de interferencia?
+        //float calculaInterferenciaTotal()B uscar cada aresta e aplicar uma funï¿½ï¿½o de interferencia recebendo a frequencia das duas pontas. Mas qual ï¿½ essa funï¿½ï¿½o de interferencia?
         void atualizaLC(std::vector<structNo> &LC, int i);
         void defineFrequencia(int label, Grafo* subjacente);
         std::vector<structNo> retornaNos();
@@ -127,6 +127,7 @@ class Grafo
         int getMaiorId();
         void removerTodasAdj(No *no);
         void imprimeGrafo();
+        void imprimeInterferencias();
         void ordenaVetor(int *vet, int n);
         bool verificarSimples();
         bool verificarSelfLoop();
