@@ -114,6 +114,7 @@ class Grafo
         std::vector<structNo> retornaNos();
 
         float calcularInterferencia(int freq, int frequencias[14]);
+        int calculaInterferenciaTotal();
 
         //Auxiliares
         void limparNos();

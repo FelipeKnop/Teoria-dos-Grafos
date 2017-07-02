@@ -1115,7 +1115,26 @@ std::vector<structNo> Grafo::retornaNos()
 
 }
 
+int Grafo::calculaInterferenciaTotal()
+{
+    int interferencia = 0;
 
+    No* no = noRaiz;
+    while(no!=NULL){
+        Adjacencia* adj = no->getAdjRaiz();
+        while(adj!=NULL){
+            interferencia += interferencias[adj->getNoInicio()->getFrequencia()-1]
+                                           [adj->getNoFim()->getFrequencia()-1];
+
+            adj = adj->getProx();
+        }
+        no = no->getProx();
+    }
+
+    // A adjacencia entre dois nó e contada duas vezes  (uma ida e uma volta) no
+    // grafo. Por isso a interferencia total precisa ser dividida por dois
+    return interferencia / 2;
+}
 
 
 

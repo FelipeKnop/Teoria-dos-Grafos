@@ -23,6 +23,7 @@ int main(int argc, const char *argv[])
     grafo->gulosoFrequencias();
 
     grafo->imprimeGrafo();
+    std::cout << "Interferencia total: " << grafo->calculaInterferenciaTotal() << std::endl;
 
     return 0;
 }
