@@ -108,14 +108,15 @@ class Grafo
         bfs* buscaLargura();
         //!Guloso final
         void gulosoFrequencias();
-        void gulosoRandomizadoFrequencias();
-        //float calculaInterferenciaTotal()B uscar cada aresta e aplicar uma fun��o de interferencia recebendo a frequencia das duas pontas. Mas qual � essa fun��o de interferencia?
+        int gulosoRandomizadoFrequencias(int numeroIteracoes);
+        int gulosoRandomizadoReativoFrequencias(int numeroIteracoes, int blocoInteracoes, int numAlphas);
         void atualizaLC(std::vector<structNo> &LC, int i);
         void defineFrequencia(int label, Grafo* subjacente);
         std::vector<structNo> retornaNos();
 
         float calcularInterferencia(int freq, int frequencias[14]);
         int calculaInterferenciaTotal();
+        void resetaFrequencias();
 
         //Auxiliares
         void limparNos();

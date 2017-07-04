@@ -1005,6 +1005,7 @@ dfs* Grafo::buscaProfundidade()
 //!Gulosos
 //!Note que a struct está definida em Grafo.h
 void Grafo::gulosoFrequencias(){
+    resetaFrequencias();
     Grafo *subjacente = obterSubjacente(); //Para fazer o algoritmo sem considerar direções
     std::vector<structNo> LC = subjacente->retornaNos(); //Retorna um vector da estrutura definida em Grafo.h
     while(!LC.empty()){
@@ -1016,23 +1017,113 @@ void Grafo::gulosoFrequencias(){
     }
 }
 
-void Grafo::gulosoRandomizadoFrequencias()
+int Grafo::gulosoRandomizadoFrequencias(int numeroIteracoes)
 {
     Grafo *subjacente = obterSubjacente(); //Para fazer o algoritmo sem considerar direções
-    srand(time(NULL));
     float alpha = 0.2;
+    int melhor = INT_MAX;
 
-    std::vector<structNo> LC = subjacente->retornaNos(); //Retorna um vector da estrutura definida em Grafo.h
-    while(!LC.empty()) {
-        std::sort(LC.begin(),LC.end()); //Usa o operador definido (na struct) para ordenar na ordem crescente por grau
-        std::reverse(LC.begin(), LC.end()); //Inverte a ordem
+    for (int i = 0; i < numeroIteracoes; ++i) {
+        resetaFrequencias();
+        std::vector<structNo> LC = subjacente->retornaNos(); //Retorna um vector da estrutura definida em Grafo.h
+        while(!LC.empty()) {
+            std::sort(LC.begin(),LC.end()); //Usa o operador definido (na struct) para ordenar na ordem crescente por grau
+            std::reverse(LC.begin(), LC.end()); //Inverte a ordem
 
-        int tamanho = round((LC.size() - 1) * alpha + 1);
-        int indice = round(rand() % tamanho);
+            int tamanho = round((LC.size() - 1) * alpha + 1);
+            int indice = round(rand() % tamanho);
 
-        defineFrequencia(LC.at(indice).label,subjacente);
-        subjacente->atualizaLC(LC,indice);
+            defineFrequencia(LC.at(indice).label,subjacente);
+            subjacente->atualizaLC(LC,indice);
+        }
+
+        int interferencia = calculaInterferenciaTotal();
+        if (interferencia < melhor)
+            melhor = interferencia;
+
+        // std::cout << "interferencia = " << interferencia << std::endl;
     }
+
+    return melhor;
+}
+
+int Grafo::gulosoRandomizadoReativoFrequencias(int numeroIteracoes, int blocoInteracoes, int numAlpha)
+{
+    Grafo *subjacente = obterSubjacente(); //Para fazer o algoritmo sem considerar direções
+
+    int melhor = INT_MAX;
+
+    float probAlpha[numAlpha];
+    int usoAlpha[numAlpha];
+    int resultadoAlpha[numAlpha];
+    for (int i = 0; i < numAlpha; ++i) {
+        probAlpha[i] = 1.0f / (float)numAlpha;
+        usoAlpha[i] = 0;
+        resultadoAlpha[i] = 0;
+    }
+
+    for (int i = 0; i < numeroIteracoes; ++i) {
+        resetaFrequencias();
+        // Sorteia alpha
+        int alphaSelecionado = 0;
+        float alphaAleatorio = (float)rand() / (float)RAND_MAX;
+        for (int j = 0; j < numAlpha; ++j) {
+            if (probAlpha[j] > alphaAleatorio) {
+                alphaSelecionado = j;
+                break;
+            }
+            alphaAleatorio -= probAlpha[j];
+        }
+        float alpha = (float)alphaSelecionado / (float)numAlpha;
+
+        std::vector<structNo> LC = subjacente->retornaNos(); //Retorna um vector da estrutura definida em Grafo.h
+        while(!LC.empty()) {
+            std::sort(LC.begin(),LC.end()); //Usa o operador definido (na struct) para ordenar na ordem crescente por grau
+            std::reverse(LC.begin(), LC.end()); //Inverte a ordem
+
+            int tamanho = round((LC.size() - 1) * alpha + 1);
+            int indice = round(rand() % tamanho);
+
+            defineFrequencia(LC.at(indice).label,subjacente);
+            subjacente->atualizaLC(LC,indice);
+        }
+
+        int interferencia = calculaInterferenciaTotal();
+        usoAlpha[alphaSelecionado] += 1;
+        resultadoAlpha[alphaSelecionado] += interferencia;
+
+        // std::cout << "alpha = " << alpha << std::endl;
+        // std::cout << "interferencia = " << interferencia << std::endl;
+        if (interferencia < melhor)
+            melhor = interferencia;
+
+        if ((i + 1) % blocoInteracoes == 0) {
+            // Atualiza alphas
+            float q[numAlpha];
+            float qTotal = 0;
+            // std::cout << "          melhor = " << melhor << std::endl;
+            for (int j = 0; j < numAlpha; ++j) {
+                if (usoAlpha[j] > 0)
+                    q[j] = (float)melhor / ((float)resultadoAlpha[j] / (float)usoAlpha[j]);
+                else
+                    q[j] = 1.0f;
+
+                qTotal += q[j];
+                // std::cout << "        q[" << j << "] = " << q[j] << std::endl;
+                // std::cout << "      uso[" << j << "] = " << usoAlpha[j] << std::endl;
+                // std::cout << "resultado[" << j << "] = " << resultadoAlpha[j] << std::endl;
+            }
+            for (int j = 0; j < numAlpha; ++j) {
+                probAlpha[j] = q[j] / qTotal;
+            }
+        }
+    }
+
+    // for (int j = 0; j < numAlpha; ++j) {
+    //     std::cout << "probAlpha[" << j << "] = " << probAlpha[j] << std::endl;
+    // }
+
+    return melhor;
 }
 
 //Auxiliares para os gulosos:
@@ -1153,6 +1244,15 @@ int Grafo::calculaInterferenciaTotal()
     // A adjacencia entre dois nó e contada duas vezes  (uma ida e uma volta) no
     // grafo. Por isso a interferencia total precisa ser dividida por dois
     return interferencia / 2;
+}
+
+void Grafo::resetaFrequencias()
+{
+    No* no = noRaiz;
+    while(no!=NULL){
+        no->setFrequencia(-1);
+        no = no->getProx();
+    }
 }
 
 
