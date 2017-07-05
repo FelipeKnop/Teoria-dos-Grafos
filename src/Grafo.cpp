@@ -11,11 +11,13 @@ Grafo::Grafo(bool direcionado, bool ponderado)
     ordem = 0;
     this->direcionado = direcionado;
     this->ponderado = ponderado;
-    for(int i = 0;i<NUM_FREQ;i++){
+    std::ifstream matrixInterf("interferencias.txt");
+     for(int i = 0;i<NUM_FREQ;i++){
         for(int j = 0;j<NUM_FREQ;j++){
-            if(i==j) interferencias[i][j] = 100;
-            else if(abs(i-j)>4) interferencias[i][j] = 0;
-            else interferencias[i][j] = floor(exp(-abs(i-j))*100);
+//            if(i==j) interferencias[i][j] = 100;
+//            else if(abs(i-j)>4) interferencias[i][j] = 0;
+//            else interferencias[i][j] = floor(exp(-abs(i-j))*100);
+            matrixInterf>>interferencias[i][j];
         }
     }
 }
@@ -1021,7 +1023,7 @@ int Grafo::gulosoRandomizadoFrequencias(int numeroIteracoes)
 {
     Grafo *subjacente = obterSubjacente(); //Para fazer o algoritmo sem considerar direções
     float alpha = 0.2;
-    int melhor = INT_MAX;
+    int melhor = INFINITY;
 
     for (int i = 0; i < numeroIteracoes; ++i) {
         resetaFrequencias();
@@ -1051,7 +1053,7 @@ int Grafo::gulosoRandomizadoReativoFrequencias(int numeroIteracoes, int blocoInt
 {
     Grafo *subjacente = obterSubjacente(); //Para fazer o algoritmo sem considerar direções
 
-    int melhor = INT_MAX;
+    int melhor = INFINITY;
 
     float probAlpha[numAlpha];
     int usoAlpha[numAlpha];
