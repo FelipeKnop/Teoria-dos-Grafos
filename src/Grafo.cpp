@@ -1006,6 +1006,12 @@ dfs* Grafo::buscaProfundidade()
 
 //!Gulosos
 //!Note que a struct está definida em Grafo.h
+
+//!Algoritmo guloso para a resolução do problema de atribuição de frequências.
+//!Prepara o grafo definindo frequência -1 para todos os nós, obtém o subjacente
+//!para desconsiderar a direção dos arcos e transformá-los em arestas e executa
+//!o fluxo básico de um algoritmo guloso (lista de candidatos, função critério
+//!e atualização da lista de candidatos).
 void Grafo::gulosoFrequencias(){
     resetaFrequencias();
     Grafo *subjacente = obterSubjacente(); //Para fazer o algoritmo sem considerar direções
@@ -1013,12 +1019,18 @@ void Grafo::gulosoFrequencias(){
     while(!LC.empty()){
         std::sort(LC.begin(),LC.end()); //Usa o operador definido (na struct) para ordenar na ordem crescente por grau
         std::reverse(LC.begin(), LC.end()); //Inverte a ordem
-        //Estou removendo o elemento no indice 0 aqui. Para o rendomizado é só sortear um indice entre 0 e fatoralpha*LC.size()
-        defineFrequencia(LC.at(0).label,subjacente); //Definir melhor essa função
-        subjacente->atualizaLC(LC,0); //remove o cara do indice i e atualiza o grau dos adjacentes
+
+        defineFrequencia(LC.at(0).label,subjacente);
+        subjacente->atualizaLC(LC,0); //remove o primeiro elemento e atualiza o grau dos adjacentes
     }
 }
 
+//!Algoritmo guloso randomizado para a resolução do problema de atribuição de frequências.
+//!Obtém o subjacente do grafo para desconsiderar a direção dos arcos e transformá-los em
+//!arestas, o prepara definindo frequência 1 para todos os nós e executa
+//!o fluxo básico de um algoritmo guloso randomizado(lista de candidatos, função critério,
+//!seleção aleatória baseada no alfa de um elemento da lista de candidatos
+//!e atualização da lista de candidatos).
 int Grafo::gulosoRandomizadoFrequencias(int numeroIteracoes, float alpha)
 {
     Grafo *subjacente = obterSubjacente(); //Para fazer o algoritmo sem considerar direções
@@ -1035,19 +1047,26 @@ int Grafo::gulosoRandomizadoFrequencias(int numeroIteracoes, float alpha)
             int indice = round(rand() % tamanho);
 
             defineFrequencia(LC.at(indice).label,subjacente);
-            subjacente->atualizaLC(LC,indice);
+            subjacente->atualizaLC(LC,indice); //remove o elemento da posicao indice e atualiza o grau dos adjacentes
         }
 
         int interferencia = calculaInterferenciaTotal();
         if (interferencia < melhor)
             melhor = interferencia;
-
-        // std::cout << "interferencia = " << interferencia << std::endl;
     }
 
     return melhor;
 }
 
+//!Algoritmo guloso randomizado reativo para a resolução do problema de atribuição de frequências.
+//!Obtém o subjacente do grafo para desconsiderar a direção dos arcos e transformá-los em
+//!arestas, inicia o conjunto de probabilidades de acordo com o parâmetro numAlpha e distribui
+//!igualmente valores de 0 a 1 para cada alpha, prepara o grafo definindo frequência 1 para
+//!todos os nós e executa
+//!o fluxo básico de um algoritmo guloso randomizado reativo(seleção de um alpha baseado na
+//!probabilidade definida para cada um, lista de candidatos, função critério,
+//!seleção aleatória baseada no alfa de um elemento da lista de candidatos
+//!e atualização da lista de candidatos).
 int Grafo::gulosoRandomizadoReativoFrequencias(int numeroIteracoes, int blocoInteracoes, int numAlpha)
 {
     Grafo *subjacente = obterSubjacente(); //Para fazer o algoritmo sem considerar direções
@@ -1093,8 +1112,6 @@ int Grafo::gulosoRandomizadoReativoFrequencias(int numeroIteracoes, int blocoInt
         usoAlpha[alphaSelecionado] += 1;
         resultadoAlpha[alphaSelecionado] += interferencia;
 
-        // std::cout << "alpha = " << alpha << std::endl;
-        // std::cout << "interferencia = " << interferencia << std::endl;
         if (interferencia < melhor)
             melhor = interferencia;
 
@@ -1102,7 +1119,6 @@ int Grafo::gulosoRandomizadoReativoFrequencias(int numeroIteracoes, int blocoInt
             // Atualiza alphas
             float q[numAlpha];
             float qTotal = 0;
-            // std::cout << "          melhor = " << melhor << std::endl;
             for (int j = 0; j < numAlpha; ++j) {
                 if (usoAlpha[j] > 0)
                     q[j] = (float)melhor / ((float)resultadoAlpha[j] / (float)usoAlpha[j]);
@@ -1110,9 +1126,6 @@ int Grafo::gulosoRandomizadoReativoFrequencias(int numeroIteracoes, int blocoInt
                     q[j] = 1.0f;
 
                 qTotal += q[j];
-                // std::cout << "        q[" << j << "] = " << q[j] << std::endl;
-                // std::cout << "      uso[" << j << "] = " << usoAlpha[j] << std::endl;
-                // std::cout << "resultado[" << j << "] = " << resultadoAlpha[j] << std::endl;
             }
             for (int j = 0; j < numAlpha; ++j) {
                 probAlpha[j] = q[j] / qTotal;
@@ -1120,20 +1133,18 @@ int Grafo::gulosoRandomizadoReativoFrequencias(int numeroIteracoes, int blocoInt
         }
     }
 
-    // for (int j = 0; j < numAlpha; ++j) {
-    //     std::cout << "probAlpha[" << j << "] = " << probAlpha[j] << std::endl;
-    // }
-
     return melhor;
 }
 
 //Auxiliares para os gulosos:
 
+//!Função que atualiza a lista de candidados removendo o nó recebido (atual),
+//!percorrendo todos os nós adjacentes ao nó recebido e decrementando seus graus.
 void Grafo::atualizaLC(std::vector<structNo> &LC,int i)
 {
     No *no = getNoPorLabel(LC.at(i).label);
     LC.erase(LC.begin()+i);
-    for(int j= 0;j<LC.size();j++){  //quem quiser pode colocar iterator aqui :P
+    for(int j= 0;j<LC.size();j++){
         int label = LC.at(j).label;
         No* no2 = getNoPorLabel(label);
         if(no2->existeAdj(no->getId())){
@@ -1142,6 +1153,8 @@ void Grafo::atualizaLC(std::vector<structNo> &LC,int i)
     }
 }
 
+//!Função que calcula a interferência total entre a frequência recebida e a quantidade
+//!de frequências de cada banda presente em nós adjacentes ao que está sendo analisado.
 float Grafo::calcularInterferencia(int freq, int frequencias[14]){
     float soma = 0;
     for(int i = 0;i<NUM_FREQ;i++){
@@ -1150,6 +1163,10 @@ float Grafo::calcularInterferencia(int freq, int frequencias[14]){
     return soma;
 }
 
+//!Função que busca a melhor frequência que pode ser atribuída ao nó recebido, ou seja, aquela que
+//!minimiza a interferência total com seus adjacentes que já receberem uma frequência, ou seja, os
+//!que tem frequência diferente de -1. Isso é feito calculando a interferência total com cada uma
+//!das bandas de frequência e escolhendo a que gerou menor interferência.
 void Grafo::defineFrequencia(int label, Grafo* subjacente){
     //Obtem No:
     No* noReal;
@@ -1161,47 +1178,30 @@ void Grafo::defineFrequencia(int label, Grafo* subjacente){
     Adjacencia* aux = no->getAdjRaiz();
     int freq;
 
-    //std::cout<<"Definicao de vetor:";
     int frequencias[NUM_FREQ];
     for(int i = 0;i<NUM_FREQ;i++) frequencias[i] = 0;
-    //std::vector<int> frequencias (NUM_FREQ ,0);//Quantos canais eu tenho?
-    //std::cout<<"OK";
+
     while(aux!=NULL){
         int freqAdj = aux->getNoFim()->getFrequencia();
         if(freqAdj!=-1){
             frequencias[freqAdj-1]+=1;
         }
-        //if(aux->getNoFim()->getFrequencia() == freq){
-        //    freq+=1; //Coloracao normal
-        //    aux = no->getAdjRaiz();
-        //}
         aux= aux->getProx();
     }
-//    if(frequencias[0] == 0){
-//        freq = 1;
-//    }else if(frequencias[5] == 0){
-//        freq = 6;
-//    }else if(frequencias[10] == 0){
-//        freq = 11;
-//    }else{
-        freq =-1;
-        float menorFreq=INFINITY;
-        for(int i = 0;i<NUM_FREQ;i++){
-            //std::cout<<"ANTES DE CALCULAR";
-            float atual =calcularInterferencia(i+1,frequencias);
-            //std::cout<<atual<<" FOI CALCULADO -";
-            if(atual == 0){
-                //std::cout<<"cabou"<<i<<"-";
-                freq = i+1;
-                break;
-            }
-            if(atual<menorFreq){
-                freq = i+1;
-                menorFreq = atual;
-            }
-        }
 
-   // }
+    freq =-1;
+    float menorFreq=INFINITY;
+    for(int i = 0;i<NUM_FREQ;i++){
+        float atual = calcularInterferencia(i+1,frequencias);
+        if(atual == 0){
+            freq = i+1;
+            break;
+        }
+        if(atual<menorFreq){
+            freq = i+1;
+            menorFreq = atual;
+        }
+    }
 
     //Defina frequencia:
     no->setFrequencia(freq);
@@ -1209,7 +1209,8 @@ void Grafo::defineFrequencia(int label, Grafo* subjacente){
         noReal->setFrequencia(freq);
 }
 
-
+//!Função que cria a lista de candidatos pegando os nós do grafo e colocando
+//!duas informações em um structNo criado e inserido na lista de candidatos.
 std::vector<structNo> Grafo::retornaNos()
 {
     std::vector<structNo> LC;
@@ -1226,6 +1227,8 @@ std::vector<structNo> Grafo::retornaNos()
 
 }
 
+//!Função que calcula a interferência total do grafo baseado nas frequências
+//!atribuídas pelos algoritmos.
 int Grafo::calculaInterferenciaTotal()
 {
     int interferencia = 0;
@@ -1247,6 +1250,7 @@ int Grafo::calculaInterferenciaTotal()
     return interferencia / 2;
 }
 
+//!Define a frequência de todos os nós do grafo como -1.
 void Grafo::resetaFrequencias()
 {
     No* no = noRaiz;
