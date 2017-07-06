@@ -1019,10 +1019,9 @@ void Grafo::gulosoFrequencias(){
     }
 }
 
-int Grafo::gulosoRandomizadoFrequencias(int numeroIteracoes)
+int Grafo::gulosoRandomizadoFrequencias(int numeroIteracoes, float alpha)
 {
     Grafo *subjacente = obterSubjacente(); //Para fazer o algoritmo sem considerar direções
-    float alpha = 0.2;
     int melhor = INFINITY;
 
     for (int i = 0; i < numeroIteracoes; ++i) {

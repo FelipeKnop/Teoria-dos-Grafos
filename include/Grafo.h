@@ -108,7 +108,7 @@ class Grafo
         bfs* buscaLargura();
         //!Guloso final
         void gulosoFrequencias();
-        int gulosoRandomizadoFrequencias(int numeroIteracoes);
+        int gulosoRandomizadoFrequencias(int numeroIteracoes, float alpha);
         int gulosoRandomizadoReativoFrequencias(int numeroIteracoes, int blocoInteracoes, int numAlphas);
         void atualizaLC(std::vector<structNo> &LC, int i);
         void defineFrequencia(int label, Grafo* subjacente);
